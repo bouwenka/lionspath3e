@@ -1,0 +1,1593 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LionsPath Career Compass</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { -webkit-font-smoothing: antialiased; background: #03180f; }
+  ::selection { background: #e3a52e; color: #16271f; }
+  textarea:focus, button:focus-visible { outline: 2px solid #e3a52e; outline-offset: 2px; }
+  @keyframes lp-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes lp-pop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+  @keyframes lp-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes lp-walk { 0% { left: 4px; } 100% { left: calc(100% - 40px); } }
+  @keyframes lp-bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
+  @keyframes lp-pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+
+  :root {
+    --lp-green: #004b2a;
+    --lp-green-2: #0d6a43;
+    --lp-deep: #02140c;
+    --lp-deeper: #010905;
+    --lp-ink: #07140d;
+    --lp-gold: #ffdd17;
+    --lp-gold-2: #d59a27;
+    --lp-gold-soft: #fff5aa;
+    --lp-paper: #fff9dc;
+    --lp-text: #f3f9ef;
+    --lp-muted: #c4d5c5;
+    --lp-line: rgba(255,221,23,.32);
+    --lp-card: rgba(255,255,255,.095);
+    --lp-card-strong: rgba(255,255,255,.14);
+  }
+  html { background: var(--lp-deep); }
+  body {
+    background:
+      radial-gradient(circle at 10% -5%, rgba(255,221,23,.20), transparent 23rem),
+      radial-gradient(circle at 85% 0%, rgba(0,124,70,.34), transparent 30rem),
+      linear-gradient(135deg, var(--lp-deeper), #002513 48%, var(--lp-deep) 100%) !important;
+    color: var(--lp-paper) !important;
+  }
+  body > div {
+    background: transparent !important;
+    color: var(--lp-paper) !important;
+  }
+  [style*="background:#03180f"] { background: transparent !important; }
+  [style*="background:linear-gradient(145deg,#004b2a,#02140c)"] {
+    background:
+      linear-gradient(145deg, rgba(0,75,42,.96), rgba(2,20,12,.98)),
+      radial-gradient(circle at 86% 10%, rgba(255,221,23,.14), transparent 18rem) !important;
+    border-color: var(--lp-line) !important;
+    box-shadow: 0 24px 62px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,221,23,.10) !important;
+  }
+  div[style*="background:#fff"],
+  div[style*="background:rgba(255,255,255,.10)"],
+  div[style*="background:rgba(255,221,23,.10)"],
+  div[style*="background:rgba(255,221,23,.11)"],
+  div[style*="background:rgba(255,221,23,.13)"],
+  div[style*="background:rgba(255,221,23,.10)"] {
+    background:
+      linear-gradient(145deg, var(--lp-card-strong), rgba(0,0,0,.20)),
+      linear-gradient(180deg, rgba(255,221,23,.045), transparent) !important;
+    border-color: rgba(255,221,23,.24) !important;
+    color: var(--lp-text) !important;
+    box-shadow: 0 18px 46px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    backdrop-filter: blur(16px);
+  }
+  button[style*="background:#fff"],
+  button[style*="background:rgba(255,255,255,.10)"],
+  button[style*="background:transparent"],
+  button[style*="background:none"] {
+    background: rgba(255,255,255,.085) !important;
+    color: var(--lp-text) !important;
+    border-color: rgba(255,221,23,.30) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.16) !important;
+  }
+  button[style*="background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27)"],
+  span[style*="background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27)"] {
+    background: linear-gradient(135deg, #fff8b6, var(--lp-gold) 46%, #d89c28) !important;
+    color: #062615 !important;
+    box-shadow: 0 12px 30px rgba(255,221,23,.18) !important;
+  }
+  [style*="color:#f7f1d9"],
+  [style*="color:#f1f8ee"] { color: var(--lp-paper) !important; }
+  [style*="color:#cfe0d0"],
+  [style*="color:#c4d5c5"],
+  [style*="color:#b9cbb9"],
+  [style*="color:#b9cbb9"] { color: var(--lp-muted) !important; }
+  [style*="color:#fff7a6"],
+  [style*="color:#ffdd17"],
+  [style*="color:#ffdd17"],
+  [style*="color:#fff7a6"] { color: var(--lp-gold) !important; }
+  [style*="color:#efe3b9"],
+  [style*="color:#ffdd17"],
+  [style*="color:#efe3b9"],
+  [style*="color:#4a5a4f"],
+  [style*="color:#c4d5c5"],
+  [style*="color:#c9c0aa"] { color: var(--lp-muted) !important; }
+  [style*="background:rgba(255,221,23,.13)"],
+  [style*="background:rgba(255,221,23,.11)"] {
+    background: rgba(255,221,23,.14) !important;
+    color: var(--lp-paper) !important;
+    border: 1px solid rgba(255,221,23,.24) !important;
+  }
+  [style*="background:rgba(255,255,255,.14)"],
+  [style*="background:rgba(255,255,255,.16)"],
+  [style*="background:rgba(255,255,255,.16)"] {
+    background: rgba(255,255,255,.14) !important;
+  }
+  textarea {
+    background: rgba(0,0,0,.34) !important;
+    border-color: rgba(255,221,23,.32) !important;
+    color: var(--lp-paper) !important;
+  }
+  button:hover {
+    border-color: rgba(255,221,23,.54) !important;
+    filter: brightness(1.06);
+  }
+  [data-lionspath-course] {
+    transition: transform .16s ease, color .16s ease, border-color .16s ease, background .16s ease;
+  }
+  li > button[data-lionspath-course] {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: var(--lp-gold-soft) !important;
+    padding: 0 !important;
+    text-decoration-color: rgba(255,221,23,.58) !important;
+  }
+  div[style*="flex-wrap:wrap"] > button[data-lionspath-course] {
+    background: rgba(255,221,23,.13) !important;
+    border: 1px solid rgba(255,221,23,.28) !important;
+    color: var(--lp-gold-soft) !important;
+    box-shadow: none !important;
+  }
+  [data-lionspath-course]:hover,
+  [data-lionspath-course]:focus-visible {
+    color: var(--lp-gold-soft) !important;
+    transform: translateY(-1px);
+    text-shadow: 0 0 18px rgba(255,221,23,.24);
+  }
+  .lp-print-button {
+    appearance: none;
+    cursor: pointer;
+    border: 1.5px solid rgba(255,221,23,.48);
+    background: linear-gradient(135deg, #fff49a, #ffdd17);
+    color: #062615;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    box-shadow: 0 16px 36px rgba(0,0,0,.26), 0 0 28px rgba(255,221,23,.16);
+  }
+  .lp-print-button:hover,
+  .lp-print-button:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 44px rgba(0,0,0,.32), 0 0 36px rgba(255,221,23,.24);
+  }
+  @media (max-width: 760px) {
+    div[style*="grid-template-columns:repeat(4,1fr)"],
+    div[style*="grid-template-columns:repeat(3,1fr)"],
+    div[style*="grid-template-columns:minmax(190px,220px) 1fr"],
+    div[style*="grid-template-columns:1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    div[style*="padding:60px 56px 50px"],
+    div[style*="padding:38px 40px"],
+    div[style*="padding:36px 34px"],
+    div[style*="padding:38px 40px;margin-top:34px"] {
+      padding: 24px 20px !important;
+    }
+    div[style*="max-width:1120px"],
+    div[style*="max-width:1000px"],
+    div[style*="max-width:780px"] {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+  }
+  @media print {
+    @page { margin: .55in; }
+    html, body, body > div, #dc-root {
+      background: #fff !important;
+      color: #111 !important;
+    }
+    body {
+      font-size: 10.5pt !important;
+      line-height: 1.35 !important;
+      -webkit-print-color-adjust: economy !important;
+      print-color-adjust: economy !important;
+    }
+    #dc-root * {
+      background: transparent !important;
+      box-shadow: none !important;
+      color: #111 !important;
+      text-shadow: none !important;
+      filter: none !important;
+    }
+    button, [data-print-hide="true"] { display: none !important; }
+    button[data-lionspath-course] {
+      display: inline !important;
+      appearance: none !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      font: inherit !important;
+      font-weight: 700 !important;
+      padding: 0 !important;
+      text-decoration: none !important;
+    }
+    #dc-root > div {
+      min-height: 0 !important;
+      padding: 0 !important;
+    }
+    div[style*="max-width:1000px"],
+    div[style*="max-width:1120px"],
+    div[style*="max-width:780px"] {
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    div {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      border-color: #d6d6d6 !important;
+    }
+    p, li {
+      font-size: 10.5pt !important;
+      line-height: 1.35 !important;
+    }
+    h1 {
+      font-size: 24pt !important;
+      line-height: 1.05 !important;
+      margin-bottom: 6pt !important;
+    }
+    h2 {
+      font-size: 16pt !important;
+      line-height: 1.15 !important;
+      margin-top: 14pt !important;
+      margin-bottom: 7pt !important;
+    }
+    h3 {
+      font-size: 12pt !important;
+      line-height: 1.2 !important;
+    }
+    div[style*="border:1px"],
+    div[style*="border:1.5px"],
+    div[style*="border-top:1px"] {
+      border-color: #d6d6d6 !important;
+    }
+    div[style*="grid-template-columns:repeat(3,1fr)"],
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns:minmax(190px,220px) 1fr"] {
+      display: block !important;
+    }
+    div[style*="height:7px"],
+    div[style*="height:8px"],
+    div[style*="height:9px"],
+    div[style*="height:14px"] {
+      background: #efefef !important;
+      border: 1px solid #ddd !important;
+      overflow: hidden !important;
+    }
+    div[style*="height:100%"] {
+      background: #555 !important;
+      border: 0 !important;
+    }
+    div[style*="border-radius:50%"][style*="background"] {
+      display: none !important;
+    }
+    svg, img, textarea {
+      display: none !important;
+    }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(circle at 12% -10%,rgba(255,221,23,.16),transparent 24rem),radial-gradient(circle at 88% 2%,rgba(13,106,67,.35),transparent 32rem),linear-gradient(135deg,#010905,#032414 52%,#02140c);color:#f7f1d9;font-family:'Hanken Grotesk',system-ui,sans-serif">
+
+  <div style="max-width:1120px;margin:0 auto;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div style="display:flex;align-items:center;gap:11px">
+      <span style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#004b2a,#02140c);display:flex;align-items:center;justify-content:center;flex:none">
+        <svg width="22" height="22" viewBox="0 0 24 24" style="display:block"><g fill="#e3a52e"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
+      </span>
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em">LionsPath</span>
+    </div>
+    <span style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#fff7a6">LionsPath Career Compass</span>
+  </div>
+
+  <!-- ===================== WELCOME ===================== -->
+  <sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:1120px;margin:0 auto;padding:6px 28px 70px">
+    <div style="background:linear-gradient(145deg,#004b2a,#02140c);border-radius:30px;padding:60px 56px 50px;color:#f5edda;position:relative;overflow:hidden;animation:lp-fade .55s ease both">
+      <div style="position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:rgba(227,165,46,.12)"></div>
+      <div style="position:absolute;right:60px;bottom:-90px;width:200px;height:200px;border-radius:50%;background:rgba(227,165,46,.07)"></div>
+      <div style="position:relative">
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#ffdd17">For students in grades 9–12</div>
+        <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(40px,6vw,72px);line-height:1.0;margin:18px 0 0;letter-spacing:-.025em;max-width:15ch">Find your path.<br><span style="color:#ffdd17">Keep every option open.</span></h1>
+        <p style="font-size:clamp(17px,1.7vw,21px);line-height:1.5;max-width:62ch;margin:22px 0 0;color:#e3ddc6">A friendly assessment that helps you understand your strengths, personality, and interests — and explore the directions that might fit you across <b style="color:#f5edda">Enrollment, Enlistment, and Employment.</b></p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;align-items:center">
+          <button onClick="{{ onStart }}" style="appearance:none;border:none;cursor:pointer;background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;padding:17px 32px;border-radius:999px;box-shadow:0 12px 30px -12px rgba(227,165,46,.7)">Start the assessment →</button>
+          <sc-if value="{{ showSample }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onSample }}" style="appearance:none;cursor:pointer;background:transparent;color:#f5edda;border:1.5px solid rgba(245,237,218,.4);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:15px;padding:16px 24px;border-radius:999px">Counselors: preview a sample report</button></sc-if>
+        </div>
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.04em;color:#b9c7ba;margin-top:26px">12–15 minutes · grade-adaptive questions · a reflection tool, not a label</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px">
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">01</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">Personality &amp; strengths</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">See the traits that make you, you.</p></div>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">02</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">Career interests</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">Discover your interest profile across six families.</p></div>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">03</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">What you value</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">Learn what matters most in your future work.</p></div>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">04</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">Best-fit clusters</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">Match to career fields, CTE pathways &amp; majors.</p></div>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">05</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">Your 3E blend</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">See how Enrollment, Enlistment &amp; Employment fit you.</p></div>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:24px"><div style="font-family:'Spline Sans Mono',monospace;font-size:12px;color:#ffdd17;letter-spacing:.08em">06</div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin:8px 0 4px">Real next steps</h3><p style="margin:0;font-size:14.5px;line-height:1.5;color:#cfe0d0">Get actions tailored to your grade level.</p></div>
+    </div>
+    <p style="text-align:center;font-size:13.5px;color:#b9cbb9;margin:26px auto 0;max-width:60ch">This is one piece of information to help you reflect on your future — not a final decision, a test score, or a label.</p>
+  </div>
+  </sc-if>
+
+  <!-- ===================== GRADE PICKER ===================== -->
+  <sc-if value="{{ isGrade }}">
+  <div style="max-width:1120px;margin:0 auto;padding:6px 28px 70px;animation:lp-fade .4s ease both">
+    <button onClick="{{ onRestart }}" style="appearance:none;background:none;border:none;cursor:pointer;color:#cfe0d0;font-family:'Hanken Grotesk',sans-serif;font-size:14px;padding:6px 0;margin-bottom:8px">← Back</button>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,4vw,44px);letter-spacing:-.02em;margin:6px 0 6px">First — what grade are you in?</h2>
+    <p style="font-size:17px;color:#cfe0d0;max-width:60ch;margin:0 0 28px">Your questions, examples, and final report will adjust to where you are in your journey.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <sc-for list="{{ gradeCards }}" as="g" hint-placeholder-count="4">
+        <button onClick="{{ g.onClick }}" style="text-align:left;cursor:pointer;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1.5px solid rgba(255,221,23,.30);border-radius:22px;padding:26px 22px 22px;font-family:'Hanken Grotesk',sans-serif;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease" style-hover="transform:translateY(-4px);box-shadow:0 22px 42px -24px rgba(0,0,0,.8),0 0 28px rgba(255,221,23,.14);border-color:#fff7a6">
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#b9cbb9">Grade</div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:58px;line-height:1;color:#fff7a6;margin:2px 0 10px">{{ g.g }}</div>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;margin:0 0 6px;color:#f7f1d9">{{ g.title }}</h3>
+          <p style="margin:0 0 14px;font-size:14px;line-height:1.5;color:#cfe0d0">{{ g.focus }}</p>
+          <svg width="20" height="20" viewBox="0 0 24 24" style="display:block"><g fill="#e3a52e"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===================== QUIZ ===================== -->
+  <sc-if value="{{ isQuiz }}">
+  <div style="max-width:780px;margin:0 auto;padding:6px 28px 70px">
+    <div style="display:flex;align-items:center;justify-content:space-between;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.05em;color:#b9cbb9">
+      <span style="color:#fff7a6;font-weight:500;text-transform:uppercase;letter-spacing:.1em">{{ cur.sectionLabel }}</span>
+      <span>Question {{ qNum }} / {{ qTotal }}</span>
+    </div>
+    <div style="height:8px;background:rgba(255,255,255,.16);border-radius:999px;margin-top:10px;overflow:hidden">
+      <div style="height:100%;background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);border-radius:999px;transition:width .45s cubic-bezier(.4,0,.2,1);width:{{ progressPct }}%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px">
+      <sc-for list="{{ secList }}" as="s" hint-placeholder-count="5">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;flex:1">
+          <svg width="18" height="18" viewBox="0 0 24 24" style="display:block"><g fill="{{ s.color }}"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
+          <span style="font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.04em;color:{{ s.color }}">{{ s.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="position:relative;margin-top:34px">
+      <div style="position:absolute;left:14px;right:14px;top:14px;bottom:-14px;background:rgba(255,221,23,.11);border-radius:22px"></div>
+      <div style="position:absolute;left:7px;right:7px;top:7px;bottom:-7px;background:rgba(255,221,23,.10);border-radius:22px"></div>
+      <div key="{{ cur.id }}" style="position:relative;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.22);border-radius:22px;padding:36px 34px;box-shadow:0 22px 54px -34px rgba(0,0,0,.75),0 0 0 1px rgba(255,221,23,.10);animation:lp-pop .3s ease both">
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">{{ cur.kindLabel }}</div>
+        <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(23px,3vw,31px);line-height:1.2;letter-spacing:-.01em;margin:12px 0 0;color:#f7f1d9">{{ cur.text }}</h2>
+
+        <sc-if value="{{ curLikert }}">
+          <div style="display:flex;gap:9px;margin-top:30px">
+            <sc-for list="{{ likertOpts }}" as="o" hint-placeholder-count="5">
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ curForced }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px">
+            <sc-for list="{{ choiceOpts }}" as="o" hint-placeholder-count="2">
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ curScenario }}">
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:26px">
+            <sc-for list="{{ choiceOpts }}" as="o" hint-placeholder-count="4">
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ curRank }}">
+          <div style="font-size:14px;color:#b9cbb9;margin-top:22px;margin-bottom:12px">Tap your top 3, in order.</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ rankOpts }}" as="o" hint-placeholder-count="6">
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}"><span style="{{ o.badgeStyle }}">{{ o.badgeText }}</span><span>{{ o.label }}</span></button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ curReflect }}">
+          <div style="margin-top:24px">
+            <textarea onChange="{{ onReflect }}" value="{{ reflectValue }}" placeholder="{{ cur.placeholder }}" style="width:100%;min-height:120px;border:1.5px solid rgba(255,221,23,.28);border-radius:14px;padding:16px;font-family:'Hanken Grotesk',sans-serif;font-size:16px;line-height:1.5;color:#f1f8ee;background:rgba(255,255,255,.10);resize:vertical"></textarea>
+            <div style="font-size:13px;color:#b9cbb9;margin-top:8px">Optional — there are no wrong answers here.</div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:26px">
+      <button onClick="{{ onBack }}" style="appearance:none;background:none;border:none;cursor:pointer;color:#cfe0d0;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:15px;padding:10px 4px">← Back</button>
+      <button onClick="{{ onNext }}" style="{{ nextStyle }}">{{ nextLabel }}</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===================== COMPUTING ===================== -->
+  <sc-if value="{{ isComputing }}">
+  <div style="max-width:560px;margin:0 auto;padding:60px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;animation:lp-fade .4s ease both">
+    <div style="position:relative;width:min(420px,82vw);height:54px;margin:18px 0 30px">
+      <div style="position:absolute;left:0;right:0;top:50%;height:0;border-top:3px dashed #d8cead"></div>
+      <div style="position:absolute;top:2px;animation:lp-walk 2s ease-in-out infinite alternate">
+        <span style="display:inline-block;animation:lp-bob .5s ease-in-out infinite">
+          <svg width="34" height="34" viewBox="0 0 24 24" style="display:block"><g fill="#16432f"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
+        </span>
+      </div>
+    </div>
+    <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.02em;margin:0 0 18px">Mapping your path…</h2>
+    <div style="font-family:'Spline Sans Mono',monospace;font-size:14px;color:#fff7a6;display:flex;flex-direction:column;gap:8px">
+      <span style="animation:lp-pulse 1.6s ease-in-out infinite">Reading your interests</span>
+      <span style="animation:lp-pulse 1.6s ease-in-out .5s infinite">Matching career clusters</span>
+      <span style="animation:lp-pulse 1.6s ease-in-out 1s infinite">Building your 3E blend</span>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===================== REPORT ===================== -->
+  <sc-if value="{{ isReport }}">
+  <div style="max-width:1000px;margin:0 auto;padding:6px 28px 80px">
+
+    <div style="background:linear-gradient(145deg,#004b2a,#02140c);color:#f5edda;border-radius:26px;padding:38px 40px;position:relative;overflow:hidden;animation:lp-fade .5s ease both">
+      <div style="position:absolute;right:-50px;top:-50px;width:240px;height:240px;border-radius:50%;background:rgba(227,165,46,.10)"></div>
+      <div style="position:relative;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:260px">
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#ffdd17">Your Career Compass Snapshot · Grade {{ gradeNum }}</div>
+          <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5vw,52px);line-height:1.02;letter-spacing:-.025em;margin:12px 0 6px">{{ profile.name }}</h1>
+          <div style="color:#ffdd17;font-weight:700;font-size:16px;font-family:'Spline Sans Mono',monospace;letter-spacing:.02em">{{ profile.tagline }}</div>
+          <p style="font-size:17px;line-height:1.55;color:#e3ddc6;max-width:56ch;margin:14px 0 0">{{ profile.blurb }}</p>
+        </div>
+        <div style="display:flex;background:rgba(245,237,218,.12);border-radius:999px;padding:4px;flex:none">
+          <button onClick="{{ onStudent }}" style="{{ studentTabStyle }}">Student view</button>
+          <button onClick="{{ onCounselor }}" style="{{ counselorTabStyle }}">Counselor view</button>
+        </div>
+        <button onClick="{{ onPrint }}" class="lp-print-button" data-print-hide="true">Print / Save Report</button>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,221,23,.13);border:1.5px solid #e3a52e;border-radius:16px;padding:18px 22px;margin-top:16px;display:flex;gap:14px;align-items:flex-start">
+      <svg width="24" height="24" viewBox="0 0 24 24" style="display:block;flex:none;margin-top:2px"><g fill="#c0892a"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#efe3b9"><b style="color:#f7f1d9">This is a guide, not a label.</b> Your results show possible directions to explore. You can pursue any path, class, club, or career that interests you — even if it isn’t a top match here.</p>
+    </div>
+
+    <!-- ============ STUDENT VIEW ============ -->
+    <sc-if value="{{ isStudentView }}">
+
+      <div style="margin-top:38px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">01 — Your top strengths</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.02em;margin:6px 0 18px">What you bring to the table</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <sc-for list="{{ strengths }}" as="s" hint-placeholder-count="3">
+          <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:18px;padding:22px">
+            <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;margin:0 0 8px;color:#fff7a6">{{ s.label }}</h3>
+            <p style="margin:0 0 14px;font-size:14px;line-height:1.5;color:#cfe0d0">{{ s.desc }}</p>
+            <div style="height:7px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden"><div style="height:100%;background:#2f6f4f;border-radius:999px;transform-origin:left;animation:lp-bar .9s ease both;width:{{ s.pct }}%"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:34px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">02 — Stretch areas</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.02em;margin:6px 0 6px">Room to grow</h2>
+      <p style="font-size:15px;color:#cfe0d0;margin:0 0 18px;max-width:62ch">These aren’t weaknesses — they’re skills you can build. Everyone has them.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <sc-for list="{{ growth }}" as="g" hint-placeholder-count="2">
+          <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px dashed rgba(22,39,31,.22);border-radius:18px;padding:22px;display:flex;gap:14px;align-items:flex-start">
+            <span style="width:36px;height:36px;border-radius:10px;background:rgba(255,221,23,.13);display:flex;align-items:center;justify-content:center;flex:none;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;color:#ffdd17">↗</span>
+            <div><h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 5px">{{ g.label }}</h3><p style="margin:0;font-size:14px;line-height:1.5;color:#cfe0d0">{{ g.tip }}</p></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:34px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">03 — Your interest profile</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.02em;margin:6px 0 18px">Where your curiosity points</h2>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:28px">
+        <sc-for list="{{ interests }}" as="i" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px">
+            <div style="width:180px;flex:none;font-size:14.5px;font-weight:600;color:#f1f8ee">{{ i.label }}</div>
+            <div style="flex:1;height:14px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden"><div style="height:100%;border-radius:999px;transform-origin:left;animation:lp-bar 1s ease both;width:{{ i.pct }}%;background:{{ i.color }}"></div></div>
+            <div style="width:46px;text-align:right;font-family:'Spline Sans Mono',monospace;font-size:13px;color:#cfe0d0">{{ i.pct }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 16px">Work style</h3>
+          <sc-for list="{{ traits }}" as="t" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px">
+              <div style="width:120px;flex:none;font-size:13.5px;color:#f1f8ee">{{ t.label }}</div>
+              <div style="flex:1;height:9px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden"><div style="height:100%;background:#7a4f86;border-radius:999px;transform-origin:left;animation:lp-bar .9s ease both;width:{{ t.pct }}%"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 16px">What you value most</h3>
+          <sc-for list="{{ values }}" as="v" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px">
+              <div style="width:130px;flex:none;font-size:13.5px;color:#f1f8ee">{{ v.label }}</div>
+              <div style="flex:1;height:9px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden"><div style="height:100%;background:#d59a27;border-radius:999px;transform-origin:left;animation:lp-bar .9s ease both;width:{{ v.pct }}%"></div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:34px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">04 — Your 3E pathway blend</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.02em;margin:6px 0 6px">Enrollment · Enlistment · Employment</h2>
+      <p style="font-size:15px;color:#cfe0d0;margin:0 0 20px;max-width:64ch">This is a <b>blend, not a verdict.</b> Most students mix all three over time. Here’s how each one currently lines up with your answers.</p>
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(0,0,0,.28));border:1px solid rgba(255,221,23,.34);border-radius:22px;padding:30px;display:grid;grid-template-columns:minmax(190px,220px) 1fr;gap:30px;align-items:start">
+        <div style="background:rgba(0,0,0,.20);border:1px solid rgba(255,221,23,.26);border-radius:20px;padding:18px;text-align:center">
+          <div style="position:relative;width:172px;height:172px;margin:0 auto 14px">
+            <div style="position:absolute;inset:0;border-radius:50%;background:{{ threeE.donutBg }};box-shadow:0 0 34px rgba(255,221,23,.14)"></div>
+            <div style="position:absolute;inset:30px;border-radius:50%;background:#03180f;border:1px solid rgba(255,221,23,.22);display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#dfeede">Top lean</div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;color:#fff7a6;text-align:center;line-height:1.08;padding:0 8px">{{ threeE.topLabel }}</div>
+            </div>
+          </div>
+          <p style="margin:0;font-size:13.5px;line-height:1.45;color:#dfeede">Your strongest signal is shown in the center, but all three Es can still be part of your plan.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:280px">
+          <sc-for list="{{ threeE.rank }}" as="r" hint-placeholder-count="3">
+            <div style="background:rgba(0,0,0,.22);border:1px solid rgba(255,221,23,.26);border-left:5px solid {{ r.color }};border-radius:18px;padding:18px 18px 16px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="display:flex;align-items:center;gap:10px"><span style="width:14px;height:14px;border-radius:50%;background:{{ r.color }};box-shadow:0 0 16px {{ r.color }}"></span><b style="font-family:'Bricolage Grotesque',sans-serif;font-size:20px;color:#fff7a6">{{ r.label }}</b></div>
+                <span style="font-family:'Spline Sans Mono',monospace;font-size:13px;color:#f7f1d9;font-weight:700">{{ r.pct }}% aligned</span>
+              </div>
+              <div style="height:10px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.10)"><div style="height:100%;border-radius:999px;transform-origin:left;animation:lp-bar 1s ease both;width:{{ r.pct }}%;background:{{ r.color }}"></div></div>
+              <p style="margin:10px 0 10px;font-size:14.5px;line-height:1.55;color:#e4f1df">{{ r.reason }}</p>
+              <div style="font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#ffdd17;margin-bottom:7px">Explore this</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ r.explore }}" as="e" hint-placeholder-count="3"><span style="font-size:12.5px;background:rgba(255,221,23,.16);border:1px solid rgba(255,221,23,.24);color:#fff7a6;padding:6px 11px;border-radius:999px;font-weight:700">{{ e }}</span></sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:34px;font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">05 — Career clusters to explore</div>
+      <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:28px;letter-spacing:-.02em;margin:6px 0 18px">Fields that fit your signals</h2>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ clusters }}" as="c" hint-placeholder-count="3">
+          <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:26px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap">
+              <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:21px;margin:0;color:#fff7a6">{{ c.name }}</h3>
+              <span style="font-family:'Spline Sans Mono',monospace;font-size:13px;color:#ffdd17;font-weight:600">{{ c.pct }}% match</span>
+            </div>
+            <div style="height:7px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden;margin:12px 0 14px"><div style="height:100%;background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);border-radius:999px;transform-origin:left;animation:lp-bar 1s ease both;width:{{ c.pct }}%"></div></div>
+            <p style="margin:0 0 16px;font-size:15px;line-height:1.55;color:#cfe0d0">{{ c.desc }}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+              <div>
+                <div style="font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#b9cbb9;margin-bottom:8px">Example careers</div>
+                <div style="display:flex;flex-wrap:wrap;gap:7px"><sc-for list="{{ c.careers }}" as="cr" hint-placeholder-count="4"><span style="font-size:12.5px;background:rgba(255,221,23,.13);color:#fff7a6;padding:6px 11px;border-radius:999px;font-weight:500">{{ cr }}</span></sc-for></div>
+              </div>
+              <div>
+                <div style="font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#b9cbb9;margin-bottom:8px">Courses &amp; programs</div>
+                <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.6;color:#cfe0d0"><sc-for list="{{ c.courses }}" as="co" hint-placeholder-count="3"><li><button type="button" data-lionspath-course="{{ co }}" style="appearance:none;border:0;background:transparent;color:#fff7a6;font:inherit;font-weight:700;text-align:left;padding:0;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px">{{ co }}</button></li></sc-for></ul>
+              </div>
+            </div>
+            <p style="margin:16px 0 0;font-size:13px;line-height:1.55;color:#c4d5c5;border-top:1px solid rgba(255,221,23,.22);padding-top:14px">{{ c.moreText }}</p>
+            <p style="margin:10px 0 0;font-size:13.5px;color:#fff7a6"><b>3E:</b> {{ c.threeE }}</p>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px">
+        <div style="background:linear-gradient(145deg,#004b2a,#02140c);color:#f5edda;border-radius:20px;padding:28px">
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">06 — Start here</div>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;margin:8px 0 16px">Your next steps</h3>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ nextSteps }}" as="n" hint-placeholder-count="4">
+              <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);flex:none;margin-top:7px"></span><span style="font-size:14.5px;line-height:1.5;color:#e3ddc6">{{ n }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:28px">
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">Looking ahead</div>
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;margin:8px 0 16px">Long-term planning</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+            <sc-for list="{{ longTerm }}" as="l" hint-placeholder-count="2">
+              <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:#2f6f4f;flex:none;margin-top:7px"></span><span style="font-size:14.5px;line-height:1.5;color:#cfe0d0">{{ l }}</span></div>
+            </sc-for>
+          </div>
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">Reflect</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:10px">
+            <sc-for list="{{ reflectionQs }}" as="q" hint-placeholder-count="3"><p style="margin:0;font-size:14px;line-height:1.5;color:#f1f8ee">• {{ q }}</p></sc-for>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ hasUserReflections }}">
+        <div style="background:rgba(255,221,23,.10);border-radius:20px;padding:26px;margin-top:16px">
+          <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17;margin-bottom:14px">In your own words</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ userReflections }}" as="u" hint-placeholder-count="1">
+              <div><p style="margin:0 0 4px;font-size:13px;color:#c4d5c5">{{ u.q }}</p><p style="margin:0;font-size:15px;line-height:1.5;color:#f1f8ee;font-style:italic">“{{ u.a }}”</p></div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="background:linear-gradient(145deg,#004b2a,#02140c);color:#f5edda;border-radius:24px;padding:38px 40px;margin-top:34px;position:relative;overflow:hidden">
+        <div style="position:absolute;left:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;background:rgba(227,165,46,.08)"></div>
+        <div style="position:relative">
+          <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.5vw,36px);letter-spacing:-.02em;margin:0 0 14px;color:#ffdd17">Remember: you are not locked in.</h2>
+          <p style="font-size:16.5px;line-height:1.6;color:#e3ddc6;max-width:68ch;margin:0 0 12px">This snapshot is a starting point for conversations — with your counselor, your family, your teachers, and yourself. Your interests will grow and change, and that’s exactly how it should be.</p>
+          <p style="font-size:16.5px;line-height:1.6;color:#e3ddc6;max-width:68ch;margin:0">You can explore <b style="color:#f5edda">any</b> pathway, career, course, program, college, branch of service, apprenticeship, or job that interests you — even if it didn’t appear in your top matches. The goal isn’t to put you in a box. It’s to help you take a confident next step.</p>
+        </div>
+      </div>
+
+    </sc-if>
+
+    <!-- ============ COUNSELOR VIEW ============ -->
+    <sc-if value="{{ isCounselorView }}">
+      <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:26px;margin-top:38px">
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">Advising snapshot</div>
+        <p style="font-size:16px;line-height:1.55;color:#f1f8ee;margin:10px 0 0">{{ counselor.snapshot }}</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 14px">Interest profile (top)</h3>
+          <sc-for list="{{ counselor.interests }}" as="i" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+              <div style="width:150px;flex:none;font-size:13.5px;color:#f1f8ee">{{ i.label }}</div>
+              <div style="flex:1;height:9px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden"><div style="height:100%;border-radius:999px;width:{{ i.pct }}%;background:{{ i.color }}"></div></div>
+              <div style="width:34px;text-align:right;font-family:'Spline Sans Mono',monospace;font-size:12px;color:#cfe0d0">{{ i.pct }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 14px">Pathway matches</h3>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ counselor.pathways }}" as="p" hint-placeholder-count="4"><p style="margin:0;font-size:14px;color:#f1f8ee">• {{ p }}</p></sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:linear-gradient(145deg,#004b2a,#02140c);color:#f5edda;border-radius:20px;padding:28px;margin-top:16px">
+        <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#ffdd17">Conversation starters</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
+          <sc-for list="{{ counselor.starters }}" as="s" hint-placeholder-count="4">
+            <div style="display:flex;gap:11px;align-items:flex-start"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);flex:none;margin-top:7px"></span><span style="font-size:15px;line-height:1.5;color:#e3ddc6">{{ s }}</span></div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 12px">Course / program ideas</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:7px"><sc-for list="{{ counselor.courses }}" as="c" hint-placeholder-count="5"><button type="button" data-lionspath-course="{{ c }}" style="font-size:12.5px;background:rgba(255,221,23,.13);color:#fff7a6;padding:6px 11px;border-radius:999px;border:1px solid rgba(47,111,79,.18);font-weight:700;cursor:pointer">{{ c }}</button></sc-for></div>
+        </div>
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 12px">Work-based learning</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:7px"><sc-for list="{{ counselor.wbl }}" as="w" hint-placeholder-count="4"><span style="font-size:12.5px;background:rgba(255,221,23,.11);color:#efe3b9;padding:6px 11px;border-radius:999px">{{ w }}</span></sc-for></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div style="background:rgba(255,221,23,.13);border:1px solid rgba(255,221,23,.28);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 12px;color:#ffdd17">Cautions</h3>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ counselor.cautions }}" as="c" hint-placeholder-count="4"><p style="margin:0;font-size:13.5px;line-height:1.5;color:#efe3b9">• {{ c }}</p></sc-for>
+          </div>
+        </div>
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1px solid rgba(255,221,23,.24);border-radius:20px;padding:24px">
+          <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin:0 0 12px">Suggested follow-ups</h3>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ counselor.follow }}" as="f" hint-placeholder-count="3"><p style="margin:0;font-size:13.5px;line-height:1.5;color:#f1f8ee">• {{ f }}</p></sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="text-align:center;margin-top:40px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button onClick="{{ onPrint }}" class="lp-print-button" data-print-hide="true">Print / Save Report</button>
+      <button onClick="{{ onRestart }}" style="appearance:none;cursor:pointer;background:linear-gradient(145deg,#004b2a,#02140c);color:#f5edda;border:none;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;padding:15px 28px;border-radius:999px">Take it again</button>
+      <button onClick="{{ onChangeGrade }}" style="appearance:none;cursor:pointer;background:transparent;color:#fff7a6;border:1.5px solid rgba(22,67,47,.3);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:15px;padding:15px 24px;border-radius:999px">Try a different grade</button>
+    </div>
+
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860},&quot;defaultView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;student&quot;,&quot;counselor&quot;],&quot;default&quot;:&quot;student&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoAdvance&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;sessionLength&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;short&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showSamplePreview&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { screen: 'welcome', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null };
+
+  IM = {
+    R: { label: 'Realistic — Builders', short: 'Builders', color: '#2f6f4f' },
+    I: { label: 'Investigative — Thinkers', short: 'Thinkers', color: '#2b6e8f' },
+    A: { label: 'Artistic — Creators', short: 'Creators', color: '#b5562f' },
+    S: { label: 'Social — Helpers', short: 'Helpers', color: '#c98a1e' },
+    E: { label: 'Enterprising — Leaders', short: 'Leaders', color: '#7a4f86' },
+    C: { label: 'Conventional — Organizers', short: 'Organizers', color: '#4d6b3a' }
+  };
+  STR = {
+    R: { l: 'Hands-on problem solving', d: 'You learn by doing and like tangible results.' },
+    I: { l: 'Analytical thinking', d: 'You break problems down and find out why.' },
+    A: { l: 'Creative expression', d: 'You generate original ideas and designs.' },
+    S: { l: 'Helping & connecting', d: 'You support people and build trust easily.' },
+    E: { l: 'Leadership & initiative', d: 'You take charge and move ideas forward.' },
+    C: { l: 'Organization & accuracy', d: 'You keep things ordered and on track.' },
+    curiosity: { l: 'Curiosity', d: 'You are eager to learn and try new things.' },
+    planning: { l: 'Follow-through', d: 'You plan ahead and finish what you start.' },
+    socialEnergy: { l: 'Social energy', d: 'You are energized by people and teams.' },
+    empathy: { l: 'Empathy', d: 'You read how others feel and respond well.' },
+    adaptability: { l: 'Adaptability', d: 'You stay steady when things change.' },
+    leadership: { l: 'Leadership', d: 'You guide groups toward a shared goal.' },
+    creativity: { l: 'Creativity', d: 'You bring imagination to your work.' },
+    analysis: { l: 'Analysis', d: 'You think carefully with logic and data.' },
+    techComfort: { l: 'Tech fluency', d: 'You pick up new tools quickly.' },
+    service: { l: 'Service mindset', d: 'You want your work to matter to others.' }
+  };
+  GROW = {
+    planning: { l: 'Building follow-through', t: 'Break big tasks into small steps with deadlines.' },
+    adaptability: { l: 'Getting comfortable with change', t: 'Try one new or unplanned thing each week.' },
+    leadership: { l: 'Stepping up to lead', t: 'Volunteer to run one small part of a group project.' },
+    techComfort: { l: 'Growing tech confidence', t: 'Pick one tool or app and learn a little each week.' },
+    curiosity: { l: 'Exploring beyond your comfort zone', t: 'Say yes to one unfamiliar club, class, or topic.' },
+    C: { l: 'Adding a little structure', t: 'Use a simple checklist or calendar to stay on track.' }
+  };
+  TRAITS = [['curiosity', 'Curiosity'], ['planning', 'Follow-through'], ['socialEnergy', 'Social energy'], ['empathy', 'Empathy'], ['adaptability', 'Adaptability']];
+  VALS = [['autonomy', 'Independence'], ['stability', 'Stability'], ['income', 'Earning power'], ['impact', 'Helping others'], ['learning', 'Learning & growth'], ['balance', 'Work–life balance']];
+  PROFILES = {
+    R: { name: 'The Maker', tagline: 'Builder · Doer · Problem-Solver', blurb: 'You like to see real results and learn by doing. You would rather build, fix, or operate than just talk about it.' },
+    I: { name: 'The Investigator', tagline: 'Curious · Analytical · Independent', blurb: 'You love understanding why things work. You ask sharp questions and enjoy digging until you crack the problem.' },
+    A: { name: 'The Creator', tagline: 'Imaginative · Expressive · Original', blurb: 'You see things differently and like making something new — visual, written, performed, or designed.' },
+    S: { name: 'The Connector', tagline: 'Caring · Supportive · People-First', blurb: 'You are tuned in to people and want your work to help. You build trust and bring others together.' },
+    E: { name: 'The Catalyst', tagline: 'Driven · Persuasive · Leader', blurb: 'You like to lead, pitch ideas, and make things happen. You are comfortable taking initiative.' },
+    C: { name: 'The Organizer', tagline: 'Reliable · Precise · Steady', blurb: 'You keep things accurate and on track. People count on you for order and follow-through.' },
+    X: { name: 'The Explorer', tagline: 'Versatile · Open · Multi-Interest', blurb: 'Your interests are wide — and that is a strength. You can thrive in many directions, so keep sampling.' }
+  };
+  CLUSTERS = [
+    { key: 'health', name: 'Health Science & Medical Services', vec: { I: 2, S: 2, service: 2, empathy: 1, learning: 1, impact: 1 }, desc: 'Caring for people while using science, communication, and clinical problem-solving.', careers: ['Registered nurse', 'EMT / paramedic', 'athletic trainer', 'physical therapist', 'medical assistant'], courses: ['Introduction to Health & Medical Sciences', 'Nurse Aide I', 'Medical Terminology', 'Sports Medicine/Athletic Training I Condensed', 'Sports Medicine/Athletic Training II Condensed', 'Biology II: Anatomy & Physiology (NCAA)'], credentials: ['CNA pathway', 'First Aid/CPR/AED certification opportunity', 'Dual Enrollment PVCC opportunity in Medical Terminology'], wbl: ['Clinical experience through Nurse Aide', 'health-professional job shadow', 'sports medicine field experience'], clubs: ['HOSA', 'athletics support roles', 'service organizations'], threeE: 'Enrollment for nursing, medicine, therapy, and science programs; Employment through CNA, EMT, sports medicine, and health support pathways.' },
+    { key: 'trades', name: 'Skilled Trades, Construction & Energy', vec: { R: 2, I: 1, handsOn: 2, analysis: 1, techComfort: 1, employ: 1 }, desc: 'Building, repairing, fabricating, powering, and troubleshooting the physical world.', careers: ['welder', 'carpenter', 'electrician', 'automotive technician', 'power generation technician'], courses: ['Materials & Processing Technology', 'Welding I', 'Welding II', 'Construction Technology', 'Carpentry I', 'Automotive Technology I', 'Energy and Power'], credentials: ['OSHA 10 safety certification', 'ASE Student Certification eligibility', 'Energy Industry Fundamentals Certificate Assessment opportunity'], wbl: ['HQWBL option in CTE sequences', 'apprenticeship exploration', 'shop, construction, automotive, or energy job shadow'], clubs: ['SkillsUSA', 'FFA agricultural mechanics connections', 'career and technical student organizations'], threeE: 'Strong Employment fit, with apprenticeship and credential routes; Enrollment can support advanced engineering, automotive, construction, and energy programs.' },
+    { key: 'engineering', name: 'Engineering Technology & Advanced Manufacturing', vec: { I: 2, R: 1, analysis: 2, handsOn: 1, techComfort: 2, learning: 1 }, desc: 'Designing systems, solving technical problems, and connecting math, science, and hands-on technology.', careers: ['mechanical engineering technician', 'electrical engineering technician', 'manufacturing technician', 'engineering technologist', 'quality technician'], courses: ['PVCC Mechanical/Electrical Engineering Technology Program', 'Fundamentals of Power Generation', 'Power Generation Design & Function', 'Energy and Power', 'Dual Enrollment Pre-Calculus (MTH 167)', 'AP Physics (NCAA)'], credentials: ['PVCC Manufacturing Technology Certificate', 'PVCC Electronics or Mechanical Technology Certificate', 'A.A.S. pathway credit opportunity'], wbl: ['PVCC dual-credit pathway', 'manufacturing or engineering job shadow', 'technical project portfolio'], clubs: ['SkillsUSA', 'robotics or STEM activities', 'BRVGS research/capstone options'], threeE: 'Strong Enrollment and Employment blend through PVCC dual enrollment, certificates, technical training, and advanced manufacturing.' },
+    { key: 'it', name: 'Computer Science, Cybersecurity & IT', vec: { I: 2, techComfort: 2, analysis: 2, C: 1, curiosity: 1 }, desc: 'Building software, supporting users, protecting systems, and working with data and networks.', careers: ['software developer', 'cybersecurity analyst', 'network technician', 'IT support specialist', 'systems administrator'], courses: ['Digital Applications', 'Computer Information Systems', 'Computer Programming', 'Advanced Placement Computer Science', 'Cybersecurity Fundamentals', 'Cybersecurity Operations', 'Cybersecurity Operations Advanced', 'Tech Help Desk Intern'], credentials: ['AP Computer Science exam opportunity', 'industry certification opportunity in Digital Applications', 'Potential Dual Enrollment in Cybersecurity Operations'], wbl: ['Tech Help Desk Intern', 'IT support portfolio', 'cybersecurity or networking job shadow'], clubs: ['CyberPatriot or cybersecurity activities', 'coding/STEM clubs', 'technology support experiences'], threeE: 'Enrollment for computer science and cyber programs; Employment through help desk, networking, programming, and cybersecurity skill pathways.' },
+    { key: 'biz', name: 'Business, Marketing & Entrepreneurship', vec: { E: 2, C: 1, leadership: 2, income: 1, planning: 1, creativity: 1 }, desc: 'Leading teams, understanding customers, promoting ideas, managing money, and building ventures.', careers: ['entrepreneur', 'marketing specialist', 'sales manager', 'accounting assistant', 'project coordinator'], courses: ['Marketing', 'Sports & Entertainment Marketing', 'Computer Information Systems', 'Public Speaking / Forensics', 'Yearbook 1', 'Competitive Speech and Debate I'], credentials: ['industry certification opportunities where offered', 'business portfolio evidence', 'communication and leadership evidence'], wbl: ['HQWBL option in Marketing', 'school or community business project', 'local business job shadow'], clubs: ['DECA/FBLA-style business activities where available', 'student leadership organizations', 'yearbook/media roles'], threeE: 'Fits Employment, Enrollment, and Enlistment: business skills support jobs, college majors, entrepreneurship, and leadership roles.' },
+    { key: 'creative', name: 'Arts, Media, Communication & Design', vec: { A: 2, creativity: 2, curiosity: 1, socialEnergy: 1 }, desc: 'Creating visuals, stories, performances, media, and messages for real audiences.', careers: ['graphic designer', 'media producer', 'photographer', 'journalist', 'performing artist'], courses: ['Foundation Art I', 'Commercial Arts I', 'AP 2D Art & Design', 'Television & Media Production I', 'Television & Media Production II', 'Yearbook 1', 'Theater I', 'AP Music Theory'], credentials: ['AP portfolio or AP exam opportunity', 'fine arts portfolio evidence', 'media production portfolio evidence'], wbl: ['creative portfolio', 'school media production', 'design or communications job shadow'], clubs: ['yearbook/media', 'theatre/music/art activities', 'speech and debate'], threeE: 'Usually Enrollment or Employment through a strong portfolio, communication skills, and creative production experience.' },
+    { key: 'education', name: 'Education, Human Services & Personal Care', vec: { S: 2, empathy: 2, service: 2, socialEnergy: 1, C: 1 }, desc: 'Teaching, guiding, caring for, and supporting people through patient, service-centered work.', careers: ['teacher', 'early-childhood educator', 'school counselor', 'cosmetologist', 'barber', 'human services professional'], courses: ['Introduction to Early Childhood Education', 'Introduction to Teachers for Tomorrow', 'Teachers for Tomorrow I', 'Teachers for Tomorrow II', 'Cosmetology I', 'Barbering I', 'Psychology of Well-Being'], credentials: ['child development pathway opportunities', 'cosmetology/barbering licensure exploration', 'First Aid/CPR connections where offered'], wbl: ['classroom assisting', 'early childhood or teacher-training experiences', 'salon/barbering clinical practice'], clubs: ['Educators Rising-style activities', 'service organizations', 'student mentoring/tutoring'], threeE: 'Enrollment for education and counseling careers; Employment through early childhood, cosmetology, barbering, and human services pathways.' },
+    { key: 'safety', name: 'Public Safety, Service & Military Sciences', vec: { S: 1, E: 1, service: 2, leadership: 1, adaptability: 1, enlist: 2, R: 1 }, desc: 'Protecting, serving, leading, and responding under pressure in structured team environments.', careers: ['firefighter', 'EMT', 'military service member', 'law enforcement officer', 'emergency manager'], courses: ['Marine Corps JROTC I', 'Marine Corps JROTC II', 'Marine Corps JROTC III', 'Marine Corps JROTC IV', 'Fire Fighting I', 'Emergency Medical Technician I & II', 'Virginia and United States Government (NCAA)', 'Public Speaking / Forensics'], credentials: ['EMT pathway', 'firefighting/public safety skill evidence', 'leadership and service evidence through MCJROTC'], wbl: ['public safety mentorship', 'emergency services job shadow', 'service leadership experience'], clubs: ['Marine Corps JROTC', 'public safety activities', 'student leadership/service organizations'], threeE: 'Strong Enlistment and service fit, with Employment routes in public safety and Enrollment routes in criminal justice, emergency management, and public service.' },
+    { key: 'ag', name: 'Agriculture, Animal Systems & Natural Resources', vec: { R: 2, I: 1, handsOn: 1, impact: 1, service: 1 }, desc: 'Working with animals, plants, land, food systems, conservation, and the environment.', careers: ['veterinary technician', 'animal care specialist', 'horticulture technician', 'landscaping manager', 'environmental science technician'], courses: ['Introduction to Animal Systems', 'Veterinary Science I', 'Veterinary Science II', 'Equine Science I', 'Equine Science, Advanced', 'Livestock Production Management', 'Horticulture Science', 'Greenhouse Plant Production Management', 'Landscaping I'], credentials: ['Veterinary Science pathway opportunities', 'agriculture safety and technical skill evidence', 'CTE sequence evidence'], wbl: ['supervised agricultural experience', 'farm, greenhouse, veterinary, or landscape job shadow', 'HQWBL option in agriculture pathways'], clubs: ['FFA', 'environmental activities', 'agriculture leadership experiences'], threeE: 'Employment through agriculture and animal/plant systems; Enrollment for veterinary, environmental science, agribusiness, and natural resources careers.' }
+  ];
+  NEXT = {
+    9: ['Join one new club, team, or activity this semester', 'Take a class that sounds interesting — even outside your comfort zone', 'Interview an adult about a job that looks cool to you', 'Start a running list of careers you want to learn more about'],
+    10: ['Explore a Louisa County CTE course or pathway tied to your top cluster', 'Join a club, team, service group, FFA, HOSA, SkillsUSA, JROTC, media, arts, or leadership activity that fits your interests', 'Ask your counselor which LCHS course sequence, AP/DE option, PVCC pathway, or credential could fit next year', 'Job shadow someone in a field you are curious about'],
+    11: ['Compare 2–3 options: college, CTE, apprenticeship, military, or work', 'Look into internships, work-based learning, or industry credentials', 'Visit a campus or training program, or talk with a recruiter', 'Start a resume and gather your activities and accomplishments'],
+    12: ['Finalize applications, resumes, or enlistment exploration', 'Practice interviews and request recommendation letters', 'Lock in a postsecondary plan — with a backup option', 'Earn a credential or finish an internship before graduation']
+  };
+  LONG = {
+    9: ['Keep sampling widely — your interests will sharpen over time', 'Notice which classes and activities truly energize you'],
+    10: ['Begin connecting favorite subjects to real career clusters', 'Build skills through projects, clubs, and part-time roles'],
+    11: ['Choose a primary direction and a backup to explore in depth', 'Stack experiences — each one makes your next step clearer'],
+    12: ['Stay open to adjusting — first plans often evolve', 'Build a network of mentors for your chosen path']
+  };
+  EXPLORE = {
+    enroll: ['Explore majors in your top clusters', 'Visit a campus or try dual enrollment', 'Plan courses with your counselor'],
+    enlist: ['Talk with a recruiter or JROTC instructor', 'Learn the branches, roles & benefits', 'Try a structured, team-based activity'],
+    employ: ['Look into apprenticeships & credentials', 'Find a job shadow or internship', 'Build a resume & local employer list']
+  };
+
+  bank() {
+    return [
+      { id: 'R1', sec: 'interests', type: 'likert', core: 1, cat: { R: 2, handsOn: 1 }, text: { 9: 'I like building, fixing, or making things with my hands.', 12: 'I enjoy hands-on work — building, fixing, or operating equipment.' } },
+      { id: 'R2', sec: 'interests', type: 'likert', cat: { R: 1 }, text: { 9: 'Working outdoors or being active sounds great to me.', 12: 'I would like a job that keeps me active or working outdoors.' } },
+      { id: 'I1', sec: 'interests', type: 'likert', core: 1, cat: { I: 2, analysis: 1 }, text: { 9: 'I love figuring out how things work or solving puzzles.', 12: 'I enjoy analyzing problems and figuring out why things work.' } },
+      { id: 'I2', sec: 'interests', type: 'likert', cat: { I: 1, learning: 1 }, text: { 9: 'Science experiments and big questions are fun for me.', 12: 'I like research, experiments, and digging into data.' } },
+      { id: 'A1', sec: 'interests', type: 'likert', core: 1, cat: { A: 2, creativity: 1 }, text: { 9: 'I like to draw, write, perform, design, or make music.', 12: 'I express ideas through art, design, writing, music, or media.' } },
+      { id: 'A2', sec: 'interests', type: 'likert', cat: { A: 1, creativity: 1, curiosity: 1 }, text: 'I would rather invent something new than follow a set example.' },
+      { id: 'S1', sec: 'interests', type: 'likert', core: 1, cat: { S: 2, empathy: 1, service: 1 }, text: { 9: 'Helping people learn or feel better makes me happy.', 12: 'I find it rewarding to teach, coach, or care for others.' } },
+      { id: 'S2', sec: 'interests', type: 'likert', cat: { S: 1, empathy: 1 }, text: 'Friends come to me for support, advice, or to settle things.' },
+      { id: 'E1', sec: 'interests', type: 'likert', core: 1, cat: { E: 2, leadership: 1 }, text: { 9: 'I like leading games, groups, or projects.', 12: 'I like leading projects and persuading people to get on board.' } },
+      { id: 'E2', sec: 'interests', type: 'likert', cat: { E: 1, income: 1, curiosity: 1 }, text: { 9: 'Starting my own club, team, or business sounds exciting.', 12: 'Starting my own business or running a team excites me.' } },
+      { id: 'C1', sec: 'interests', type: 'likert', core: 1, cat: { C: 2, planning: 1 }, text: 'I like organizing information and keeping things accurate.' },
+      { id: 'C2', sec: 'interests', type: 'likert', cat: { C: 1, planning: 1 }, text: 'Clear steps, checklists, and order help me do my best work.' },
+      { id: 'W1', sec: 'workstyle', type: 'likert', core: 1, cat: { curiosity: 2 }, text: { 9: 'I get excited to try things I have never done before.', 12: 'I seek out new experiences, even outside my comfort zone.' } },
+      { id: 'W2', sec: 'workstyle', type: 'likert', core: 1, cat: { planning: 2 }, text: 'I plan ahead and follow through until things are finished.' },
+      { id: 'W3', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 2 }, text: 'Being around lots of people gives me energy.' },
+      { id: 'W4', sec: 'workstyle', type: 'likert', cat: { empathy: 1, service: 1 }, text: 'I notice how others are feeling and adjust to help them.' },
+      { id: 'W5', sec: 'workstyle', type: 'likert', cat: { adaptability: 2 }, text: { 9: 'When plans change suddenly, I roll with it.', 12: 'When plans change, I stay calm and adapt quickly.' } },
+      { id: 'W6', sec: 'workstyle', type: 'scenario', core: 1, cat: {}, text: { 9: 'Your group gets a big project and no one has started. You usually…', 12: 'Your team is assigned a project with a tight deadline. You usually…' }, options: [
+        { key: 'lead', label: 'Take charge and divide up the work', cat: { E: 2, leadership: 2 } },
+        { key: 'plan', label: 'Make a clear plan and timeline', cat: { C: 2, planning: 2, analysis: 1 } },
+        { key: 'idea', label: 'Pitch a bold, creative idea', cat: { A: 2, creativity: 2 } },
+        { key: 'support', label: 'Make sure everyone is included and okay', cat: { S: 2, empathy: 1 } },
+        { key: 'build', label: 'Start building the actual thing', cat: { R: 2, handsOn: 1 } } ] },
+      { id: 'W7', sec: 'workstyle', type: 'forced', cat: {}, text: 'Which is more you?', options: [
+        { key: 'a', label: 'Map out a detailed plan first', cat: { planning: 2, C: 1 } },
+        { key: 'b', label: 'Jump in and adjust as you go', cat: { adaptability: 2, curiosity: 1 } } ] },
+      { id: 'W8', sec: 'workstyle', type: 'forced', cat: {}, text: 'Pick the one that fits best:', options: [
+        { key: 'a', label: 'Work solo and go deep', cat: { autonomy: 2, I: 1 } },
+        { key: 'b', label: 'Team up and bounce ideas around', cat: { socialEnergy: 2, S: 1 } } ] },
+      { id: 'V1', sec: 'values', type: 'likert', cat: { autonomy: 2 }, text: 'Having the freedom to do things my own way matters a lot.' },
+      { id: 'V2', sec: 'values', type: 'likert', cat: { stability: 2 }, text: { 9: 'I like knowing what to expect day to day.', 12: 'A steady, secure job is important to me.' } },
+      { id: 'V3', sec: 'values', type: 'likert', core: 1, cat: { impact: 2, service: 1 }, text: 'I want my work to help people or my community.' },
+      { id: 'V4', sec: 'values', type: 'likert', core: 1, cat: { learning: 2 }, text: 'I want to keep learning and growing new skills for years.' },
+      { id: 'V5', sec: 'values', type: 'likert', cat: { income: 2 }, text: { 9: 'Earning good money someday is important to me.', 12: 'Earning a strong income is a top priority for me.' } },
+      { id: 'V6', sec: 'values', type: 'likert', cat: { balance: 2 }, text: 'Time for life outside of work matters a lot to me.' },
+      { id: 'V7', sec: 'values', type: 'rank', core: 1, cat: {}, text: { 9: 'Tap your top 3 — what would make a job feel great?', 12: 'Rank your top 3 priorities in your future work:' }, options: [
+        { key: 'help', label: 'Helping others', cat: { impact: 1, S: 1, service: 1 } },
+        { key: 'earn', label: 'Earning well', cat: { income: 1, E: 1 } },
+        { key: 'free', label: 'Freedom & independence', cat: { autonomy: 1 } },
+        { key: 'learn', label: 'Always learning', cat: { learning: 1, I: 1 } },
+        { key: 'secure', label: 'Stability & security', cat: { stability: 1, C: 1 } },
+        { key: 'create', label: 'Creating new things', cat: { creativity: 1, A: 1 } } ] },
+      { id: 'P1', sec: 'paths', type: 'likert', core: 1, cat: { handsOn: 2, employ: 1 }, text: 'I learn best by doing, not just reading or listening.' },
+      { id: 'P2', sec: 'paths', type: 'likert', core: 1, cat: { techComfort: 2, I: 1 }, text: 'I am comfortable picking up new technology and tools.' },
+      { id: 'P3', sec: 'paths', type: 'scenario', core: 1, cat: {}, text: 'Your ideal workday happens mostly…', options: [
+        { key: 'out', label: 'Outdoors or on the move', cat: { R: 2, enlist: 1 } },
+        { key: 'solve', label: 'Solving problems at a screen or lab', cat: { I: 2, techComfort: 1 } },
+        { key: 'make', label: 'Creating in a studio or workshop', cat: { A: 2, creativity: 1 } },
+        { key: 'people', label: 'Working face-to-face with people', cat: { S: 2, socialEnergy: 1 } },
+        { key: 'org', label: 'Organizing in a calm office', cat: { C: 2, planning: 1 } } ] },
+      { id: 'E3a', sec: 'paths', type: 'likert', core: 1, cat: { enroll: 2, learning: 1 }, text: { 9: 'I am curious about college or a training program someday.', 12: 'I can picture myself in college or a training program next year.' } },
+      { id: 'E3b', sec: 'paths', type: 'likert', core: 1, cat: { enlist: 2, service: 1, adaptability: 1 }, text: { 9: 'I am curious about the military or a service path.', 12: 'I am curious about the military or another structured service path.' } },
+      { id: 'E3c', sec: 'paths', type: 'likert', core: 1, cat: { employ: 2, income: 1, handsOn: 1 }, text: { 9: 'Learning a trade or starting to work soon interests me.', 12: 'I would like to start working or learn a trade soon after graduation.' } },
+      { id: 'P4', sec: 'paths', type: 'likert', cat: { employ: 1, handsOn: 1, learning: 1 }, text: { 9: 'Getting real-world experience (like job shadowing) sounds great.', 11: 'Real experience — internships, apprenticeships, or clinicals — appeals to me.', 12: 'I want hands-on experience (internship, apprenticeship, clinical) before I graduate.' } },
+      { id: 'P5', sec: 'paths', type: 'likert', cat: { planning: 1, enroll: 1, employ: 1 }, text: { 9: 'I would like to discover what careers are even out there.', 10: 'I would like to connect my interests to real career clusters and classes.', 11: 'I am ready to narrow my options and compare programs, jobs, or college.', 12: 'I feel ready to work on applications, resumes, or interviews.' } },
+      { id: 'RF1', sec: 'reflect', type: 'reflect', core: 1, cat: {}, text: 'What is something you could do for hours without getting bored?', placeholder: 'Type a sentence or two… (optional)' },
+      { id: 'RF2', sec: 'reflect', type: 'reflect', cat: {}, text: { 9: 'If you could shadow anyone for a day, who would it be — and why?', 12: 'What do you picture yourself doing the year after graduation?' }, placeholder: 'Type a sentence or two… (optional)' },
+      { id: 'RF3', sec: 'reflect', type: 'reflect', cat: {}, text: 'What is one strength a good friend would say you have?', placeholder: 'Type a sentence or two… (optional)' }
+    ];
+  }
+
+  gradeBank(grade) {
+    const banks = {
+      9: [
+        { id: 'G9_R1', sec: 'interests', type: 'likert', core: 1, cat: { R: 2, handsOn: 1 }, text: 'I like classes or activities where I get to build, fix, move, cook, create, or use tools.' },
+        { id: 'G9_I1', sec: 'interests', type: 'likert', core: 1, cat: { I: 2, analysis: 1, curiosity: 1 }, text: 'I like figuring out why something works, even if it takes a while.' },
+        { id: 'G9_A1', sec: 'interests', type: 'likert', core: 1, cat: { A: 2, creativity: 1 }, text: 'I enjoy making things look, sound, or feel original.' },
+        { id: 'G9_S1', sec: 'interests', type: 'likert', core: 1, cat: { S: 2, empathy: 1, service: 1 }, text: 'I like being the person who helps classmates, friends, younger students, or teammates.' },
+        { id: 'G9_E1', sec: 'interests', type: 'likert', core: 1, cat: { E: 2, leadership: 1 }, text: 'I am comfortable speaking up with an idea or getting a group started.' },
+        { id: 'G9_C1', sec: 'interests', type: 'likert', core: 1, cat: { C: 2, planning: 1 }, text: 'I like knowing the steps, rules, or checklist before I begin.' },
+        { id: 'G9_W1', sec: 'workstyle', type: 'scenario', core: 1, cat: {}, text: 'A teacher gives your class a choice project. You would most want to...', options: [
+          { key: 'build', label: 'Build or demonstrate something people can see', cat: { R: 2, handsOn: 2 } },
+          { key: 'research', label: 'Research a big question and explain what you learned', cat: { I: 2, analysis: 1 } },
+          { key: 'design', label: 'Design the visuals, story, video, or presentation style', cat: { A: 2, creativity: 2 } },
+          { key: 'support', label: 'Help the group communicate and stay included', cat: { S: 2, empathy: 1 } },
+          { key: 'lead', label: 'Organize the group and keep everyone moving', cat: { E: 2, leadership: 2, planning: 1 } }
+        ] },
+        { id: 'G9_W2', sec: 'workstyle', type: 'likert', cat: { curiosity: 2, adaptability: 1 }, text: 'Trying a new club, class, or activity feels exciting even if I am not good at it yet.' },
+        { id: 'G9_W3', sec: 'workstyle', type: 'forced', cat: {}, text: 'When I get stuck, I usually prefer to...', options: [
+          { key: 'ask', label: 'Ask someone to talk it through with me', cat: { S: 1, socialEnergy: 1, empathy: 1 } },
+          { key: 'test', label: 'Try different solutions until one works', cat: { R: 1, I: 1, adaptability: 2 } }
+        ] },
+        { id: 'G9_W4', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I do better when I can break a big assignment into smaller steps.' },
+        { id: 'G9_V1', sec: 'values', type: 'likert', core: 1, cat: { learning: 2, curiosity: 1 }, text: 'I want high school to help me discover options I do not know about yet.' },
+        { id: 'G9_V2', sec: 'values', type: 'likert', cat: { impact: 2, service: 1 }, text: 'It matters to me that my future work helps people, animals, or my community.' },
+        { id: 'G9_V3', sec: 'values', type: 'likert', cat: { stability: 1, balance: 2 }, text: 'I want a future that gives me a steady life and time for people I care about.' },
+        { id: 'G9_V4', sec: 'values', type: 'rank', core: 1, cat: {}, text: 'Rank your top 3 reasons a future path would feel worth exploring.', options: [
+          { key: 'fun', label: 'It sounds interesting or fun to learn', cat: { curiosity: 1, learning: 1 } },
+          { key: 'hands', label: 'I can do hands-on work', cat: { R: 1, handsOn: 1, employ: 1 } },
+          { key: 'help', label: 'I can help people or serve others', cat: { S: 1, impact: 1, service: 1 } },
+          { key: 'money', label: 'It could lead to good pay someday', cat: { income: 1, E: 1 } },
+          { key: 'creative', label: 'I can be creative', cat: { A: 1, creativity: 1 } },
+          { key: 'college', label: 'It connects to college or training later', cat: { enroll: 1, learning: 1 } }
+        ] },
+        { id: 'G9_P1', sec: 'paths', type: 'likert', core: 1, cat: { enroll: 2, learning: 1 }, text: 'College, community college, or a training program is something I want to learn more about.' },
+        { id: 'G9_P2', sec: 'paths', type: 'likert', core: 1, cat: { employ: 2, handsOn: 1, income: 1 }, text: 'I am curious about classes that lead to real job skills or credentials.' },
+        { id: 'G9_P3', sec: 'paths', type: 'likert', core: 1, cat: { enlist: 2, service: 1, leadership: 1 }, text: 'I am curious about military service, JROTC, public safety, or other structured service paths.' },
+        { id: 'G9_P4', sec: 'paths', type: 'scenario', cat: {}, text: 'If you could shadow someone for a day, you would choose someone who...', options: [
+          { key: 'campus', label: 'Uses college or advanced training in their work', cat: { enroll: 2, learning: 1, I: 1 } },
+          { key: 'trade', label: 'Has a skilled trade, credential, or hands-on career', cat: { employ: 2, R: 1, handsOn: 1 } },
+          { key: 'service', label: 'Serves in the military, public safety, or emergency work', cat: { enlist: 2, service: 1, adaptability: 1 } },
+          { key: 'business', label: 'Runs a business, leads a team, or sells an idea', cat: { E: 2, leadership: 1, income: 1 } }
+        ] },
+        { id: 'G9_RF1', sec: 'reflect', type: 'reflect', cat: {}, text: 'What class, activity, hobby, or chore makes you feel most capable?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G9_RF2', sec: 'reflect', type: 'reflect', cat: {}, text: 'Name one career you want to understand better, even if you are not sure you want it.', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G9_RF3', sec: 'reflect', type: 'reflect', cat: {}, text: 'What kind of adult life sounds good to you right now?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      10: [
+        { id: 'G10_R1', sec: 'interests', type: 'likert', core: 1, cat: { R: 2, handsOn: 1 }, text: 'I want at least one course where I can practice real hands-on skills instead of only taking notes.' },
+        { id: 'G10_I1', sec: 'interests', type: 'likert', core: 1, cat: { I: 2, analysis: 1 }, text: 'I like classes that involve solving problems, testing ideas, data, science, or technology.' },
+        { id: 'G10_A1', sec: 'interests', type: 'likert', core: 1, cat: { A: 2, creativity: 1 }, text: 'I would enjoy a course that lets me design, write, film, perform, build a portfolio, or make original work.' },
+        { id: 'G10_S1', sec: 'interests', type: 'likert', core: 1, cat: { S: 2, empathy: 1, service: 1 }, text: 'I am drawn to courses or activities connected to teaching, health, counseling, coaching, or community service.' },
+        { id: 'G10_E1', sec: 'interests', type: 'likert', core: 1, cat: { E: 2, leadership: 1 }, text: 'Business, leadership, marketing, entrepreneurship, or organizing an event sounds interesting to me.' },
+        { id: 'G10_C1', sec: 'interests', type: 'likert', core: 1, cat: { C: 2, planning: 1 }, text: 'I like work that involves accuracy, schedules, money, records, details, or keeping systems organized.' },
+        { id: 'G10_W1', sec: 'workstyle', type: 'scenario', core: 1, cat: {}, text: 'You are choosing classes for next year. What would most influence you?', options: [
+          { key: 'try', label: 'Trying a new field before I commit to it', cat: { curiosity: 2, adaptability: 1 } },
+          { key: 'sequence', label: 'Starting a course sequence that builds year after year', cat: { planning: 2, C: 1, employ: 1 } },
+          { key: 'college', label: 'Taking a class that prepares me for college or advanced training', cat: { enroll: 2, learning: 1 } },
+          { key: 'career', label: 'Taking a class connected to a real career skill', cat: { employ: 2, handsOn: 1 } },
+          { key: 'team', label: 'Choosing a class with leadership, teamwork, or service', cat: { enlist: 1, S: 1, leadership: 1, service: 1 } }
+        ] },
+        { id: 'G10_W2', sec: 'workstyle', type: 'forced', cat: {}, text: 'Which learning situation sounds better right now?', options: [
+          { key: 'project', label: 'A project where I make something and show what I learned', cat: { R: 1, A: 1, handsOn: 2 } },
+          { key: 'discussion', label: 'A class where I discuss ideas, research, and explain my thinking', cat: { I: 1, S: 1, analysis: 2 } }
+        ] },
+        { id: 'G10_W3', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 2, S: 1 }, text: 'I learn more when I can work with partners, teams, customers, patients, or younger students.' },
+        { id: 'G10_W4', sec: 'workstyle', type: 'likert', cat: { adaptability: 2, curiosity: 1 }, text: 'I can handle being a beginner if the class or activity might open new options.' },
+        { id: 'G10_V1', sec: 'values', type: 'likert', core: 1, cat: { learning: 2, enroll: 1 }, text: 'I want my course choices to keep college, training, or certification options open.' },
+        { id: 'G10_V2', sec: 'values', type: 'likert', cat: { income: 2, stability: 1 }, text: 'I want to understand which pathways can lead to steady work and strong pay.' },
+        { id: 'G10_V3', sec: 'values', type: 'likert', cat: { impact: 2, service: 1 }, text: 'A pathway feels more interesting when it connects to helping others or solving community problems.' },
+        { id: 'G10_V4', sec: 'values', type: 'rank', core: 1, cat: {}, text: 'Rank your top 3 things you want next year to help you learn about your future.', options: [
+          { key: 'cte', label: 'A CTE or hands-on course', cat: { employ: 1, handsOn: 1, R: 1 } },
+          { key: 'advanced', label: 'An advanced, AP, DE, or college-connected course', cat: { enroll: 1, learning: 1, I: 1 } },
+          { key: 'club', label: 'A club, competition, team, or leadership activity', cat: { E: 1, leadership: 1, socialEnergy: 1 } },
+          { key: 'service', label: 'A service, JROTC, public safety, or community role', cat: { enlist: 1, service: 1, S: 1 } },
+          { key: 'creative', label: 'A creative portfolio, media, arts, or design opportunity', cat: { A: 1, creativity: 1 } },
+          { key: 'job', label: 'A job shadow, workplace visit, or career interview', cat: { employ: 1, curiosity: 1 } }
+        ] },
+        { id: 'G10_P1', sec: 'paths', type: 'likert', core: 1, cat: { employ: 2, handsOn: 1 }, text: 'I want to explore at least one CTE program area before junior year.' },
+        { id: 'G10_P2', sec: 'paths', type: 'likert', core: 1, cat: { enroll: 2, planning: 1 }, text: 'I want to know which courses could help me with college, dual enrollment, or a future major.' },
+        { id: 'G10_P3', sec: 'paths', type: 'likert', core: 1, cat: { enlist: 2, service: 1, adaptability: 1 }, text: 'I want to understand military, public safety, or service careers without feeling pushed into a decision.' },
+        { id: 'G10_P4', sec: 'paths', type: 'scenario', cat: {}, text: 'You can ask a counselor one planning question. Which one would you ask first?', options: [
+          { key: 'courses', label: 'Which courses match my interests and keep doors open?', cat: { enroll: 1, planning: 1, learning: 1 } },
+          { key: 'program', label: 'Which CTE program could lead to credentials or work-based learning?', cat: { employ: 2, handsOn: 1 } },
+          { key: 'service', label: 'How do ASVAB, JROTC, public safety, or military careers connect to school?', cat: { enlist: 2, service: 1 } },
+          { key: 'strengths', label: 'What do my strengths suggest I should try next?', cat: { curiosity: 1, analysis: 1 } }
+        ] },
+        { id: 'G10_RF1', sec: 'reflect', type: 'reflect', cat: {}, text: 'Which course or program area are you most curious about for next year?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G10_RF2', sec: 'reflect', type: 'reflect', cat: {}, text: 'What is one activity, class, or experience that could help you test a career interest?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G10_RF3', sec: 'reflect', type: 'reflect', cat: {}, text: 'What question would you want answered before choosing a pathway?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      11: [
+        { id: 'G11_R1', sec: 'interests', type: 'likert', core: 1, cat: { R: 2, handsOn: 1, employ: 1 }, text: 'I want a pathway where I can practice skills in a lab, shop, clinical setting, workplace, field, or studio.' },
+        { id: 'G11_I1', sec: 'interests', type: 'likert', core: 1, cat: { I: 2, analysis: 1, techComfort: 1 }, text: 'I am interested in fields that use research, data, science, technology, diagnostics, or technical problem-solving.' },
+        { id: 'G11_A1', sec: 'interests', type: 'likert', core: 1, cat: { A: 2, creativity: 1 }, text: 'A portfolio, design project, media product, performance, or creative body of work would help show what I can do.' },
+        { id: 'G11_S1', sec: 'interests', type: 'likert', core: 1, cat: { S: 2, empathy: 1, service: 1 }, text: 'I could see myself in a role where communication, trust, care, teaching, or service matters every day.' },
+        { id: 'G11_E1', sec: 'interests', type: 'likert', core: 1, cat: { E: 2, leadership: 1, income: 1 }, text: 'I am interested in leading, selling, managing, starting something, or persuading others around a goal.' },
+        { id: 'G11_C1', sec: 'interests', type: 'likert', core: 1, cat: { C: 2, planning: 1 }, text: 'I am comfortable with detailed work like records, schedules, procedures, budgets, coding rules, or accuracy checks.' },
+        { id: 'G11_W1', sec: 'workstyle', type: 'scenario', core: 1, cat: {}, text: 'You have a chance to spend a week in a real-world experience. You would choose...', options: [
+          { key: 'clinical', label: 'A clinical, service, education, or public-facing placement', cat: { S: 2, empathy: 1, service: 1 } },
+          { key: 'technical', label: 'A technical shop, lab, IT, construction, automotive, or manufacturing setting', cat: { R: 2, handsOn: 2, techComfort: 1 } },
+          { key: 'office', label: 'A business, finance, marketing, or operations setting', cat: { E: 1, C: 1, planning: 1, income: 1 } },
+          { key: 'research', label: 'A college, science, engineering, or data-focused setting', cat: { I: 2, analysis: 2, enroll: 1 } },
+          { key: 'service', label: 'A military, public safety, emergency, or structured team setting', cat: { enlist: 2, service: 1, adaptability: 1, leadership: 1 } }
+        ] },
+        { id: 'G11_W2', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I am ready to compare deadlines, prerequisites, costs, credentials, and eligibility instead of only thinking about what sounds interesting.' },
+        { id: 'G11_W3', sec: 'workstyle', type: 'forced', cat: {}, text: 'When making a big decision, I need most...', options: [
+          { key: 'evidence', label: 'Evidence, requirements, numbers, and a comparison chart', cat: { I: 1, C: 1, analysis: 2, planning: 1 } },
+          { key: 'experience', label: 'A real experience, conversation, or visit that helps me picture it', cat: { S: 1, R: 1, curiosity: 1, handsOn: 1 } }
+        ] },
+        { id: 'G11_W4', sec: 'workstyle', type: 'likert', cat: { adaptability: 2, leadership: 1 }, text: 'I can adjust my plan if new information shows a better route.' },
+        { id: 'G11_V1', sec: 'values', type: 'likert', core: 1, cat: { stability: 2, income: 1 }, text: 'I want to understand the pay, job outlook, benefits, and stability of the options I am considering.' },
+        { id: 'G11_V2', sec: 'values', type: 'likert', core: 1, cat: { learning: 2, enroll: 1 }, text: 'I am willing to keep learning after high school if the training clearly connects to my goal.' },
+        { id: 'G11_V3', sec: 'values', type: 'likert', cat: { autonomy: 2, E: 1 }, text: 'I want a path that gives me room to make choices, grow, and eventually have more independence.' },
+        { id: 'G11_V4', sec: 'values', type: 'rank', core: 1, cat: {}, text: 'Rank your top 3 decision factors for narrowing your options this year.', options: [
+          { key: 'cost', label: 'Cost, debt, scholarships, or paid training', cat: { planning: 1, stability: 1 } },
+          { key: 'fit', label: 'Day-to-day work feels like a good fit', cat: { curiosity: 1, handsOn: 1 } },
+          { key: 'college', label: 'College, transfer, degree, or advanced training options', cat: { enroll: 1, learning: 1 } },
+          { key: 'work', label: 'Credentials, apprenticeship, internship, or job access', cat: { employ: 1, income: 1 } },
+          { key: 'service', label: 'Service, structure, leadership, benefits, or military options', cat: { enlist: 1, service: 1, leadership: 1 } },
+          { key: 'life', label: 'Schedule, location, family, balance, and lifestyle', cat: { balance: 1, stability: 1 } }
+        ] },
+        { id: 'G11_P1', sec: 'paths', type: 'likert', core: 1, cat: { employ: 2, handsOn: 1 }, text: 'Internships, work-based learning, clinicals, apprenticeships, or credentials could help me decide.' },
+        { id: 'G11_P2', sec: 'paths', type: 'likert', core: 1, cat: { enroll: 2, planning: 1 }, text: 'I need to compare college, community college, technical school, transfer, or certification routes.' },
+        { id: 'G11_P3', sec: 'paths', type: 'likert', core: 1, cat: { enlist: 2, service: 1, leadership: 1 }, text: 'I want to compare enlisted, Reserve/Guard, ROTC, service academy, or officer routes before ruling anything in or out.' },
+        { id: 'G11_P4', sec: 'paths', type: 'scenario', cat: {}, text: 'Which next step would help you most this semester?', options: [
+          { key: 'visit', label: 'Visit a college, program, employer, union, or training site', cat: { enroll: 1, employ: 1, curiosity: 1 } },
+          { key: 'shadow', label: 'Shadow or interview someone in a career field', cat: { employ: 1, S: 1, curiosity: 1 } },
+          { key: 'asvab', label: 'Take or review the ASVAB/Career Exploration Program', cat: { enlist: 2, analysis: 1 } },
+          { key: 'resume', label: 'Build a resume, portfolio, or list of experiences', cat: { C: 1, planning: 1, E: 1 } }
+        ] },
+        { id: 'G11_RF1', sec: 'reflect', type: 'reflect', cat: {}, text: 'What are the two or three post-high-school options you most need to compare?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G11_RF2', sec: 'reflect', type: 'reflect', cat: {}, text: 'What experience would give you better evidence than just guessing?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G11_RF3', sec: 'reflect', type: 'reflect', cat: {}, text: 'What tradeoff feels most important right now: cost, time, location, pay, training, service, or fit?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      12: [
+        { id: 'G12_R1', sec: 'interests', type: 'likert', core: 1, cat: { R: 2, handsOn: 1, employ: 1 }, text: 'I want my next step to include practical training, hands-on work, or a skill I can use quickly.' },
+        { id: 'G12_I1', sec: 'interests', type: 'likert', core: 1, cat: { I: 2, analysis: 1, techComfort: 1 }, text: 'I am drawn to fields that require problem-solving, technical skill, science, data, systems, or investigation.' },
+        { id: 'G12_A1', sec: 'interests', type: 'likert', core: 1, cat: { A: 2, creativity: 1 }, text: 'I want my applications, resume, portfolio, or interviews to show my creativity and original work.' },
+        { id: 'G12_S1', sec: 'interests', type: 'likert', core: 1, cat: { S: 2, empathy: 1, service: 1 }, text: 'I can see myself in a field where I work directly with people, patients, students, customers, or the public.' },
+        { id: 'G12_E1', sec: 'interests', type: 'likert', core: 1, cat: { E: 2, leadership: 1, income: 1 }, text: 'I want a path where initiative, leadership, business, promotion, or advancement can matter.' },
+        { id: 'G12_C1', sec: 'interests', type: 'likert', core: 1, cat: { C: 2, planning: 1, stability: 1 }, text: 'I like clear expectations, accurate details, procedures, schedules, and dependable systems.' },
+        { id: 'G12_W1', sec: 'workstyle', type: 'scenario', core: 1, cat: {}, text: 'You have one month to finalize your post-high-school plan. What do you do first?', options: [
+          { key: 'apps', label: 'Finish applications, FAFSA, transcripts, scholarships, or program forms', cat: { enroll: 2, planning: 2 } },
+          { key: 'job', label: 'Update my resume and apply for jobs, apprenticeships, internships, or training', cat: { employ: 2, C: 1, income: 1 } },
+          { key: 'recruiter', label: 'Prepare verified questions for a recruiter or official military contact', cat: { enlist: 2, service: 1, planning: 1 } },
+          { key: 'mentor', label: 'Talk to a counselor, teacher, family member, or mentor to check my plan', cat: { S: 1, empathy: 1, planning: 1 } },
+          { key: 'portfolio', label: 'Polish a portfolio, project, credential evidence, or interview story', cat: { A: 1, E: 1, creativity: 1, leadership: 1 } }
+        ] },
+        { id: 'G12_W2', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I have started tracking deadlines, documents, contacts, and next steps for life after graduation.' },
+        { id: 'G12_W3', sec: 'workstyle', type: 'forced', cat: {}, text: 'Right now, I need more support with...', options: [
+          { key: 'decide', label: 'Choosing between a few options', cat: { analysis: 1, planning: 1, curiosity: 1 } },
+          { key: 'execute', label: 'Completing the steps for the option I already picked', cat: { C: 1, planning: 2, adaptability: 1 } }
+        ] },
+        { id: 'G12_W4', sec: 'workstyle', type: 'likert', cat: { adaptability: 2, stability: 1 }, text: 'I have or need a backup plan in case my first plan changes.' },
+        { id: 'G12_V1', sec: 'values', type: 'likert', core: 1, cat: { income: 2, stability: 1 }, text: 'Pay, benefits, debt, and long-term financial stability are major factors in my next step.' },
+        { id: 'G12_V2', sec: 'values', type: 'likert', core: 1, cat: { learning: 2, enroll: 1 }, text: 'I am willing to invest more time in school or training if it clearly improves my future options.' },
+        { id: 'G12_V3', sec: 'values', type: 'likert', cat: { impact: 2, service: 1 }, text: 'I want my next step to connect to service, community, purpose, or helping people.' },
+        { id: 'G12_V4', sec: 'values', type: 'rank', core: 1, cat: {}, text: 'Rank your top 3 priorities for your first year after graduation.', options: [
+          { key: 'degree', label: 'College, degree, certificate, or transfer progress', cat: { enroll: 1, learning: 1 } },
+          { key: 'earning', label: 'Earning money and building work experience', cat: { employ: 1, income: 1 } },
+          { key: 'service', label: 'Service, benefits, training, leadership, or military structure', cat: { enlist: 1, service: 1, leadership: 1 } },
+          { key: 'stable', label: 'A stable schedule and reliable plan', cat: { stability: 1, C: 1, planning: 1 } },
+          { key: 'growth', label: 'Learning advanced skills and growing over time', cat: { learning: 1, curiosity: 1 } },
+          { key: 'independent', label: 'More independence and responsibility', cat: { autonomy: 1, E: 1 } }
+        ] },
+        { id: 'G12_P1', sec: 'paths', type: 'likert', core: 1, cat: { enroll: 2, planning: 1 }, text: 'My plan includes college, community college, technical training, certification, or another education option.' },
+        { id: 'G12_P2', sec: 'paths', type: 'likert', core: 1, cat: { employ: 2, handsOn: 1, income: 1 }, text: 'My plan includes working, apprenticeship, paid training, credentials, or entering a career field soon.' },
+        { id: 'G12_P3', sec: 'paths', type: 'likert', core: 1, cat: { enlist: 2, service: 1, adaptability: 1 }, text: 'My plan includes exploring or pursuing military service, Reserve/Guard, ROTC, public safety, or a structured service route.' },
+        { id: 'G12_P4', sec: 'paths', type: 'scenario', cat: {}, text: 'Which proof would make you feel most ready to graduate with confidence?', options: [
+          { key: 'acceptance', label: 'An acceptance, schedule, financial aid plan, or training enrollment', cat: { enroll: 2, planning: 1 } },
+          { key: 'offer', label: 'A job offer, apprenticeship step, credential, resume, or interview plan', cat: { employ: 2, income: 1, C: 1 } },
+          { key: 'verified', label: 'Verified service eligibility, ASVAB info, role questions, and contract details', cat: { enlist: 2, service: 1, analysis: 1 } },
+          { key: 'backup', label: 'A realistic backup plan and adult who knows my next step', cat: { adaptability: 2, stability: 1, planning: 1 } }
+        ] },
+        { id: 'G12_RF1', sec: 'reflect', type: 'reflect', cat: {}, text: 'What is your most likely plan for the year after graduation?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G12_RF2', sec: 'reflect', type: 'reflect', cat: {}, text: 'What deadline, document, interview, application, or conversation still needs attention?', placeholder: 'Type a sentence or two... (optional)' },
+        { id: 'G12_RF3', sec: 'reflect', type: 'reflect', cat: {}, text: 'What backup plan would still move you forward if your first choice changes?', placeholder: 'Type a sentence or two... (optional)' }
+      ]
+    };
+    return banks[grade] || banks[11];
+  }
+
+  supplementalScoredItems(grade) {
+    const banks = {
+      9: [
+        { id: 'G9_R2', sec: 'interests', type: 'likert', cat: { R: 2, handsOn: 1 }, text: 'I enjoy activities where I can see a finished product at the end.' },
+        { id: 'G9_I2', sec: 'interests', type: 'likert', cat: { I: 2, analysis: 1 }, text: 'I like asking why, checking facts, or proving whether something is true.' },
+        { id: 'G9_A2', sec: 'interests', type: 'likert', cat: { A: 2, creativity: 1 }, text: 'I notice design, color, sound, style, or storytelling in things around me.' },
+        { id: 'G9_S2', sec: 'interests', type: 'likert', cat: { S: 2, empathy: 1 }, text: 'I care about whether people feel included, supported, or understood.' },
+        { id: 'G9_E2', sec: 'interests', type: 'likert', cat: { E: 2, leadership: 1 }, text: 'I like convincing people to try an idea, join an activity, or take action.' },
+        { id: 'G9_C2', sec: 'interests', type: 'likert', cat: { C: 2, planning: 1 }, text: 'I like sorting, organizing, tracking, counting, or keeping things in order.' },
+        { id: 'G9_W5', sec: 'workstyle', type: 'scenario', cat: {}, text: 'You can choose one Saturday activity. You pick...', options: [
+          { key: 'build', label: 'A workshop where you make or repair something', cat: { R: 2, handsOn: 2 } },
+          { key: 'solve', label: 'A challenge where you solve clues or test ideas', cat: { I: 2, analysis: 1 } },
+          { key: 'create', label: 'A creative session for art, media, music, or design', cat: { A: 2, creativity: 2 } },
+          { key: 'serve', label: 'A volunteer project helping people or the community', cat: { S: 2, service: 2, impact: 1 } },
+          { key: 'lead', label: 'A student event where you help organize the plan', cat: { E: 2, leadership: 2, planning: 1 } }
+        ] },
+        { id: 'G9_W6', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I can finish small goals when I know exactly what step comes next.' },
+        { id: 'G9_W7', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 2, S: 1 }, text: 'Group activities often give me more energy than working alone.' },
+        { id: 'G9_W8', sec: 'workstyle', type: 'likert', reverse: true, cat: { curiosity: 2, adaptability: 1 }, text: 'I avoid trying new activities unless I already know I will be good at them.' },
+        { id: 'G9_W9', sec: 'workstyle', type: 'likert', cat: { adaptability: 2 }, text: 'If a plan changes at the last minute, I can usually adjust.' },
+        { id: 'G9_W10', sec: 'workstyle', type: 'forced', cat: {}, text: 'Which sounds more like you?', options: [
+          { key: 'clear', label: 'I want clear directions before I begin', cat: { C: 1, planning: 2 } },
+          { key: 'open', label: 'I like open-ended challenges where I can decide the approach', cat: { A: 1, curiosity: 2, autonomy: 1 } }
+        ] },
+        { id: 'G9_W11', sec: 'workstyle', type: 'likert', cat: { techComfort: 2, curiosity: 1 }, text: 'I am comfortable learning a new app, tool, device, or online system.' },
+        { id: 'G9_V5', sec: 'values', type: 'likert', cat: { learning: 2, curiosity: 1 }, text: 'Learning something new matters to me even when I am not good at it right away.' },
+        { id: 'G9_V6', sec: 'values', type: 'likert', cat: { stability: 2, balance: 1 }, text: 'I like the idea of a future with steady routines and less uncertainty.' },
+        { id: 'G9_V7', sec: 'values', type: 'likert', cat: { impact: 1, service: 1, income: 1 }, text: 'I want my future work to support both my own life and other people.' },
+        { id: 'G9_V8', sec: 'values', type: 'forced', cat: {}, text: 'If you had to choose, which matters more right now?', options: [
+          { key: 'freedom', label: 'Having freedom to choose my own way', cat: { autonomy: 2, creativity: 1 } },
+          { key: 'steady', label: 'Having a clear, steady path to follow', cat: { stability: 2, C: 1, planning: 1 } }
+        ] },
+        { id: 'G9_V9', sec: 'values', type: 'rank', cat: {}, text: 'Rank your top 3 qualities in a future job or pathway.', options: [
+          { key: 'pay', label: 'Good pay', cat: { income: 1, employ: 1 } },
+          { key: 'balance', label: 'Time for life outside work', cat: { balance: 1, stability: 1 } },
+          { key: 'service', label: 'Helping people', cat: { S: 1, service: 1, impact: 1 } },
+          { key: 'learn', label: 'Always learning', cat: { learning: 1, I: 1 } },
+          { key: 'creative', label: 'Creative freedom', cat: { A: 1, creativity: 1, autonomy: 1 } },
+          { key: 'structure', label: 'Clear structure', cat: { C: 1, planning: 1, enlist: 1 } }
+        ] },
+        { id: 'G9_V10', sec: 'values', type: 'likert', cat: { leadership: 1, service: 1, impact: 1 }, text: 'I respect people who take responsibility and help their group succeed.' },
+        { id: 'G9_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which LionPath page would you probably open first?', options: [
+          { key: 'enroll', label: 'Enrollment: college, AP, dual enrollment, or training programs', cat: { enroll: 2, learning: 1 } },
+          { key: 'employ', label: 'Employment: CTE, job skills, credentials, or careers', cat: { employ: 2, handsOn: 1 } },
+          { key: 'enlist', label: 'Enlistment: military, JROTC, public safety, or service', cat: { enlist: 2, service: 1 } },
+          { key: 'explore', label: 'I would still compare all three before choosing', cat: { curiosity: 2, adaptability: 1 } }
+        ] },
+        { id: 'G9_P6', sec: 'paths', type: 'likert', cat: { enroll: 2, learning: 1 }, text: 'I want to understand how college, community college, or technical school actually works.' },
+        { id: 'G9_P7', sec: 'paths', type: 'likert', cat: { employ: 2, handsOn: 1 }, text: 'I want to try a class that feels connected to a real job skill.' },
+        { id: 'G9_P8', sec: 'paths', type: 'likert', cat: { enlist: 2, service: 1, leadership: 1 }, text: 'A structured team with uniforms, leadership, service, or fitness could interest me.' },
+        { id: 'G9_P9', sec: 'paths', type: 'forced', cat: {}, text: 'Which sounds more helpful this year?', options: [
+          { key: 'wide', label: 'Trying several different areas before narrowing anything', cat: { curiosity: 2, adaptability: 1 } },
+          { key: 'start', label: 'Starting one pathway early and seeing where it leads', cat: { planning: 2, C: 1 } }
+        ] },
+        { id: 'G9_P10', sec: 'paths', type: 'likert', cat: { employ: 1, enroll: 1, planning: 1 }, text: 'I want adults to help me understand which high school classes connect to future options.' },
+        { id: 'G9_P11', sec: 'paths', type: 'likert', cat: { enlist: 1, adaptability: 1, service: 1 }, text: 'I am curious about careers that involve discipline, teamwork, emergency response, or protecting people.' },
+        { id: 'G9_P12', sec: 'paths', type: 'likert', cat: { employ: 1, income: 1, stability: 1 }, text: 'I want to know what jobs people can get without taking on a lot of college debt.' },
+        { id: 'G9_P13', sec: 'paths', type: 'rank', cat: {}, text: 'Rank your top 3 ways to explore careers this year.', options: [
+          { key: 'course', label: 'Take an interesting class', cat: { enroll: 1, learning: 1 } },
+          { key: 'cte', label: 'Try a CTE or hands-on program', cat: { employ: 1, handsOn: 1 } },
+          { key: 'jrotc', label: 'Learn about JROTC, service, or public safety', cat: { enlist: 1, service: 1 } },
+          { key: 'club', label: 'Join a club or competition', cat: { E: 1, leadership: 1, socialEnergy: 1 } },
+          { key: 'adult', label: 'Interview an adult about their job', cat: { S: 1, curiosity: 1 } },
+          { key: 'project', label: 'Build a project or portfolio piece', cat: { A: 1, R: 1, creativity: 1 } }
+        ] },
+        { id: 'G9_P14', sec: 'paths', type: 'likert', cat: { analysis: 1, planning: 1 }, text: 'Before I choose a path, I want to compare what the day-to-day work is really like.' },
+        { id: 'G9_P15', sec: 'paths', type: 'scenario', cat: {}, text: 'A teacher says you have a strength. Which comment would feel most true?', options: [
+          { key: 'practical', label: 'You are practical and good at figuring out physical tasks', cat: { R: 2, handsOn: 1 } },
+          { key: 'thoughtful', label: 'You ask smart questions and think carefully', cat: { I: 2, analysis: 1 } },
+          { key: 'original', label: 'You bring original ideas and style', cat: { A: 2, creativity: 1 } },
+          { key: 'kind', label: 'You are kind and good with people', cat: { S: 2, empathy: 1 } },
+          { key: 'driven', label: 'You take initiative and get people moving', cat: { E: 2, leadership: 1 } },
+          { key: 'reliable', label: 'You are reliable and organized', cat: { C: 2, planning: 1 } }
+        ] }
+      ],
+      10: [
+        { id: 'G10_R2', sec: 'interests', type: 'likert', cat: { R: 2, handsOn: 1 }, text: 'I want to test career interests through labs, shops, kitchens, studios, field work, or equipment.' },
+        { id: 'G10_I2', sec: 'interests', type: 'likert', cat: { I: 2, analysis: 1 }, text: 'I like classes where I can analyze information, troubleshoot, or explain how something works.' },
+        { id: 'G10_A2', sec: 'interests', type: 'likert', cat: { A: 2, creativity: 1 }, text: 'I am interested in building a portfolio, performance, design, video, or original project.' },
+        { id: 'G10_S2', sec: 'interests', type: 'likert', cat: { S: 2, empathy: 1, service: 1 }, text: 'A career connected to helping, teaching, health, coaching, or community support interests me.' },
+        { id: 'G10_E2', sec: 'interests', type: 'likert', cat: { E: 2, leadership: 1 }, text: 'I could see myself leading a group, selling an idea, managing a project, or starting something.' },
+        { id: 'G10_C2', sec: 'interests', type: 'likert', cat: { C: 2, planning: 1 }, text: 'I like work where accuracy, records, schedules, money, or clear systems matter.' },
+        { id: 'G10_W5', sec: 'workstyle', type: 'scenario', cat: {}, text: 'You get to visit one place for career exploration. You choose...', options: [
+          { key: 'shop', label: 'A technical shop, trade site, or manufacturing space', cat: { R: 2, employ: 1, handsOn: 2 } },
+          { key: 'lab', label: 'A lab, clinic, IT room, or engineering space', cat: { I: 2, techComfort: 1, analysis: 1 } },
+          { key: 'studio', label: 'A studio, theater, media room, or design workspace', cat: { A: 2, creativity: 2 } },
+          { key: 'service', label: 'A classroom, hospital, human services, or nonprofit site', cat: { S: 2, empathy: 1, service: 1 } },
+          { key: 'business', label: 'A business, marketing, finance, or operations workplace', cat: { E: 1, C: 1, planning: 1, income: 1 } }
+        ] },
+        { id: 'G10_W6', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I am ready to choose courses based on prerequisites and future requirements, not just what friends take.' },
+        { id: 'G10_W7', sec: 'workstyle', type: 'likert', cat: { adaptability: 2, curiosity: 1 }, text: 'I can try a pathway class even if I am not sure it will be my final choice.' },
+        { id: 'G10_W8', sec: 'workstyle', type: 'likert', reverse: true, cat: { leadership: 2, socialEnergy: 1 }, text: 'I usually wait for someone else to speak first, even when I have an idea.' },
+        { id: 'G10_W9', sec: 'workstyle', type: 'likert', cat: { techComfort: 2, learning: 1 }, text: 'I can learn unfamiliar technology when a class or job requires it.' },
+        { id: 'G10_W10', sec: 'workstyle', type: 'forced', cat: {}, text: 'Which class format sounds more useful?', options: [
+          { key: 'sequence', label: 'A course sequence that builds toward a credential or next level', cat: { employ: 1, C: 1, planning: 2 } },
+          { key: 'survey', label: 'A broad course that helps me sample several options', cat: { curiosity: 2, adaptability: 1 } }
+        ] },
+        { id: 'G10_W11', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 1, leadership: 1, service: 1 }, text: 'I would enjoy a class that includes teamwork, customers, patients, children, or public interaction.' },
+        { id: 'G10_V5', sec: 'values', type: 'likert', cat: { income: 2, stability: 1 }, text: 'I want to know which pathways lead to reliable jobs and strong pay.' },
+        { id: 'G10_V6', sec: 'values', type: 'likert', cat: { learning: 2, enroll: 1 }, text: 'I want my high school choices to keep college, technical school, and certification options open.' },
+        { id: 'G10_V7', sec: 'values', type: 'likert', cat: { impact: 2, service: 1 }, text: 'A path feels more meaningful when it connects to solving real problems for people.' },
+        { id: 'G10_V8', sec: 'values', type: 'forced', cat: {}, text: 'When comparing future options, I would rather prioritize...', options: [
+          { key: 'opportunity', label: 'More opportunities to grow and advance', cat: { learning: 1, leadership: 1, E: 1 } },
+          { key: 'security', label: 'More security, clear expectations, and dependable routines', cat: { stability: 2, C: 1, planning: 1 } }
+        ] },
+        { id: 'G10_V9', sec: 'values', type: 'rank', cat: {}, text: 'Rank your top 3 reasons to choose a course pathway.', options: [
+          { key: 'credential', label: 'It can lead to a credential', cat: { employ: 1, planning: 1 } },
+          { key: 'college', label: 'It helps with college or advanced training', cat: { enroll: 1, learning: 1 } },
+          { key: 'service', label: 'It connects to service or leadership', cat: { enlist: 1, service: 1, leadership: 1 } },
+          { key: 'skills', label: 'It teaches practical skills', cat: { R: 1, handsOn: 1 } },
+          { key: 'creative', label: 'It lets me create or design', cat: { A: 1, creativity: 1 } },
+          { key: 'people', label: 'It involves helping or working with people', cat: { S: 1, empathy: 1 } }
+        ] },
+        { id: 'G10_V10', sec: 'values', type: 'likert', cat: { balance: 1, stability: 1 }, text: 'I want to understand how different careers could affect my schedule, lifestyle, and stress level.' },
+        { id: 'G10_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which planning question feels most important this year?', options: [
+          { key: 'courses', label: 'Which classes prepare me for college or technical training?', cat: { enroll: 2, planning: 1 } },
+          { key: 'cte', label: 'Which CTE program could help me earn skills or credentials?', cat: { employ: 2, handsOn: 1 } },
+          { key: 'service', label: 'How do JROTC, ASVAB, military, or public safety paths work?', cat: { enlist: 2, service: 1 } },
+          { key: 'fit', label: 'What kind of work actually fits my strengths?', cat: { curiosity: 1, analysis: 1 } }
+        ] },
+        { id: 'G10_P6', sec: 'paths', type: 'likert', cat: { employ: 2, handsOn: 1 }, text: 'A CTE course sounds useful because it lets me test a career before graduation.' },
+        { id: 'G10_P7', sec: 'paths', type: 'likert', cat: { enroll: 2, learning: 1 }, text: 'I want to understand how AP, dual enrollment, college majors, or technical programs connect to careers.' },
+        { id: 'G10_P8', sec: 'paths', type: 'likert', cat: { enlist: 2, service: 1, adaptability: 1 }, text: 'I want accurate information about service options before making assumptions about them.' },
+        { id: 'G10_P9', sec: 'paths', type: 'forced', cat: {}, text: 'Which kind of evidence would help you most?', options: [
+          { key: 'course', label: 'Trying a course connected to the pathway', cat: { employ: 1, enroll: 1, handsOn: 1 } },
+          { key: 'adult', label: 'Talking with someone who works in the field', cat: { S: 1, curiosity: 1, analysis: 1 } }
+        ] },
+        { id: 'G10_P10', sec: 'paths', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I want help mapping which junior and senior courses fit the direction I am considering.' },
+        { id: 'G10_P11', sec: 'paths', type: 'likert', cat: { employ: 1, income: 1, stability: 1 }, text: 'I want to compare careers by pay, demand, training time, and working conditions.' },
+        { id: 'G10_P12', sec: 'paths', type: 'likert', cat: { enroll: 1, employ: 1, curiosity: 1 }, text: 'I am interested in career clusters that could connect to either college or direct employment.' },
+        { id: 'G10_P13', sec: 'paths', type: 'rank', cat: {}, text: 'Rank your top 3 supports for making better choices this year.', options: [
+          { key: 'counselor', label: 'Counselor planning conversation', cat: { planning: 1 } },
+          { key: 'courseguide', label: 'A clear course guide or pathway map', cat: { C: 1, planning: 1 } },
+          { key: 'teacher', label: 'Teacher recommendation', cat: { S: 1, learning: 1 } },
+          { key: 'workplace', label: 'Workplace visit or job shadow', cat: { employ: 1, curiosity: 1 } },
+          { key: 'college', label: 'College or training program visit', cat: { enroll: 1, learning: 1 } },
+          { key: 'service', label: 'Conversation with official service or public safety contact', cat: { enlist: 1, service: 1 } }
+        ] },
+        { id: 'G10_P14', sec: 'paths', type: 'likert', cat: { leadership: 1, E: 1 }, text: 'I want a pathway where I can build leadership or responsibility over time.' },
+        { id: 'G10_P15', sec: 'paths', type: 'scenario', cat: {}, text: 'A course description catches your attention because it says students will...', options: [
+          { key: 'cert', label: 'Practice skills that can lead to a credential', cat: { employ: 2, handsOn: 1 } },
+          { key: 'research', label: 'Study advanced topics and prepare for further education', cat: { enroll: 2, I: 1 } },
+          { key: 'serve', label: 'Build discipline, teamwork, service, or public safety skills', cat: { enlist: 2, leadership: 1 } },
+          { key: 'create', label: 'Make projects that can be shown in a portfolio', cat: { A: 2, creativity: 1 } },
+          { key: 'lead', label: 'Plan, market, manage, or present to an audience', cat: { E: 2, leadership: 1 } }
+        ] }
+      ],
+      11: [
+        { id: 'G11_R2', sec: 'interests', type: 'likert', cat: { R: 2, handsOn: 1 }, text: 'I want experience that proves I can do real work with tools, equipment, procedures, or physical skill.' },
+        { id: 'G11_I2', sec: 'interests', type: 'likert', cat: { I: 2, analysis: 1, techComfort: 1 }, text: 'I like work that requires diagnosis, research, coding, data, systems, or technical problem-solving.' },
+        { id: 'G11_A2', sec: 'interests', type: 'likert', cat: { A: 2, creativity: 1 }, text: 'I want to show my abilities through a portfolio, design, performance, writing, media, or original project.' },
+        { id: 'G11_S2', sec: 'interests', type: 'likert', cat: { S: 2, empathy: 1 }, text: 'People tend to trust me when they need help, explanation, encouragement, or calm communication.' },
+        { id: 'G11_E2', sec: 'interests', type: 'likert', cat: { E: 2, leadership: 1 }, text: 'I am interested in leadership, entrepreneurship, management, sales, advocacy, or influencing decisions.' },
+        { id: 'G11_C2', sec: 'interests', type: 'likert', cat: { C: 2, planning: 1 }, text: 'I am willing to handle detailed requirements, forms, deadlines, records, safety rules, or procedures.' },
+        { id: 'G11_W5', sec: 'workstyle', type: 'scenario', cat: {}, text: 'A mentor offers one experience. You choose...', options: [
+          { key: 'internship', label: 'An internship or job shadow in a skilled workplace', cat: { employ: 2, R: 1, handsOn: 1 } },
+          { key: 'college', label: 'A college class, lab, tour, or program visit', cat: { enroll: 2, I: 1, learning: 1 } },
+          { key: 'service', label: 'A structured service, public safety, or military-related experience', cat: { enlist: 2, service: 1, leadership: 1 } },
+          { key: 'portfolio', label: 'A project that becomes part of a portfolio or application', cat: { A: 2, creativity: 1, planning: 1 } },
+          { key: 'leadership', label: 'A leadership role where you coordinate people and decisions', cat: { E: 2, leadership: 2 } }
+        ] },
+        { id: 'G11_W6', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I am ready to compare real requirements like cost, time, eligibility, scores, and deadlines.' },
+        { id: 'G11_W7', sec: 'workstyle', type: 'likert', cat: { adaptability: 2 }, text: 'If a pathway turns out to be different than I expected, I can adjust without feeling like I failed.' },
+        { id: 'G11_W8', sec: 'workstyle', type: 'likert', reverse: true, cat: { analysis: 2, planning: 1 }, text: 'I usually make big decisions based only on what sounds interesting in the moment.' },
+        { id: 'G11_W9', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 1, empathy: 1, S: 1 }, text: 'I can communicate professionally with adults I do not know well.' },
+        { id: 'G11_W10', sec: 'workstyle', type: 'forced', cat: {}, text: 'When narrowing choices, I trust...', options: [
+          { key: 'data', label: 'Requirements, numbers, job outlook, costs, and evidence', cat: { I: 1, C: 1, analysis: 2 } },
+          { key: 'experience', label: 'Visits, conversations, internships, and real examples', cat: { S: 1, R: 1, curiosity: 1, handsOn: 1 } }
+        ] },
+        { id: 'G11_W11', sec: 'workstyle', type: 'likert', cat: { techComfort: 1, learning: 1, adaptability: 1 }, text: 'I can learn the tools, platforms, or technical vocabulary needed for a field if I have a clear purpose.' },
+        { id: 'G11_V5', sec: 'values', type: 'likert', cat: { income: 2, stability: 1 }, text: 'I want to understand the likely income, benefits, debt, and job stability connected to each option.' },
+        { id: 'G11_V6', sec: 'values', type: 'likert', cat: { learning: 2, enroll: 1 }, text: 'I am willing to continue education or training after high school if I can see the return on that investment.' },
+        { id: 'G11_V7', sec: 'values', type: 'likert', cat: { service: 1, impact: 1, leadership: 1 }, text: 'Purpose, service, leadership, or mission would make a pathway more meaningful to me.' },
+        { id: 'G11_V8', sec: 'values', type: 'forced', cat: {}, text: 'Which tradeoff feels harder?', options: [
+          { key: 'cost', label: 'Choosing a path that costs more but may open more doors later', cat: { enroll: 1, learning: 1, planning: 1 } },
+          { key: 'earlywork', label: 'Choosing a path that gets me earning sooner but may require learning while working', cat: { employ: 1, income: 1, adaptability: 1 } }
+        ] },
+        { id: 'G11_V9', sec: 'values', type: 'rank', cat: {}, text: 'Rank your top 3 factors for choosing your next serious step.', options: [
+          { key: 'fit', label: 'It fits my strengths and personality', cat: { curiosity: 1, analysis: 1 } },
+          { key: 'money', label: 'It makes financial sense', cat: { income: 1, stability: 1 } },
+          { key: 'training', label: 'The training path is clear', cat: { enroll: 1, learning: 1, planning: 1 } },
+          { key: 'work', label: 'It connects to work experience or credentials', cat: { employ: 1, handsOn: 1 } },
+          { key: 'service', label: 'It connects to service, benefits, or leadership', cat: { enlist: 1, service: 1 } },
+          { key: 'life', label: 'It fits the life I want outside work', cat: { balance: 1, stability: 1 } }
+        ] },
+        { id: 'G11_V10', sec: 'values', type: 'likert', cat: { autonomy: 1, leadership: 1, E: 1 }, text: 'I want a path where effort and responsibility can lead to more independence over time.' },
+        { id: 'G11_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which action would make your plan feel more real?', options: [
+          { key: 'apply', label: 'Build a list of colleges, training programs, majors, or admissions steps', cat: { enroll: 2, planning: 1 } },
+          { key: 'credential', label: 'Complete a credential, resume, interview, internship, or apprenticeship step', cat: { employ: 2, handsOn: 1 } },
+          { key: 'asvab', label: 'Review ASVAB results, service roles, recruiter questions, or ROTC options', cat: { enlist: 2, analysis: 1 } },
+          { key: 'compare', label: 'Make a comparison chart with costs, time, requirements, and fit', cat: { C: 1, I: 1, planning: 2 } }
+        ] },
+        { id: 'G11_P6', sec: 'paths', type: 'likert', cat: { enroll: 2, learning: 1 }, text: 'I need to know whether my interests point toward a degree, certificate, license, or technical training.' },
+        { id: 'G11_P7', sec: 'paths', type: 'likert', cat: { employ: 2, handsOn: 1 }, text: 'I want work-based learning, job shadowing, credentials, or an apprenticeship to help test my direction.' },
+        { id: 'G11_P8', sec: 'paths', type: 'likert', cat: { enlist: 2, service: 1, leadership: 1 }, text: 'I want to compare service options by role, training, benefits, commitment, and long-term opportunities.' },
+        { id: 'G11_P9', sec: 'paths', type: 'forced', cat: {}, text: 'Which plan feels more like your current need?', options: [
+          { key: 'narrow', label: 'Narrow from several possibilities to a short list', cat: { analysis: 1, planning: 2 } },
+          { key: 'deepen', label: 'Go deeper into one pathway and build evidence for it', cat: { planning: 1, employ: 1, enroll: 1, enlist: 1 } }
+        ] },
+        { id: 'G11_P10', sec: 'paths', type: 'likert', cat: { planning: 1, C: 1 }, text: 'I need a senior-year checklist that connects classes, applications, tests, credentials, and conversations.' },
+        { id: 'G11_P11', sec: 'paths', type: 'likert', cat: { employ: 1, enroll: 1, analysis: 1 }, text: 'I want to compare the fastest route, the cheapest route, and the best long-term route for my interests.' },
+        { id: 'G11_P12', sec: 'paths', type: 'likert', cat: { adaptability: 1, stability: 1 }, text: 'I want a primary plan and a backup plan that both still move me forward.' },
+        { id: 'G11_P13', sec: 'paths', type: 'rank', cat: {}, text: 'Rank your top 3 senior-year planning priorities.', options: [
+          { key: 'apps', label: 'Applications, essays, FAFSA, or scholarships', cat: { enroll: 1, planning: 1 } },
+          { key: 'resume', label: 'Resume, interview practice, or job applications', cat: { employ: 1, E: 1 } },
+          { key: 'credential', label: 'Credential, internship, apprenticeship, or clinical hours', cat: { employ: 1, handsOn: 1 } },
+          { key: 'service', label: 'ASVAB, recruiter questions, ROTC, or service options', cat: { enlist: 1, service: 1 } },
+          { key: 'visit', label: 'Visit a college, employer, training site, or program', cat: { curiosity: 1, learning: 1 } },
+          { key: 'money', label: 'Compare costs, pay, benefits, or financial aid', cat: { income: 1, stability: 1 } }
+        ] },
+        { id: 'G11_P14', sec: 'paths', type: 'likert', cat: { learning: 1, curiosity: 1 }, text: 'I want advice from someone who knows both my strengths and the realities of the pathway.' },
+        { id: 'G11_P15', sec: 'paths', type: 'scenario', cat: {}, text: 'The best evidence that a pathway fits me would be...', options: [
+          { key: 'grade', label: 'Strong performance in advanced or college-connected coursework', cat: { enroll: 2, learning: 1 } },
+          { key: 'skill', label: 'A completed project, credential, job skill, or supervisor feedback', cat: { employ: 2, handsOn: 1 } },
+          { key: 'servicefit', label: 'Clear service eligibility, role match, physical readiness, and commitment details', cat: { enlist: 2, service: 1 } },
+          { key: 'people', label: 'Positive feedback from people I helped, taught, served, or supported', cat: { S: 2, empathy: 1 } },
+          { key: 'lead', label: 'A leadership role where others counted on me', cat: { E: 2, leadership: 1 } }
+        ] }
+      ],
+      12: [
+        { id: 'G12_R2', sec: 'interests', type: 'likert', cat: { R: 2, handsOn: 1 }, text: 'I want my next step to include practical skills that can be used in a real workplace.' },
+        { id: 'G12_I2', sec: 'interests', type: 'likert', cat: { I: 2, analysis: 1, techComfort: 1 }, text: 'I am drawn to work that requires technical skill, investigation, systems thinking, or solving complex problems.' },
+        { id: 'G12_A2', sec: 'interests', type: 'likert', cat: { A: 2, creativity: 1 }, text: 'I want my next step to leave room for creativity, design, communication, media, or original ideas.' },
+        { id: 'G12_S2', sec: 'interests', type: 'likert', cat: { S: 2, empathy: 1, service: 1 }, text: 'I could see myself doing work where people depend on my communication, care, teaching, or support.' },
+        { id: 'G12_E2', sec: 'interests', type: 'likert', cat: { E: 2, leadership: 1 }, text: 'I want a path where leadership, promotion, sales, management, or initiative can help me advance.' },
+        { id: 'G12_C2', sec: 'interests', type: 'likert', cat: { C: 2, planning: 1 }, text: 'I can handle detailed steps like paperwork, deadlines, procedures, compliance, or accurate records.' },
+        { id: 'G12_W5', sec: 'workstyle', type: 'scenario', cat: {}, text: 'If you had to spend the next year focused on one main goal, you would choose...', options: [
+          { key: 'degree', label: 'Start a degree, certificate, transfer, or technical training program', cat: { enroll: 2, learning: 1, planning: 1 } },
+          { key: 'career', label: 'Start working, apprenticing, earning credentials, or building paid experience', cat: { employ: 2, income: 1, handsOn: 1 } },
+          { key: 'service', label: 'Enter or seriously prepare for military, Reserve, Guard, ROTC, or public service', cat: { enlist: 2, service: 1, leadership: 1 } },
+          { key: 'portfolio', label: 'Build a portfolio, business idea, project record, or creative body of work', cat: { A: 2, E: 1, creativity: 1 } },
+          { key: 'decide', label: 'Use a structured gap year plan to work, explore, and decide carefully', cat: { adaptability: 2, planning: 1, curiosity: 1 } }
+        ] },
+        { id: 'G12_W6', sec: 'workstyle', type: 'likert', cat: { planning: 2, C: 1 }, text: 'I can turn a goal into a checklist with deadlines, documents, contacts, and backup steps.' },
+        { id: 'G12_W7', sec: 'workstyle', type: 'likert', cat: { adaptability: 2, stability: 1 }, text: 'I can handle a change in plans as long as I know the next responsible step.' },
+        { id: 'G12_W8', sec: 'workstyle', type: 'likert', reverse: true, cat: { planning: 2, C: 1 }, text: 'I often avoid applications, forms, or official steps until someone reminds me.' },
+        { id: 'G12_W9', sec: 'workstyle', type: 'likert', cat: { socialEnergy: 1, leadership: 1 }, text: 'I can contact an employer, admissions office, recruiter, advisor, or program representative professionally.' },
+        { id: 'G12_W10', sec: 'workstyle', type: 'forced', cat: {}, text: 'Right now I need more of...', options: [
+          { key: 'clarity', label: 'Clarity about which direction fits best', cat: { analysis: 1, curiosity: 1 } },
+          { key: 'execution', label: 'Help finishing the steps for a direction I already chose', cat: { planning: 2, C: 1 } }
+        ] },
+        { id: 'G12_W11', sec: 'workstyle', type: 'likert', cat: { techComfort: 1, learning: 1 }, text: 'I can learn the online systems, tools, or technical skills required by my next step.' },
+        { id: 'G12_V5', sec: 'values', type: 'likert', cat: { income: 2, stability: 1 }, text: 'I need my next step to make financial sense for my life and family.' },
+        { id: 'G12_V6', sec: 'values', type: 'likert', cat: { learning: 2, enroll: 1 }, text: 'I am willing to keep studying or training if the pathway is clearly connected to my future.' },
+        { id: 'G12_V7', sec: 'values', type: 'likert', cat: { service: 1, impact: 1, leadership: 1 }, text: 'Mission, service, leadership, or helping others would make my next step more meaningful.' },
+        { id: 'G12_V8', sec: 'values', type: 'forced', cat: {}, text: 'Which would you rather have first after graduation?', options: [
+          { key: 'structure', label: 'A structured program with clear requirements and support', cat: { enroll: 1, enlist: 1, C: 1, planning: 1 } },
+          { key: 'independence', label: 'More independence, earning power, and room to shape my own path', cat: { employ: 1, income: 1, autonomy: 1, E: 1 } }
+        ] },
+        { id: 'G12_V9', sec: 'values', type: 'rank', cat: {}, text: 'Rank your top 3 decision factors for the year after graduation.', options: [
+          { key: 'cost', label: 'Cost, debt, financial aid, or paid training', cat: { income: 1, stability: 1 } },
+          { key: 'fit', label: 'Personal fit and day-to-day work', cat: { curiosity: 1, analysis: 1 } },
+          { key: 'speed', label: 'How quickly I can start and make progress', cat: { employ: 1, planning: 1 } },
+          { key: 'degree', label: 'Degree, certificate, license, or transfer options', cat: { enroll: 1, learning: 1 } },
+          { key: 'service', label: 'Service, benefits, leadership, or military structure', cat: { enlist: 1, service: 1 } },
+          { key: 'support', label: 'Support from adults, advisors, mentors, or family', cat: { S: 1, planning: 1 } }
+        ] },
+        { id: 'G12_V10', sec: 'values', type: 'likert', cat: { balance: 1, stability: 1 }, text: 'I want to choose a path that supports both my responsibilities and my well-being.' },
+        { id: 'G12_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which unfinished task would you most want to complete first?', options: [
+          { key: 'fafsa', label: 'Admissions, FAFSA, scholarship, placement, or program registration steps', cat: { enroll: 2, planning: 1 } },
+          { key: 'resume', label: 'Resume, interview, applications, credential proof, or work contacts', cat: { employ: 2, E: 1, planning: 1 } },
+          { key: 'official', label: 'Official service questions, ASVAB, role research, or commitment details', cat: { enlist: 2, service: 1, analysis: 1 } },
+          { key: 'compare', label: 'A final comparison of cost, time, fit, and backup options', cat: { I: 1, C: 1, planning: 2 } }
+        ] },
+        { id: 'G12_P6', sec: 'paths', type: 'likert', cat: { enroll: 2, learning: 1 }, text: 'I am seriously considering college, community college, technical school, certification, or advanced training.' },
+        { id: 'G12_P7', sec: 'paths', type: 'likert', cat: { employ: 2, handsOn: 1, income: 1 }, text: 'I am seriously considering work, apprenticeship, paid training, a credential path, or entering a career field soon.' },
+        { id: 'G12_P8', sec: 'paths', type: 'likert', cat: { enlist: 2, service: 1, leadership: 1 }, text: 'I am seriously considering military service, Reserve, Guard, ROTC, public safety, or another structured service route.' },
+        { id: 'G12_P9', sec: 'paths', type: 'forced', cat: {}, text: 'Which next step would lower your stress the most?', options: [
+          { key: 'confirm', label: 'Confirm my main plan with someone who understands the requirements', cat: { planning: 2, S: 1 } },
+          { key: 'backup', label: 'Build a backup plan that still feels respectable and useful', cat: { adaptability: 2, stability: 1 } }
+        ] },
+        { id: 'G12_P10', sec: 'paths', type: 'likert', cat: { analysis: 1, planning: 1 }, text: 'Before I commit, I want to compare the true cost, time, training, and daily reality of the pathway.' },
+        { id: 'G12_P11', sec: 'paths', type: 'likert', cat: { employ: 1, enroll: 1, income: 1 }, text: 'I want to know how soon each option could lead to useful skills, income, or advancement.' },
+        { id: 'G12_P12', sec: 'paths', type: 'likert', cat: { enlist: 1, service: 1, analysis: 1 }, text: 'If I explore service, I want official information about role choices, contracts, benefits, and obligations.' },
+        { id: 'G12_P13', sec: 'paths', type: 'rank', cat: {}, text: 'Rank your top 3 actions to take before graduation.', options: [
+          { key: 'apply', label: 'Submit or finish applications and enrollment steps', cat: { enroll: 1, planning: 1 } },
+          { key: 'job', label: 'Apply for work, apprenticeship, internship, or paid training', cat: { employ: 1, income: 1 } },
+          { key: 'credential', label: 'Finish credential, portfolio, resume, or interview evidence', cat: { employ: 1, A: 1, C: 1 } },
+          { key: 'service', label: 'Ask official service questions and verify eligibility', cat: { enlist: 1, service: 1, analysis: 1 } },
+          { key: 'money', label: 'Compare costs, aid, pay, benefits, and budget realities', cat: { income: 1, stability: 1 } },
+          { key: 'mentor', label: 'Review the plan with a trusted adult or advisor', cat: { S: 1, planning: 1 } }
+        ] },
+        { id: 'G12_P14', sec: 'paths', type: 'likert', cat: { leadership: 1, autonomy: 1 }, text: 'I want my first step after graduation to build responsibility and confidence, not just fill time.' },
+        { id: 'G12_P15', sec: 'paths', type: 'scenario', cat: {}, text: 'When you imagine feeling proud one year from now, what happened?', options: [
+          { key: 'school', label: 'I completed a strong first year in college, training, or certification', cat: { enroll: 2, learning: 1 } },
+          { key: 'work', label: 'I earned money, built skills, and became more confident at work', cat: { employ: 2, income: 1, handsOn: 1 } },
+          { key: 'service', label: 'I served, trained, led, or completed a structured service milestone', cat: { enlist: 2, service: 1, leadership: 1 } },
+          { key: 'creative', label: 'I created something meaningful or advanced a personal project', cat: { A: 2, creativity: 1 } },
+          { key: 'stable', label: 'I became more independent, stable, and responsible', cat: { C: 1, stability: 1, autonomy: 1 } }
+        ] }
+      ]
+    };
+    return banks[grade] || banks[11];
+  }
+
+  supplementalReflectItems(grade) {
+    const banks = {
+      9: [
+        { id: 'G9_RF4', sec: 'reflect', type: 'reflect', cat: {}, text: 'What is one new class, club, or career area you want to try before the end of Grade 9?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      10: [
+        { id: 'G10_RF4', sec: 'reflect', type: 'reflect', cat: {}, text: 'What course choice for next year feels most connected to your future, and why?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      11: [
+        { id: 'G11_RF4', sec: 'reflect', type: 'reflect', cat: {}, text: 'What decision do you want to feel clearer about before senior year begins?', placeholder: 'Type a sentence or two... (optional)' }
+      ],
+      12: [
+        { id: 'G12_RF4', sec: 'reflect', type: 'reflect', cat: {}, text: 'What final support do you need before graduation to feel confident about your next step?', placeholder: 'Type a sentence or two... (optional)' }
+      ]
+    };
+    return banks[grade] || banks[11];
+  }
+
+  tt(t, grade) {
+    if (typeof t === 'string') return t;
+    if (!t) return '';
+    if (t[grade] != null) return t[grade];
+    const keys = Object.keys(t).map(Number);
+    let best = keys[0], bd = Infinity;
+    for (const k of keys) { const d = Math.abs(k - grade); if (d < bd || (d === bd && k < best)) { bd = d; best = k; } }
+    return t[best];
+  }
+
+  buildItems(grade) {
+    const short = this.props && this.props.sessionLength === 'short';
+    const gradeNum = Number(grade);
+    const base = this.gradeBank(gradeNum);
+    const reflectStart = base.findIndex(it => it.sec === 'reflect');
+    const scoredBase = reflectStart >= 0 ? base.slice(0, reflectStart) : base;
+    const reflectBase = reflectStart >= 0 ? base.slice(reflectStart) : [];
+    const expanded = scoredBase.concat(
+      this.supplementalScoredItems(gradeNum),
+      reflectBase,
+      this.supplementalReflectItems(gradeNum)
+    );
+    return expanded.filter(it => !short || it.core).map(it => ({
+      id: it.id, sec: it.sec, type: it.type, cat: it.cat || {}, reverse: !!it.reverse,
+      placeholder: it.placeholder || 'Type a sentence or two... (optional)',
+      text: this.tt(it.text, grade),
+      options: (it.options || []).map(o => ({ key: o.key, label: o.label, cat: o.cat || {} }))
+    }));
+  }
+
+  start(g) { this.setState({ screen: 'quiz', grade: g, items: this.buildItems(g), idx: 0, answers: {}, results: null }); }
+  onPickGrade(g) { this.start(g); }
+  currentId() { const it = this.state.items[this.state.idx]; return it ? it.id : ''; }
+  isLast() { return this.state.idx >= this.state.items.length - 1; }
+  autoOn() { return !(this.props && this.props.autoAdvance === false); }
+
+  onLikert(val) {
+    const id = this.currentId();
+    this.setState({ answers: { ...this.state.answers, [id]: val } });
+    if (this.autoOn() && !this.isLast()) setTimeout(() => this.goNext(), 300);
+  }
+  onChoose(key) {
+    const id = this.currentId();
+    this.setState({ answers: { ...this.state.answers, [id]: key } });
+    if (this.autoOn() && !this.isLast()) setTimeout(() => this.goNext(), 300);
+  }
+  onRank(key) {
+    const id = this.currentId();
+    const cur = [...(this.state.answers[id] || [])];
+    const i = cur.indexOf(key);
+    if (i >= 0) cur.splice(i, 1); else if (cur.length < 3) cur.push(key);
+    this.setState({ answers: { ...this.state.answers, [id]: cur } });
+  }
+  onReflect(e) {
+    const id = this.currentId();
+    this.setState({ answers: { ...this.state.answers, [id]: e.target.value } });
+  }
+  goNext() { const { idx, items } = this.state; if (idx >= items.length - 1) this.finish(); else this.setState({ idx: idx + 1 }); }
+  goBack() { if (this.state.idx > 0) this.setState({ idx: this.state.idx - 1 }); else this.setState({ screen: 'grade' }); }
+  finish() { const results = this.compute(); this.setState({ results, screen: 'computing' }); setTimeout(() => this.setState({ screen: 'report' }), 2200); }
+
+  onSample() {
+    const g = 11; const items = this.buildItems(g); const answers = {};
+    for (const it of items) {
+      if (it.type === 'likert') answers[it.id] = 3 + Math.floor(Math.random() * 3);
+      else if (it.type === 'forced' || it.type === 'scenario') answers[it.id] = it.options[Math.floor(Math.random() * it.options.length)].key;
+      else if (it.type === 'rank') answers[it.id] = it.options.slice(0, 3).map(o => o.key);
+    }
+    const results = this.compute(items, answers);
+    this.setState({ grade: g, items, answers, results, screen: 'computing', idx: items.length - 1 });
+    setTimeout(() => this.setState({ screen: 'report' }), 1600);
+  }
+
+  compute(items, answers) {
+    items = items || this.state.items; answers = answers || this.state.answers;
+    const raw = {}, max = {};
+    const addMax = (k, w) => { max[k] = (max[k] || 0) + w; };
+    for (const it of items) {
+      if (it.type === 'likert') { for (const k in it.cat) addMax(k, it.cat[k]); }
+      else if (it.type === 'forced' || it.type === 'scenario') { const per = {}; for (const o of it.options) for (const k in o.cat) per[k] = Math.max(per[k] || 0, o.cat[k]); for (const k in per) addMax(k, per[k]); }
+      else if (it.type === 'rank') { const per = {}; for (const o of it.options) for (const k in o.cat) per[k] = Math.max(per[k] || 0, o.cat[k] * 3); for (const k in per) addMax(k, per[k]); }
+    }
+    for (const it of items) {
+      const a = answers[it.id];
+      if (it.type === 'likert') { if (a == null) continue; let norm = (a - 1) / 4; if (it.reverse) norm = 1 - norm; for (const k in it.cat) raw[k] = (raw[k] || 0) + norm * it.cat[k]; }
+      else if (it.type === 'forced' || it.type === 'scenario') { if (a == null) continue; const o = it.options.find(x => x.key === a); if (o) for (const k in o.cat) raw[k] = (raw[k] || 0) + o.cat[k]; }
+      else if (it.type === 'rank') { const order = a || []; order.slice(0, 3).forEach((key, i) => { const m = 3 - i; const o = it.options.find(x => x.key === key); if (o) for (const k in o.cat) raw[k] = (raw[k] || 0) + o.cat[k] * m; }); }
+    }
+    const pct = {}; for (const k in max) pct[k] = max[k] ? Math.round(Math.min(100, (raw[k] || 0) / max[k] * 100)) : 0;
+    const g = (k) => pct[k] || 0;
+    const grade = this.state.grade || 11;
+
+    const order = ['R', 'I', 'A', 'S', 'E', 'C'];
+    const interests = order.map(c => ({ code: c, label: this.IM[c].label, short: this.IM[c].short, color: this.IM[c].color, pct: g(c) })).sort((a, b) => b.pct - a.pct);
+    const profile = (interests[0].pct - interests[1].pct < 8) ? this.PROFILES.X : this.PROFILES[interests[0].code];
+
+    const pool = ['R', 'I', 'A', 'S', 'E', 'C', 'curiosity', 'planning', 'socialEnergy', 'empathy', 'adaptability', 'leadership', 'creativity', 'analysis', 'techComfort', 'service'];
+    const strengths = pool.map(k => ({ k, pct: g(k) })).sort((a, b) => b.pct - a.pct).slice(0, 3).map(x => { const m = this.STR[x.k] || { l: x.k, d: '' }; return { label: m.l, desc: m.d, pct: Math.max(x.pct, 10) }; });
+
+    const gcand = ['planning', 'adaptability', 'leadership', 'techComfort', 'curiosity', 'C'];
+    const growth = gcand.map(k => ({ k, pct: g(k) })).sort((a, b) => a.pct - b.pct).slice(0, 2).map(x => { const m = this.GROW[x.k]; return { label: m.l, tip: m.t }; });
+
+    const traits = this.TRAITS.map(([k, l]) => ({ label: l, pct: g(k) }));
+    const values = this.VALS.map(([k, l]) => ({ label: l, pct: g(k) })).sort((a, b) => b.pct - a.pct).slice(0, 4);
+
+    const clusters = this.CLUSTERS.map(c => { let s = 0, w = 0; for (const k in c.vec) { s += (g(k) / 100) * c.vec[k]; w += c.vec[k]; } return { ...c, pct: Math.round(w ? Math.min(100, s / w * 100) : 0) }; })
+      .sort((a, b) => b.pct - a.pct).slice(0, 3).map(c => ({ name: c.name, pct: c.pct, desc: c.desc, careers: c.careers, courses: c.courses, threeE: c.threeE, moreText: 'Credentials: ' + c.credentials.join(', ') + '   ·   Experience: ' + c.wbl.join(', ') + '   ·   Clubs: ' + c.clubs.join(', ') }));
+
+    const avg = (arr) => Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
+    const serviceComp = avg([g('impact'), g('service'), g('S'), g('empathy')]);
+    const enroll = avg([g('I'), g('A'), g('learning'), g('curiosity'), g('analysis'), g('enroll')]);
+    const enlist = avg([serviceComp, g('adaptability'), g('planning'), g('R'), g('enlist'), g('leadership')]);
+    const employ = avg([g('handsOn'), g('income'), g('R'), g('C'), g('employ'), g('stability')]);
+    const sum = Math.max(1, enroll + enlist + employ);
+    const reasons = (pairs) => { const t = pairs.slice().sort((a, b) => b[0] - a[0]).slice(0, 2).map(p => p[1]); return 'Raised by your ' + t.join(' and ') + '.'; };
+    const M = {
+      enroll: { label: 'Enrollment', color: '#2f6f4f', share: Math.round(enroll / sum * 100), pct: enroll, reason: reasons([[g('I'), 'analytical interests'], [g('A'), 'creative interests'], [g('learning'), 'love of learning'], [g('curiosity'), 'curiosity'], [g('enroll'), 'curiosity about college or training']]), explore: this.EXPLORE.enroll },
+      enlist: { label: 'Enlistment', color: '#c0892a', share: Math.round(enlist / sum * 100), pct: enlist, reason: reasons([[serviceComp, 'service mindset'], [g('adaptability'), 'adaptability'], [g('planning'), 'structure and follow-through'], [g('R'), 'hands-on, active side'], [g('enlist'), 'curiosity about service paths'], [g('leadership'), 'leadership']]), explore: this.EXPLORE.enlist },
+      employ: { label: 'Employment', color: '#b5562f', share: Math.round(employ / sum * 100), pct: employ, reason: reasons([[g('handsOn'), 'hands-on learning style'], [g('income'), 'earning goals'], [g('R'), 'practical interests'], [g('employ'), 'interest in working soon'], [g('stability'), 'desire for stability']]), explore: this.EXPLORE.employ }
+    };
+    const rank = [M.enroll, M.enlist, M.employ].sort((a, b) => b.pct - a.pct);
+    const donutBg = 'conic-gradient(' + M.enroll.color + ' 0 ' + M.enroll.share + '%, ' + M.enlist.color + ' ' + M.enroll.share + '% ' + (M.enroll.share + M.enlist.share) + '%, ' + M.employ.color + ' ' + (M.enroll.share + M.enlist.share) + '% 100%)';
+    const threeE = { rank, donutBg, topLabel: rank[0].label };
+
+    const userReflections = items.filter(it => it.type === 'reflect' && answers[it.id] && answers[it.id].trim()).map(it => ({ q: it.text, a: answers[it.id].trim() }));
+
+    const counselor = {
+      snapshot: profile.name + ' — Grade ' + grade + '. Top interests: ' + interests.slice(0, 3).map(i => i.short).join(', ') + '. Pathway lean: ' + rank[0].label + '.',
+      interests: interests.slice(0, 4).map(i => ({ label: i.label, pct: i.pct, color: i.color })),
+      pathways: clusters.map(c => c.name + ' (' + c.pct + '% match)').concat(['3E blend: ' + rank.map(r => r.label + ' ' + r.share + '%').join(' · ')]),
+      starters: [
+        'Ask what draws them to ' + interests[0].short.toLowerCase() + '-type work (' + interests[0].label + ').',
+        'Explore the “' + clusters[0].name + '” cluster and a related course or program.',
+        'Their blend leans ' + rank[0].label + ' — discuss a concrete first step and a backup.',
+        'Revisit the stretch area “' + growth[0].label + '” supportively, not as a deficit.'
+      ],
+      courses: [...new Set(clusters.flatMap(c => c.courses))].slice(0, 6),
+      wbl: [...new Set(this.CLUSTERS.filter(c => clusters.some(x => x.name === c.name)).flatMap(c => c.wbl))].slice(0, 5),
+      cautions: ['Results are a reflection tool, not a label or a test score.', 'A blend, not a verdict — encourage exploring all three pathways.', 'Interests shift over time; revisit each year.', 'Do not use for placement, eligibility, or tracking.'],
+      follow: ['What would make this plan feel exciting versus stressful?', 'What is one experience we could set up this semester?', 'Who in your life supports this direction?']
+    };
+
+    return { pct, gradeNum: grade, profile, strengths, growth, interests, traits, values, clusters, threeE, nextSteps: this.NEXT[grade], longTerm: this.LONG[grade], reflectionQs: ['Which part of your snapshot felt most true to you?', 'Which career or cluster do you want to learn more about first?', 'Who could you talk to this month about one of these paths?'], userReflections, counselor };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const SEC = { interests: 'Interests', workstyle: 'Work Style', values: 'What Matters', paths: 'Your Path', reflect: 'Reflect' };
+    const KIND = { likert: 'Rate yourself', forced: 'Pick one', scenario: 'Choose your move', rank: 'Rank your top 3', reflect: 'Reflect' };
+    const SECORDER = ['interests', 'workstyle', 'values', 'paths', 'reflect'];
+    const v = {
+      isWelcome: s.screen === 'welcome', isGrade: s.screen === 'grade', isQuiz: s.screen === 'quiz', isComputing: s.screen === 'computing', isReport: s.screen === 'report',
+      showSample: !(this.props && this.props.showSamplePreview === false),
+      onStart: () => this.setState({ screen: 'grade' }),
+      onSample: () => this.onSample(),
+      onRestart: () => this.setState({ screen: 'welcome', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null }),
+      onChangeGrade: () => this.setState({ screen: 'grade' }),
+      onPrint: () => window.print(),
+      gradeCards: [
+        { g: 9, title: 'Discovering Me', focus: 'Explore who you are, what you enjoy, and what is out there.', onClick: () => this.onPickGrade(9) },
+        { g: 10, title: 'Connecting the Dots', focus: 'Link your interests to careers, clusters, and classes.', onClick: () => this.onPickGrade(10) },
+        { g: 11, title: 'Narrowing the Path', focus: 'Compare programs, college, military, apprenticeships, and work.', onClick: () => this.onPickGrade(11) },
+        { g: 12, title: 'Ready to Launch', focus: 'Plan your next step: applications, resumes, and transitions.', onClick: () => this.onPickGrade(12) }
+      ]
+    };
+
+    const items = s.items || []; const idx = s.idx || 0; const cur = items[idx];
+    v.qTotal = items.length; v.qNum = Math.min(idx + 1, items.length || 1);
+    v.progressPct = items.length ? Math.round((idx + 1) / items.length * 100) : 0;
+    if (cur) {
+      const curSecIdx = SECORDER.indexOf(cur.sec);
+      v.secList = SECORDER.map((k, i) => ({ label: SEC[k], color: i < curSecIdx ? '#2f6f4f' : (i === curSecIdx ? '#c0892a' : '#c9c0aa') }));
+      v.cur = { id: cur.id, text: cur.text, sectionLabel: SEC[cur.sec], kindLabel: KIND[cur.type], placeholder: cur.placeholder };
+      v.curLikert = cur.type === 'likert'; v.curForced = cur.type === 'forced'; v.curScenario = cur.type === 'scenario'; v.curRank = cur.type === 'rank'; v.curReflect = cur.type === 'reflect';
+      const ans = s.answers[cur.id];
+      const LK = ['Not me', 'A little', 'Neutral', 'Mostly me', 'Definitely me'];
+      const lbase = "flex:1;cursor:pointer;border-radius:14px;padding:15px 6px;font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:600;line-height:1.25;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
+      v.likertOpts = LK.map((l, i) => { const val = i + 1; const sel = ans === val; return { label: l, onClick: () => this.onLikert(val), style: lbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#cfe0d0;border-color:rgba(255,221,23,.28);') }; });
+      const cbase = "width:100%;text-align:left;cursor:pointer;border-radius:16px;padding:18px 20px;font-family:'Hanken Grotesk',sans-serif;font-size:16px;line-height:1.35;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
+      v.choiceOpts = (cur.options || []).map(o => { const sel = ans === o.key; return { label: o.label, onClick: () => this.onChoose(o.key), style: cbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);') }; });
+      const order = Array.isArray(ans) ? ans : [];
+      const rbase = "width:100%;text-align:left;cursor:pointer;border-radius:14px;padding:13px 16px;display:flex;gap:12px;align-items:center;font-family:'Hanken Grotesk',sans-serif;font-size:15.5px;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
+      const bbase = "width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Spline Sans Mono',monospace;font-size:13px;flex:none;";
+      v.rankOpts = (cur.options || []).map(o => { const r = order.indexOf(o.key); const ranked = r >= 0; return { label: o.label, onClick: () => this.onRank(o.key), style: rbase + (ranked ? 'background:rgba(255,221,23,.16);border-color:#ffdd17;color:#fff8bd;box-shadow:0 0 0 1px rgba(255,221,23,.18);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);'), badgeText: ranked ? String(r + 1) : '+', badgeStyle: bbase + (ranked ? 'background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;' : 'border:1.5px dashed rgba(255,221,23,.38);color:#c4d5c5;') }; });
+      v.reflectValue = typeof ans === 'string' ? ans : '';
+      v.onReflect = (e) => this.onReflect(e);
+      const last = idx >= items.length - 1;
+      let can = false;
+      if (cur.type === 'likert' || cur.type === 'forced' || cur.type === 'scenario') can = ans != null;
+      else if (cur.type === 'rank') can = order.length === 3;
+      else can = true;
+      v.nextLabel = last ? 'See my results →' : 'Next →';
+      const nb = "appearance:none;border:none;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;padding:14px 26px;border-radius:999px;transition:all .15s ease;";
+      v.nextStyle = nb + (can ? 'cursor:pointer;background:linear-gradient(145deg,#004b2a,#02140c);color:#f7f1d9;' : 'cursor:not-allowed;background:rgba(255,255,255,.10);color:#8fa394;');
+      v.onNext = () => { if (can) this.goNext(); };
+      v.onBack = () => this.goBack();
+    } else {
+      v.secList = []; v.cur = { id: '', text: '', sectionLabel: '', kindLabel: '', placeholder: '' };
+      v.curLikert = v.curForced = v.curScenario = v.curRank = v.curReflect = false;
+      v.likertOpts = []; v.choiceOpts = []; v.rankOpts = []; v.reflectValue = ''; v.onReflect = () => {}; v.nextLabel = 'Next'; v.nextStyle = ''; v.onNext = () => {}; v.onBack = () => {};
+    }
+
+    const rv = s.reportView || (this.props && this.props.defaultView) || 'student';
+    v.isStudentView = rv === 'student'; v.isCounselorView = rv === 'counselor';
+    v.onStudent = () => this.setState({ reportView: 'student' });
+    v.onCounselor = () => this.setState({ reportView: 'counselor' });
+    const tb = "appearance:none;border:none;cursor:pointer;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:999px;transition:all .15s ease;";
+    v.studentTabStyle = tb + (v.isStudentView ? 'background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;' : 'background:rgba(255,255,255,.06);color:#dfeede;');
+    v.counselorTabStyle = tb + (v.isCounselorView ? 'background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;' : 'background:rgba(255,255,255,.06);color:#dfeede;');
+
+    const r = s.results;
+    if (r) {
+      v.gradeNum = r.gradeNum; v.profile = r.profile; v.strengths = r.strengths; v.growth = r.growth; v.interests = r.interests; v.traits = r.traits; v.values = r.values; v.threeE = r.threeE; v.clusters = r.clusters; v.nextSteps = r.nextSteps; v.longTerm = r.longTerm; v.reflectionQs = r.reflectionQs; v.userReflections = r.userReflections; v.hasUserReflections = r.userReflections.length > 0; v.counselor = r.counselor;
+    } else {
+      v.gradeNum = s.grade || ''; v.profile = { name: '', tagline: '', blurb: '' }; v.strengths = []; v.growth = []; v.interests = []; v.traits = []; v.values = []; v.threeE = { rank: [], donutBg: '#eee', topLabel: '' }; v.clusters = []; v.nextSteps = []; v.longTerm = []; v.reflectionQs = []; v.userReflections = []; v.hasUserReflections = false; v.counselor = { snapshot: '', interests: [], pathways: [], starters: [], courses: [], wbl: [], cautions: [], follow: [] };
+    }
+    return v;
+  }
+}
+</script>
+<script>
+(function(){
+  function sendHeight(){
+    var body = document.body || {};
+    var html = document.documentElement || {};
+    var height = Math.max(body.scrollHeight || 0, body.offsetHeight || 0, html.scrollHeight || 0, html.offsetHeight || 0, 720);
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'lionspath-pathfinder-height', height: height }, '*');
+    }
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  document.addEventListener('click', function(event){
+    var button = event.target.closest && event.target.closest('[data-lionspath-course]');
+    if (!button) return;
+    var courseName = button.getAttribute('data-lionspath-course') || button.textContent || '';
+    if (window.parent && window.parent !== window && courseName.trim()) {
+      window.parent.postMessage({ type: 'lionspath-open-course', courseName: courseName.trim() }, '*');
+    }
+  });
+  if ('ResizeObserver' in window && document.body) {
+    new ResizeObserver(sendHeight).observe(document.body);
+  }
+  setInterval(sendHeight, 1000);
+})();
+</script>
+</body>
+</html>
+
