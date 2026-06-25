@@ -286,16 +286,6 @@
 
 <div style="min-height:100vh;background:radial-gradient(circle at 12% -10%,rgba(255,221,23,.16),transparent 24rem),radial-gradient(circle at 88% 2%,rgba(13,106,67,.35),transparent 32rem),linear-gradient(135deg,#010905,#032414 52%,#02140c);color:#f7f1d9;font-family:'Hanken Grotesk',system-ui,sans-serif">
 
-  <div style="max-width:1120px;margin:0 auto;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px">
-    <div style="display:flex;align-items:center;gap:11px">
-      <span style="width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#004b2a,#02140c);display:flex;align-items:center;justify-content:center;flex:none">
-        <svg width="22" height="22" viewBox="0 0 24 24" style="display:block"><g fill="#e3a52e"><ellipse cx="12" cy="15.5" rx="6" ry="5"></ellipse><circle cx="4.6" cy="9.6" r="2.3"></circle><circle cx="9.6" cy="6" r="2.6"></circle><circle cx="14.4" cy="6" r="2.6"></circle><circle cx="19.4" cy="9.6" r="2.3"></circle></g></svg>
-      </span>
-      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.02em">LionsPath</span>
-    </div>
-    <span style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#fff7a6">LionsPath Career Compass</span>
-  </div>
-
   <!-- ===================== WELCOME ===================== -->
   <sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ true }}">
   <div style="max-width:1120px;margin:0 auto;padding:6px 28px 70px">
@@ -329,12 +319,11 @@
   <!-- ===================== GRADE PICKER ===================== -->
   <sc-if value="{{ isGrade }}">
   <div style="max-width:1120px;margin:0 auto;padding:6px 28px 70px;animation:lp-fade .4s ease both">
-    <button onClick="{{ onRestart }}" style="appearance:none;background:none;border:none;cursor:pointer;color:#cfe0d0;font-family:'Hanken Grotesk',sans-serif;font-size:14px;padding:6px 0;margin-bottom:8px">← Back</button>
     <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,4vw,44px);letter-spacing:-.02em;margin:6px 0 6px">First — what grade are you in?</h2>
     <p style="font-size:17px;color:#cfe0d0;max-width:60ch;margin:0 0 28px">Your questions, examples, and final report will adjust to where you are in your journey.</p>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
       <sc-for list="{{ gradeCards }}" as="g" hint-placeholder-count="4">
-        <button onClick="{{ g.onClick }}" style="text-align:left;cursor:pointer;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1.5px solid rgba(255,221,23,.30);border-radius:22px;padding:26px 22px 22px;font-family:'Hanken Grotesk',sans-serif;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease" style-hover="transform:translateY(-4px);box-shadow:0 22px 42px -24px rgba(0,0,0,.8),0 0 28px rgba(255,221,23,.14);border-color:#fff7a6">
+        <button onClick="{{ g.onClick }}" style="text-align:left;cursor:pointer;background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(0,0,0,.22));border:1.5px solid rgba(255,221,23,.30);border-radius:22px;padding:26px 22px 22px;font-family:'Hanken Grotesk',sans-serif;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease" style-hover="transform:translateY(-7px) scale(1.025);background:linear-gradient(145deg,rgba(255,221,23,.18),rgba(255,255,255,.13));box-shadow:0 28px 58px -26px rgba(0,0,0,.92),0 0 0 1px rgba(255,221,23,.28),0 0 44px rgba(255,221,23,.22);border-color:#fff7a6">
           <div style="font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#b9cbb9">Grade</div>
           <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:58px;line-height:1;color:#fff7a6;margin:2px 0 10px">{{ g.g }}</div>
           <h3 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:20px;margin:0 0 6px;color:#f7f1d9">{{ g.title }}</h3>
@@ -343,6 +332,11 @@
         </button>
       </sc-for>
     </div>
+    <sc-if value="{{ showSample }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;justify-content:center;margin-top:20px">
+        <button onClick="{{ onSample }}" style="appearance:none;cursor:pointer;background:rgba(255,221,23,.12);color:#fff7a6;border:1.5px solid rgba(255,221,23,.38);font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:15px;padding:15px 24px;border-radius:999px;box-shadow:0 14px 30px rgba(0,0,0,.20),0 0 0 1px rgba(255,221,23,.08);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease" style-hover="transform:translateY(-3px);background:linear-gradient(135deg,rgba(255,247,166,.22),rgba(255,221,23,.14));border-color:#fff7a6;box-shadow:0 22px 44px rgba(0,0,0,.30),0 0 34px rgba(255,221,23,.20)">Preview a sample report</button>
+      </div>
+    </sc-if>
   </div>
   </sc-if>
 
@@ -375,7 +369,7 @@
         <sc-if value="{{ curLikert }}">
           <div style="display:flex;gap:9px;margin-top:30px">
             <sc-for list="{{ likertOpts }}" as="o" hint-placeholder-count="5">
-              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}" style-hover="{{ o.hoverStyle }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </sc-if>
@@ -383,7 +377,7 @@
         <sc-if value="{{ curForced }}">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px">
             <sc-for list="{{ choiceOpts }}" as="o" hint-placeholder-count="2">
-              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}" style-hover="{{ o.hoverStyle }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </sc-if>
@@ -391,7 +385,7 @@
         <sc-if value="{{ curScenario }}">
           <div style="display:flex;flex-direction:column;gap:12px;margin-top:26px">
             <sc-for list="{{ choiceOpts }}" as="o" hint-placeholder-count="4">
-              <button onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</button>
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}" style-hover="{{ o.hoverStyle }}">{{ o.label }}</button>
             </sc-for>
           </div>
         </sc-if>
@@ -400,7 +394,7 @@
           <div style="font-size:14px;color:#b9cbb9;margin-top:22px;margin-bottom:12px">Tap your top 3, in order.</div>
           <div style="display:flex;flex-direction:column;gap:10px">
             <sc-for list="{{ rankOpts }}" as="o" hint-placeholder-count="6">
-              <button onClick="{{ o.onClick }}" style="{{ o.style }}"><span style="{{ o.badgeStyle }}">{{ o.badgeText }}</span><span>{{ o.label }}</span></button>
+              <button onClick="{{ o.onClick }}" style="{{ o.style }}" style-hover="{{ o.hoverStyle }}"><span style="{{ o.badgeStyle }}">{{ o.badgeText }}</span><span>{{ o.label }}</span></button>
             </sc-for>
           </div>
         </sc-if>
@@ -708,7 +702,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:860},&quot;defaultView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;student&quot;,&quot;counselor&quot;],&quot;default&quot;:&quot;student&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoAdvance&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;sessionLength&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;short&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showSamplePreview&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { screen: 'welcome', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null };
+  state = { screen: 'grade', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null };
 
   IM = {
     R: { label: 'Realistic — Builders', short: 'Builders', color: '#2f6f4f' },
@@ -1497,7 +1491,7 @@ class Component extends DCLogic {
       showSample: !(this.props && this.props.showSamplePreview === false),
       onStart: () => this.setState({ screen: 'grade' }),
       onSample: () => this.onSample(),
-      onRestart: () => this.setState({ screen: 'welcome', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null }),
+      onRestart: () => this.setState({ screen: 'grade', grade: null, items: [], idx: 0, answers: {}, results: null, reportView: null }),
       onChangeGrade: () => this.setState({ screen: 'grade' }),
       onPrint: () => window.print(),
       gradeCards: [
@@ -1519,13 +1513,19 @@ class Component extends DCLogic {
       const ans = s.answers[cur.id];
       const LK = ['Not me', 'A little', 'Neutral', 'Mostly me', 'Definitely me'];
       const lbase = "flex:1;cursor:pointer;border-radius:14px;padding:15px 6px;font-family:'Hanken Grotesk',sans-serif;font-size:12.5px;font-weight:600;line-height:1.25;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
-      v.likertOpts = LK.map((l, i) => { const val = i + 1; const sel = ans === val; return { label: l, onClick: () => this.onLikert(val), style: lbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#cfe0d0;border-color:rgba(255,221,23,.28);') }; });
+      const lhover = 'transform:translateY(-4px) scale(1.035);background:rgba(255,221,23,.18);color:#fff8bd;border-color:#fff7a6;box-shadow:0 16px 34px rgba(0,0,0,.32),0 0 34px rgba(255,221,23,.18);';
+      const lhoverSel = 'transform:translateY(-3px) scale(1.025);background:linear-gradient(145deg,#005d35,#108152);color:#fff8bd;border-color:#fff7a6;box-shadow:0 18px 38px rgba(0,0,0,.34),0 0 40px rgba(255,221,23,.24);';
+      v.likertOpts = LK.map((l, i) => { const val = i + 1; const sel = ans === val; return { label: l, onClick: () => this.onLikert(val), style: lbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#cfe0d0;border-color:rgba(255,221,23,.28);'), hoverStyle: sel ? lhoverSel : lhover }; });
       const cbase = "width:100%;text-align:left;cursor:pointer;border-radius:16px;padding:18px 20px;font-family:'Hanken Grotesk',sans-serif;font-size:16px;line-height:1.35;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
-      v.choiceOpts = (cur.options || []).map(o => { const sel = ans === o.key; return { label: o.label, onClick: () => this.onChoose(o.key), style: cbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);') }; });
+      const chover = 'transform:translateY(-4px) scale(1.012);background:linear-gradient(145deg,rgba(255,221,23,.18),rgba(255,255,255,.13));color:#fff8bd;border-color:#fff7a6;box-shadow:0 18px 38px rgba(0,0,0,.34),0 0 36px rgba(255,221,23,.18);';
+      const choverSel = 'transform:translateY(-3px) scale(1.01);background:linear-gradient(145deg,#005d35,#108152);color:#fff8bd;border-color:#fff7a6;box-shadow:0 20px 42px rgba(0,0,0,.36),0 0 42px rgba(255,221,23,.24);';
+      v.choiceOpts = (cur.options || []).map(o => { const sel = ans === o.key; return { label: o.label, onClick: () => this.onChoose(o.key), style: cbase + (sel ? 'background:linear-gradient(145deg,#004b2a,#0d6a43);color:#fff8bd;border-color:#ffdd17;box-shadow:0 0 0 1px rgba(255,221,23,.22),0 12px 26px rgba(0,0,0,.24);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);'), hoverStyle: sel ? choverSel : chover }; });
       const order = Array.isArray(ans) ? ans : [];
       const rbase = "width:100%;text-align:left;cursor:pointer;border-radius:14px;padding:13px 16px;display:flex;gap:12px;align-items:center;font-family:'Hanken Grotesk',sans-serif;font-size:15.5px;transition:all .15s ease;border:1.5px solid rgba(255,221,23,.28);";
       const bbase = "width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Spline Sans Mono',monospace;font-size:13px;flex:none;";
-      v.rankOpts = (cur.options || []).map(o => { const r = order.indexOf(o.key); const ranked = r >= 0; return { label: o.label, onClick: () => this.onRank(o.key), style: rbase + (ranked ? 'background:rgba(255,221,23,.16);border-color:#ffdd17;color:#fff8bd;box-shadow:0 0 0 1px rgba(255,221,23,.18);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);'), badgeText: ranked ? String(r + 1) : '+', badgeStyle: bbase + (ranked ? 'background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;' : 'border:1.5px dashed rgba(255,221,23,.38);color:#c4d5c5;') }; });
+      const rhover = 'transform:translateY(-3px) translateX(4px);background:rgba(255,221,23,.17);color:#fff8bd;border-color:#fff7a6;box-shadow:0 16px 32px rgba(0,0,0,.30),0 0 32px rgba(255,221,23,.16);';
+      const rhoverRanked = 'transform:translateY(-3px) translateX(4px);background:rgba(255,221,23,.24);color:#fff8bd;border-color:#fff7a6;box-shadow:0 18px 36px rgba(0,0,0,.32),0 0 38px rgba(255,221,23,.22);';
+      v.rankOpts = (cur.options || []).map(o => { const r = order.indexOf(o.key); const ranked = r >= 0; return { label: o.label, onClick: () => this.onRank(o.key), style: rbase + (ranked ? 'background:rgba(255,221,23,.16);border-color:#ffdd17;color:#fff8bd;box-shadow:0 0 0 1px rgba(255,221,23,.18);' : 'background:rgba(255,255,255,.10);color:#f1f8ee;border-color:rgba(255,221,23,.28);'), hoverStyle: ranked ? rhoverRanked : rhover, badgeText: ranked ? String(r + 1) : '+', badgeStyle: bbase + (ranked ? 'background:linear-gradient(135deg,#fff7a6,#ffdd17 45%,#d59a27);color:#062615;' : 'border:1.5px dashed rgba(255,221,23,.38);color:#c4d5c5;') }; });
       v.reflectValue = typeof ans === 'string' ? ans : '';
       v.onReflect = (e) => this.onReflect(e);
       const last = idx >= items.length - 1;
@@ -1567,7 +1567,7 @@ class Component extends DCLogic {
   function sendHeight(){
     var body = document.body || {};
     var html = document.documentElement || {};
-    var height = Math.max(body.scrollHeight || 0, body.offsetHeight || 0, html.scrollHeight || 0, html.offsetHeight || 0, 720);
+    var height = Math.max(body.scrollHeight || 0, body.offsetHeight || 0, html.scrollHeight || 0, html.offsetHeight || 0, 520);
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: 'lionspath-pathfinder-height', height: height }, '*');
     }
@@ -1582,9 +1582,13 @@ class Component extends DCLogic {
       window.parent.postMessage({ type: 'lionspath-open-course', courseName: courseName.trim() }, '*');
     }
   });
-  if ('ResizeObserver' in window && document.body) {
-    new ResizeObserver(sendHeight).observe(document.body);
+  function observeHeightTarget(){
+    var target = document.body || document.documentElement;
+    if (!target || !('ResizeObserver' in window)) return;
+    new ResizeObserver(sendHeight).observe(target);
   }
+  if (document.body) observeHeightTarget();
+  else document.addEventListener('DOMContentLoaded', observeHeightTarget, { once:true });
   setInterval(sendHeight, 1000);
 })();
 </script>
