@@ -1550,6 +1550,98 @@ th{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.6px
 .schoolai-embed-wrap{position:relative;width:100%;height:min(76vh,780px);min-height:620px;border-radius:22px;overflow:hidden;border:1px solid var(--line-strong);background:rgba(0,0,0,.36);box-shadow:0 18px 50px rgba(0,0,0,.3);}
 .schoolai-embed-wrap iframe{width:100%;height:100%;border:0;display:block;background:#fff;}
 .embed-status{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(255,221,23,.12);border:1px solid rgba(255,221,23,.28);color:#fff7b4;font-size:13px;line-height:1.45;}
+.voice-coach-panel{
+  display:grid;
+  gap:16px;
+  padding:clamp(18px,3vw,28px);
+  border-radius:26px;
+  border:1px solid rgba(255,221,23,.34);
+  background:
+    radial-gradient(circle at 12% 0%,rgba(255,221,23,.16),transparent 20rem),
+    linear-gradient(145deg,rgba(0,63,32,.42),rgba(0,0,0,.36));
+  box-shadow:0 24px 64px rgba(0,0,0,.36),inset 0 1px 0 rgba(255,255,255,.045);
+}
+.voice-coach-button{
+  width:min(100%,1080px);
+  margin:0 auto;
+  padding:0;
+  border:0;
+  border-radius:22px;
+  background:transparent;
+  cursor:pointer;
+  display:block;
+  text-decoration:none;
+  transition:transform .18s ease,filter .18s ease;
+}
+.voice-coach-button:hover,
+.voice-coach-button:focus-visible{
+  transform:translateY(-4px) scale(1.01);
+  filter:drop-shadow(0 0 28px rgba(255,221,23,.32));
+  outline:0;
+}
+.voice-coach-button:focus-visible{
+  box-shadow:0 0 0 3px rgba(255,221,23,.64);
+}
+.voice-coach-button img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.voice-coach-disclaimer{
+  margin:0 auto;
+  max-width:1000px;
+  color:#fff8b8;
+  font-size:clamp(24px,3.1vw,42px);
+  line-height:1.12;
+  font-weight:1000;
+  text-align:center;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  text-shadow:0 2px 18px rgba(0,0,0,.4);
+}
+.voice-coach-frame-panel{
+  display:none;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px solid rgba(255,221,23,.42);
+  background:#020b06;
+  box-shadow:0 24px 68px rgba(0,0,0,.42);
+}
+.voice-coach-frame-panel.open{
+  display:block;
+}
+.voice-coach-session-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,221,23,.26);
+  background:linear-gradient(145deg,rgba(0,63,32,.78),rgba(0,0,0,.34));
+}
+.voice-coach-session-bar strong{
+  color:#fff8b8;
+  font-size:16px;
+}
+.voice-coach-session-bar span{
+  display:block;
+  margin-top:3px;
+  color:#dceadd;
+  font-size:12.5px;
+  line-height:1.35;
+}
+.voice-coach-frame-wrap{
+  height:min(78vh,820px);
+  min-height:560px;
+  background:#fff;
+}
+.voice-coach-frame-wrap iframe{
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+}
 .prompt-toolkit{position:sticky;top:98px;}
 .prompt-toolkit h3{margin:0 0 6px;font-size:22px;line-height:1.15;}
 .prompt-toolkit .intro{margin:0 0 14px;color:#d6e8da;font-size:13px;line-height:1.45;}
@@ -4049,7 +4141,7 @@ input,select,textarea{
             <h3>Watch the 3E overview</h3>
             <p>This short overview can help students and families understand how Enrollment, Employment, and Enlistment work together.</p>
             <div class="video-frame">
-              <iframe src="https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview" title="3E overview video" allow="fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <iframe id="homeOverviewVideo" src="https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview" data-src="https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview" title="3E overview video" allow="fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="video-fallback">
               <a class="btn small" href="https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview" target="_blank" rel="noopener">Open 3E Video</a>
@@ -4253,6 +4345,22 @@ Please create:
             <button type="button" class="btn" data-page="plan">Build My Plan</button>
           </div>
         </aside>
+      </div>
+      <div class="voice-coach-panel" aria-labelledby="voiceCoachTitle">
+        <a class="voice-coach-button" id="openVoiceCoach" href="https://knowt.com/join/058975" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
+          <img src="assets/talk-to-3e-coach-button.png" alt="Talk to a 3E Coach. Start a live AI conversation." loading="lazy">
+        </a>
+        <p class="voice-coach-disclaimer" id="voiceCoachTitle">In order to use this feature, you must be in a quiet space.</p>
+        <div class="voice-coach-frame-panel" id="voiceCoachFramePanel" aria-hidden="true">
+          <div class="voice-coach-session-bar">
+            <div>
+              <strong>Live Voice Session</strong>
+              <span>Use the End Voice Session button when you are finished so the voice chat stops.</span>
+            </div>
+            <button type="button" class="btn primary" id="endVoiceCoach">End Voice Session</button>
+          </div>
+          <div class="voice-coach-frame-wrap" id="voiceCoachFrameWrap"></div>
+        </div>
       </div>
     </section>
 
@@ -4560,6 +4668,10 @@ const READINESS_SEALS = [
 const AI_COACH_JOIN_CODE = '5R2H-R523';
 const AI_COACH_SPACE_URL = 'https://student.schoolai.com/join?code=' + AI_COACH_JOIN_CODE;
 const PLAN_REVIEW_IFRAME_URL = AI_COACH_SPACE_URL;
+const VOICE_COACH_URL = 'https://knowt.com/join/058975';
+const VOICE_COACH_IFRAME_ENABLED = false;
+const HOME_VIDEO_URL = 'https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview';
+let homeVideoScrollTick = false;
 
 function schoolAiEmbedBlock(title='Live AI Coach') {
   return `<div class="schoolai-embed-card card featured">
@@ -4571,6 +4683,108 @@ function schoolAiEmbedBlock(title='Live AI Coach') {
     </div>
     <div class="schoolai-embed-wrap"><iframe src="${AI_COACH_SPACE_URL}" title="${escHtml(title)} workspace" allow="clipboard-read; clipboard-write; microphone; camera; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>`;
+}
+
+function openVoiceCoachSession() {
+  if (!VOICE_COACH_IFRAME_ENABLED) {
+    const launched = window.open(VOICE_COACH_URL, '_blank', 'noopener,noreferrer');
+    if (launched) launched.opener = null;
+    return;
+  }
+  const panel = $('voiceCoachFramePanel');
+  const wrap = $('voiceCoachFrameWrap');
+  const opener = $('openVoiceCoach');
+  if (!panel || !wrap) return;
+  wrap.innerHTML = `<iframe src="${VOICE_COACH_URL}" title="Talk to a 3E Coach voice session" allow="microphone; camera; clipboard-read; clipboard-write; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden', 'false');
+  if (opener) opener.setAttribute('aria-expanded', 'true');
+  panel.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function closeVoiceCoachSession(restoreFocus=true) {
+  const panel = $('voiceCoachFramePanel');
+  const wrap = $('voiceCoachFrameWrap');
+  const opener = $('openVoiceCoach');
+  if (wrap) wrap.innerHTML = '';
+  if (panel) {
+    panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+  if (restoreFocus && opener) {
+    opener.setAttribute('aria-expanded', 'false');
+    opener.focus({ preventScroll:true });
+  } else if (opener) {
+    opener.setAttribute('aria-expanded', 'false');
+  }
+}
+
+function homeVideoFrame() {
+  return $('homeOverviewVideo');
+}
+
+function isHomePageActive() {
+  return state.activePage === 'home' || Boolean($('page-home')?.classList.contains('active'));
+}
+
+function stopHomeVideo() {
+  const frame = homeVideoFrame();
+  if (!frame) return;
+  const currentSrc = frame.getAttribute('src');
+  if (currentSrc) {
+    frame.dataset.lastSrc = currentSrc;
+    frame.removeAttribute('src');
+  }
+}
+
+function restoreHomeVideo() {
+  const frame = homeVideoFrame();
+  if (!frame || !isHomePageActive()) return;
+  if (!frame.getAttribute('src')) {
+    frame.setAttribute('src', frame.dataset.src || frame.dataset.lastSrc || HOME_VIDEO_URL);
+  }
+}
+
+function shouldHomeVideoBeLoaded() {
+  const frame = homeVideoFrame();
+  if (!frame || !isHomePageActive()) return false;
+  const card = frame.closest('.three-e-video-card') || frame;
+  const rect = card.getBoundingClientRect();
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+  return rect.bottom > 96 && rect.top < viewportHeight - 96;
+}
+
+function syncHomeVideoPlayback() {
+  if (shouldHomeVideoBeLoaded()) restoreHomeVideo();
+  else stopHomeVideo();
+}
+
+function requestHomeVideoSync() {
+  if (homeVideoScrollTick) return;
+  homeVideoScrollTick = true;
+  window.requestAnimationFrame(() => {
+    homeVideoScrollTick = false;
+    syncHomeVideoPlayback();
+  });
+}
+
+function stopHomeVideoForPageAction(target) {
+  if (!isHomePageActive()) return;
+  if (!target?.closest('a,button,[role="button"],summary,input,select,textarea,label')) return;
+  stopHomeVideo();
+}
+
+function initHomeVideoAutoStop() {
+  const frame = homeVideoFrame();
+  if (!frame) return;
+  if (!frame.dataset.src) frame.dataset.src = frame.getAttribute('src') || HOME_VIDEO_URL;
+  window.addEventListener('scroll', requestHomeVideoSync, { passive:true });
+  window.addEventListener('resize', requestHomeVideoSync);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopHomeVideo();
+    else requestHomeVideoSync();
+  });
+  requestHomeVideoSync();
 }
 
 function buildSchoolAiPrompt(pathway, prompt='') {
@@ -5250,6 +5464,8 @@ function getIcon(e) { return e==='employment'?'🛠️':e==='enlistment'?'🧭':
 
 // ── PAGE SYSTEM ───────────────────────────────────────────────────────────────
 function setPage(page, updateHash=false) {
+  if (page !== 'coach') closeVoiceCoachSession(false);
+  if (page !== 'home') stopHomeVideo();
   state.activePage = page;
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   const target = $('page-' + page);
@@ -5265,6 +5481,7 @@ function setPage(page, updateHash=false) {
   setMobileNavOpen(false);
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.scrollTo({top:0,behavior:reduceMotion ? 'auto' : 'smooth'});
+  if (page === 'home') window.setTimeout(requestHomeVideoSync, 120);
 }
 
 window.setPage = setPage;
@@ -7075,6 +7292,23 @@ function applyEnrollmentFilter(categoryId){
 // ── EVENT DELEGATION ──────────────────────────────────────────────────────────
 function attachDelegates() {
   document.body.addEventListener('click', ev => {
+    stopHomeVideoForPageAction(ev.target);
+    if (ev.target.closest('#openVoiceCoach')) {
+      if (VOICE_COACH_IFRAME_ENABLED) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        openVoiceCoachSession();
+      } else {
+        closeVoiceCoachSession(false);
+      }
+      return;
+    }
+    if (ev.target.closest('#endVoiceCoach')) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      closeVoiceCoachSession();
+      return;
+    }
     const copyPromptBtn = ev.target.closest('[data-copy-prompt]');
     if (copyPromptBtn) {
       ev.preventDefault();
@@ -7234,6 +7468,7 @@ function init() {
   safeRun('event delegation', attachDelegates);
   safeRun('navigation binding', bindNav);
   safeRun('mobile navigation', initMobileNav);
+  safeRun('home video auto-stop', initHomeVideoAutoStop);
   safeRun('local data', loadLocalData);
 
   // Render pages and tools. Each step is isolated so a course/card issue does not disable all buttons.
@@ -7296,6 +7531,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Last-resort click rescue for Wix embeds: keeps basic page buttons alive even if another step fails.
 (function installWixClickRescue(){
   function fallbackSetPage(page) {
+    const homeVideo = document.getElementById('homeOverviewVideo');
+    if (page !== 'home') {
+      if (homeVideo && homeVideo.getAttribute('src')) homeVideo.removeAttribute('src');
+    } else if (homeVideo && !homeVideo.getAttribute('src')) {
+      homeVideo.setAttribute('src', homeVideo.dataset.src || 'https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview');
+    }
     document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
     const target = document.getElementById('page-' + page);
     if (target) target.classList.add('active');
