@@ -156,6 +156,78 @@ img{max-width:100%;height:auto;}
 .video-card p{margin:0 0 12px;color:#e0f0e5;line-height:1.5;position:relative;}
 .video-frame{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;border:1px solid var(--line-strong);background:rgba(0,0,0,.38);box-shadow:0 18px 50px rgba(0,0,0,.3);}
 .video-frame iframe{width:100%;height:100%;border:0;display:block;}
+.iframe-expandable{
+  position:relative;
+}
+.iframe-expand-toggle{
+  position:absolute;
+  top:10px;
+  left:50%;
+  z-index:20;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:132px;
+  min-height:38px;
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,221,23,.72);
+  background:rgba(2,15,9,.82);
+  color:#fff8b8;
+  font-size:12px;
+  font-weight:1000;
+  letter-spacing:.04em;
+  line-height:1;
+  text-transform:uppercase;
+  box-shadow:0 10px 26px rgba(0,0,0,.36),0 0 18px rgba(255,221,23,.2);
+  cursor:pointer;
+  transform:translateX(-50%);
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.iframe-expand-toggle:hover,
+.iframe-expand-toggle:focus-visible{
+  transform:translateX(-50%) translateY(-1px) scale(1.04);
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  color:#092514;
+  outline:0;
+  box-shadow:0 14px 32px rgba(0,0,0,.42),0 0 28px rgba(255,221,23,.42);
+}
+.iframe-expanded{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:block !important;
+  width:100vw !important;
+  height:100vh !important;
+  height:100dvh !important;
+  min-height:0 !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  aspect-ratio:auto !important;
+  border-radius:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+  box-shadow:none !important;
+  background:#020b06 !important;
+  transform:none !important;
+  box-sizing:border-box !important;
+}
+.iframe-expanded iframe{
+  width:100% !important;
+  height:100% !important;
+}
+.iframe-expanded .iframe-expand-toggle{
+  top:16px;
+  left:50%;
+  right:auto;
+  min-width:132px;
+  padding:0 14px;
+  gap:8px;
+}
+body.iframe-expanded-active{
+  overflow:hidden;
+}
 .three-e-overview{
   display:grid;
   gap:10px;
@@ -1549,6 +1621,46 @@ th{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.6px
 .join-badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;background:rgba(255,221,23,.16);border:1px solid rgba(255,221,23,.38);color:#fff7b4;font-weight:900;font-size:12px;padding:7px 10px;white-space:nowrap;}
 .schoolai-embed-wrap{position:relative;width:100%;height:min(76vh,780px);min-height:620px;border-radius:22px;overflow:hidden;border:1px solid var(--line-strong);background:rgba(0,0,0,.36);box-shadow:0 18px 50px rgba(0,0,0,.3);}
 .schoolai-embed-wrap iframe{width:100%;height:100%;border:0;display:block;background:#fff;}
+.shared-ai-coach-slot{
+  display:grid;
+  place-items:center;
+}
+.shared-ai-slot-message{
+  max-width:560px;
+  padding:24px;
+  text-align:center;
+  color:#fff8b8;
+  font-weight:900;
+  line-height:1.45;
+  pointer-events:none;
+}
+.shared-ai-slot-message span{
+  display:block;
+  margin-top:8px;
+  color:#dceadd;
+  font-size:13px;
+  font-weight:650;
+}
+.shared-ai-coach-surface.schoolai-embed-wrap{
+  position:absolute;
+  top:-9999px;
+  left:-9999px;
+  z-index:58;
+  width:1px;
+  height:1px;
+  min-height:0 !important;
+  max-height:none;
+  margin:0;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s ease;
+  will-change:opacity;
+}
+.shared-ai-coach-surface.schoolai-embed-wrap.active,
+.shared-ai-coach-surface.schoolai-embed-wrap.iframe-expanded{
+  opacity:1;
+  pointer-events:auto;
+}
 .embed-status{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px 14px;border-radius:16px;background:rgba(255,221,23,.12);border:1px solid rgba(255,221,23,.28);color:#fff7b4;font-size:13px;line-height:1.45;}
 .voice-coach-panel{
   display:grid;
@@ -1673,6 +1785,7 @@ th{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.6px
 
 @media print{
   body{background:white;color:black;}.topbar,.hero,.section-head,.btn,.assistant-shell,.filters,.plan-review-panel,.schoolai-workspace{display:none !important;}
+  .shared-ai-coach-surface{display:none !important;}
   .page{display:none !important;}#page-plan{display:block !important;}
   .panel,.plan-section,.selected-course-card,.plan-summary-item{color:black;box-shadow:none;border:1px solid #ddd;background:white;}
   .plan-prompt-preview{white-space:pre-wrap;color:black;background:white;border:1px solid #ddd;}
@@ -4242,8 +4355,8 @@ input,select,textarea{
               <p>This AI Coach is monitored and secure for student use. Use it to compare pathways, prepare questions, and review next steps with a trusted adult.</p>
             </div>
           </div>
-          <div class="schoolai-embed-wrap">
-            <iframe src="https://student.schoolai.com/join?code=5R2H-R523" title="3E AI Coach workspace" allow="clipboard-read; clipboard-write; microphone; camera; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="Live 3E AI Coach">
+            <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionPath pages.</span></div>
           </div>
         </div>
         <aside class="prompt-toolkit panel">
@@ -4489,8 +4602,8 @@ Please create:
               <p>This AI Coach is monitored and secure for student use. Paste your plan summary here to check clarity, questions, and next steps with a trusted adult.</p>
             </div>
           </div>
-          <div class="schoolai-embed-wrap">
-            <iframe id="planReviewFrame" title="AI Plan Review workspace" allow="clipboard-read; clipboard-write; microphone; camera; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="AI Plan Review">
+            <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Paste your plan summary here without restarting the chat.</span></div>
           </div>
         </div>
       </div>
@@ -4498,6 +4611,9 @@ Please create:
   </main>
 </div>
 
+<div id="sharedAiCoachSurface" class="shared-ai-coach-surface schoolai-embed-wrap" aria-hidden="true">
+  <iframe id="sharedAiCoachFrame" src="https://student.schoolai.com/join?code=5R2H-R523" title="Shared 3E AI Coach workspace" allow="clipboard-read; clipboard-write; microphone; camera; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
 <section id="printPlanDocument" class="print-plan-document" aria-hidden="true"></section>
 <dialog id="courseModal"><div id="courseModalContent"></div></dialog>
 
@@ -4672,6 +4788,7 @@ const VOICE_COACH_URL = 'https://knowt.com/join/058975';
 const VOICE_COACH_IFRAME_ENABLED = false;
 const HOME_VIDEO_URL = 'https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview';
 let homeVideoScrollTick = false;
+let sharedAiCoachSyncTick = false;
 
 function schoolAiEmbedBlock(title='Live AI Coach') {
   return `<div class="schoolai-embed-card card featured">
@@ -4681,7 +4798,9 @@ function schoolAiEmbedBlock(title='Live AI Coach') {
         <p>This AI Coach is monitored and secure for student use. Use it to prepare pathway questions and review next steps with a trusted adult.</p>
       </div>
     </div>
-    <div class="schoolai-embed-wrap"><iframe src="${AI_COACH_SPACE_URL}" title="${escHtml(title)} workspace" allow="clipboard-read; clipboard-write; microphone; camera; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="${escHtml(title)}">
+      <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionPath pages.</span></div>
+    </div>
   </div>`;
 }
 
@@ -4770,8 +4889,205 @@ function requestHomeVideoSync() {
 
 function stopHomeVideoForPageAction(target) {
   if (!isHomePageActive()) return;
+  if (target?.closest('.iframe-expand-toggle')) return;
   if (!target?.closest('a,button,[role="button"],summary,input,select,textarea,label')) return;
   stopHomeVideo();
+}
+
+function sharedAiCoachSurface() {
+  return $('sharedAiCoachSurface');
+}
+
+function getActiveSharedAiSlot() {
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return null;
+  const slots = Array.from(activePage.querySelectorAll('[data-shared-ai-slot]'));
+  return slots.find(slot => slot.getClientRects().length > 0) || slots[0] || null;
+}
+
+function hideSharedAiCoachSurface() {
+  const surface = sharedAiCoachSurface();
+  if (!surface || surface.classList.contains('iframe-expanded')) return;
+  surface.classList.remove('active');
+  surface.setAttribute('aria-hidden', 'true');
+  surface.style.top = '-9999px';
+  surface.style.left = '-9999px';
+  surface.style.width = '1px';
+  surface.style.height = '1px';
+}
+
+function syncSharedAiCoachSurface() {
+  const surface = sharedAiCoachSurface();
+  if (!surface || surface.classList.contains('iframe-expanded')) return;
+  const slot = getActiveSharedAiSlot();
+  if (!slot) {
+    hideSharedAiCoachSurface();
+    return;
+  }
+  const rect = slot.getBoundingClientRect();
+  const visible = rect.width > 40 && rect.height > 40;
+  if (!visible) {
+    hideSharedAiCoachSurface();
+    return;
+  }
+  surface.style.top = `${rect.top + window.scrollY}px`;
+  surface.style.left = `${rect.left + window.scrollX}px`;
+  surface.style.width = `${rect.width}px`;
+  surface.style.height = `${rect.height}px`;
+  surface.classList.add('active');
+  surface.setAttribute('aria-hidden', 'false');
+}
+
+function requestSharedAiCoachSync() {
+  if (sharedAiCoachSyncTick) return;
+  sharedAiCoachSyncTick = true;
+  window.requestAnimationFrame(() => {
+    sharedAiCoachSyncTick = false;
+    syncSharedAiCoachSurface();
+  });
+}
+
+function initSharedAiCoach() {
+  const surface = sharedAiCoachSurface();
+  if (!surface) return;
+  window.addEventListener('resize', requestSharedAiCoachSync);
+  window.addEventListener('orientationchange', requestSharedAiCoachSync);
+  requestSharedAiCoachSync();
+}
+
+function getIframeShell(frame) {
+  if (!frame) return null;
+  let shell = frame.closest('.video-frame,.schoolai-embed-wrap,.voice-coach-frame-wrap,.compass-pathfinder-shell');
+  if (!shell && frame.classList.contains('compass-pathfinder-frame') && frame.parentElement) {
+    shell = document.createElement('div');
+    shell.className = 'compass-pathfinder-shell';
+    frame.parentElement.insertBefore(shell, frame);
+    shell.appendChild(frame);
+  }
+  return shell;
+}
+
+function updateIframeExpandButton(shell, expanded) {
+  const button = shell ? Array.from(shell.children).find(child => child.classList?.contains('iframe-expand-toggle')) : null;
+  if (!button) return;
+  button.textContent = expanded ? 'Minimize' : 'Full Screen';
+  button.setAttribute('aria-label', expanded ? 'Minimize embedded window' : 'Expand embedded window');
+  button.setAttribute('title', expanded ? 'Minimize' : 'Full Screen');
+  button.setAttribute('aria-pressed', expanded ? 'true' : 'false');
+}
+
+function getCurrentFullscreenElement() {
+  return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || null;
+}
+
+function canUseNativeFullscreen(shell) {
+  return Boolean(shell && (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.msFullscreenEnabled) && (shell.requestFullscreen || shell.webkitRequestFullscreen || shell.msRequestFullscreen));
+}
+
+function requestNativeFullscreen(shell) {
+  const request = shell.requestFullscreen || shell.webkitRequestFullscreen || shell.msRequestFullscreen;
+  return request ? Promise.resolve(request.call(shell, { navigationUI:'hide' })) : Promise.reject(new Error('Fullscreen not available'));
+}
+
+function exitNativeFullscreen() {
+  const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+  return exit ? Promise.resolve(exit.call(document)) : Promise.resolve();
+}
+
+function applyIframeExpandedState(shell, expanded) {
+  if (!shell) return;
+  shell.classList.toggle('iframe-expanded', expanded);
+  updateIframeExpandButton(shell, expanded);
+  document.body.classList.toggle('iframe-expanded-active', Boolean(document.querySelector('.iframe-expandable.iframe-expanded')));
+  if (!expanded && shell.id === 'sharedAiCoachSurface') requestSharedAiCoachSync();
+}
+
+async function setIframeExpanded(shell, expanded) {
+  if (!shell) return;
+  if (expanded) {
+    for (const openShell of document.querySelectorAll('.iframe-expandable.iframe-expanded')) {
+      if (openShell !== shell) await setIframeExpanded(openShell, false);
+    }
+    shell.dataset.iframeFullscreenMode = 'css';
+    applyIframeExpandedState(shell, true);
+    if (canUseNativeFullscreen(shell) && getCurrentFullscreenElement() !== shell) {
+      try {
+        await requestNativeFullscreen(shell);
+        shell.dataset.iframeFullscreenMode = 'native';
+      } catch (error) {
+        shell.dataset.iframeFullscreenMode = 'css';
+      }
+    }
+    return;
+  }
+
+  const fullscreenElement = getCurrentFullscreenElement();
+  if (fullscreenElement === shell) {
+    try {
+      await exitNativeFullscreen();
+    } catch (error) {
+      // Keep the visual state in sync even if the browser refuses the exit call.
+    }
+  }
+  shell.dataset.iframeFullscreenMode = '';
+  applyIframeExpandedState(shell, false);
+  if (shell.id === 'sharedAiCoachSurface') requestSharedAiCoachSync();
+}
+
+function syncIframeFullscreenState() {
+  const fullscreenElement = getCurrentFullscreenElement();
+  const activeShell = fullscreenElement?.closest?.('.iframe-expandable') || null;
+  if (activeShell) applyIframeExpandedState(activeShell, true);
+  document.querySelectorAll('.iframe-expandable.iframe-expanded').forEach(shell => {
+    if (shell.dataset.iframeFullscreenMode === 'native' && shell !== activeShell) {
+      shell.dataset.iframeFullscreenMode = '';
+      applyIframeExpandedState(shell, false);
+    }
+  });
+  requestSharedAiCoachSync();
+}
+
+function installIframeExpanderForFrame(frame) {
+  const shell = getIframeShell(frame);
+  if (!shell || shell.dataset.iframeExpanderReady === 'true') return;
+  shell.classList.add('iframe-expandable');
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'iframe-expand-toggle';
+  shell.appendChild(button);
+  updateIframeExpandButton(shell, false);
+  button.addEventListener('click', ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    setIframeExpanded(shell, !shell.classList.contains('iframe-expanded'));
+  });
+  shell.dataset.iframeExpanderReady = 'true';
+}
+
+function initIframeExpanders() {
+  document.querySelectorAll('iframe').forEach(installIframeExpanderForFrame);
+  if (!window.__lionPathIframeExpandObserver) {
+    window.__lionPathIframeExpandObserver = new MutationObserver(records => {
+      records.forEach(record => {
+        record.addedNodes.forEach(node => {
+          if (!(node instanceof Element)) return;
+          if (node.matches('iframe')) installIframeExpanderForFrame(node);
+          node.querySelectorAll?.('iframe').forEach(installIframeExpanderForFrame);
+        });
+      });
+    });
+    window.__lionPathIframeExpandObserver.observe(document.body, { childList:true, subtree:true });
+  }
+  if (!window.__lionPathIframeExpandEsc) {
+    window.__lionPathIframeExpandEsc = true;
+    document.addEventListener('keydown', ev => {
+      if (ev.key !== 'Escape') return;
+      document.querySelectorAll('.iframe-expandable.iframe-expanded').forEach(shell => setIframeExpanded(shell, false));
+    });
+    ['fullscreenchange','webkitfullscreenchange','MSFullscreenChange'].forEach(eventName => {
+      document.addEventListener(eventName, syncIframeFullscreenState);
+    });
+  }
 }
 
 function initHomeVideoAutoStop() {
@@ -5466,6 +5782,7 @@ function getIcon(e) { return e==='employment'?'🛠️':e==='enlistment'?'🧭':
 function setPage(page, updateHash=false) {
   if (page !== 'coach') closeVoiceCoachSession(false);
   if (page !== 'home') stopHomeVideo();
+  document.querySelectorAll('.iframe-expandable.iframe-expanded').forEach(shell => setIframeExpanded(shell, false));
   state.activePage = page;
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   const target = $('page-' + page);
@@ -5482,6 +5799,7 @@ function setPage(page, updateHash=false) {
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.scrollTo({top:0,behavior:reduceMotion ? 'auto' : 'smooth'});
   if (page === 'home') window.setTimeout(requestHomeVideoSync, 120);
+  window.setTimeout(requestSharedAiCoachSync, 120);
 }
 
 window.setPage = setPage;
@@ -7274,8 +7592,7 @@ function requestClearPlanFields() {
 }
 
 function initPlanReviewFrame() {
-  const frame = $('planReviewFrame');
-  if (frame && frame.getAttribute('src') !== PLAN_REVIEW_IFRAME_URL) frame.src = PLAN_REVIEW_IFRAME_URL;
+  requestSharedAiCoachSync();
 }
 function applyEnrollmentFilter(categoryId){
   const cat = ENROLLMENT_CATEGORY_CONFIG.find(x => x.id === categoryId);
@@ -7469,11 +7786,13 @@ function init() {
   safeRun('navigation binding', bindNav);
   safeRun('mobile navigation', initMobileNav);
   safeRun('home video auto-stop', initHomeVideoAutoStop);
+  safeRun('iframe expand controls', initIframeExpanders);
   safeRun('local data', loadLocalData);
 
   // Render pages and tools. Each step is isolated so a course/card issue does not disable all buttons.
   safeRun('home cards', renderHomeCards);
   safeRun('E pages', () => ['enrollment','employment','enlistment'].forEach(renderEPage));
+  safeRun('shared AI coach', initSharedAiCoach);
   safeRun('course filters', renderCourseFilters);
   safeRun('course grid', renderCourses);
   safeRun('evidence simulator', renderEvidence);
