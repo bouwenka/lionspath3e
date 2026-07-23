@@ -1742,6 +1742,13 @@ th{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.6px
   font-size:12.5px;
   line-height:1.35;
 }
+.voice-coach-session-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+}
 .voice-coach-frame-wrap{
   height:min(78vh,820px);
   min-height:560px;
@@ -4460,7 +4467,7 @@ Please create:
         </aside>
       </div>
       <div class="voice-coach-panel" aria-labelledby="voiceCoachTitle">
-        <a class="voice-coach-button" id="openVoiceCoach" href="https://knowt.com/join/058975" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
+        <a class="voice-coach-button" id="openVoiceCoach" href="https://www.knowt.com/join/918462" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
           <img src="assets/talk-to-3e-coach-button.png" alt="Talk to a 3E Coach. Start a live AI conversation." loading="lazy">
         </a>
         <p class="voice-coach-disclaimer" id="voiceCoachTitle">In order to use this feature, you must be in a quiet space.</p>
@@ -4470,7 +4477,10 @@ Please create:
               <strong>Live Voice Session</strong>
               <span>Use the End Voice Session button when you are finished so the voice chat stops.</span>
             </div>
-            <button type="button" class="btn primary" id="endVoiceCoach">End Voice Session</button>
+            <div class="voice-coach-session-actions">
+              <a class="btn small" href="https://www.knowt.com/join/918462" target="_blank" rel="noopener noreferrer">Open in New Tab</a>
+              <button type="button" class="btn primary" id="endVoiceCoach">End Voice Session</button>
+            </div>
           </div>
           <div class="voice-coach-frame-wrap" id="voiceCoachFrameWrap"></div>
         </div>
@@ -4784,8 +4794,8 @@ const READINESS_SEALS = [
 const AI_COACH_JOIN_CODE = '5R2H-R523';
 const AI_COACH_SPACE_URL = 'https://student.schoolai.com/join?code=' + AI_COACH_JOIN_CODE;
 const PLAN_REVIEW_IFRAME_URL = AI_COACH_SPACE_URL;
-const VOICE_COACH_URL = 'https://knowt.com/join/058975';
-const VOICE_COACH_IFRAME_ENABLED = false;
+const VOICE_COACH_URL = 'https://www.knowt.com/join/918462';
+const VOICE_COACH_IFRAME_ENABLED = true;
 const HOME_VIDEO_URL = 'https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview';
 let homeVideoScrollTick = false;
 let sharedAiCoachSyncTick = false;
@@ -4804,10 +4814,15 @@ function schoolAiEmbedBlock(title='Live AI Coach') {
   </div>`;
 }
 
+function canUseVoiceCoachIframe() {
+  return VOICE_COACH_IFRAME_ENABLED;
+}
+
 function openVoiceCoachSession() {
-  if (!VOICE_COACH_IFRAME_ENABLED) {
+  if (!canUseVoiceCoachIframe()) {
     const launched = window.open(VOICE_COACH_URL, '_blank', 'noopener,noreferrer');
     if (launched) launched.opener = null;
+    else window.location.href = VOICE_COACH_URL;
     return;
   }
   const panel = $('voiceCoachFramePanel');
@@ -7610,13 +7625,18 @@ function applyEnrollmentFilter(categoryId){
 function attachDelegates() {
   document.body.addEventListener('click', ev => {
     stopHomeVideoForPageAction(ev.target);
-    if (ev.target.closest('#openVoiceCoach')) {
-      if (VOICE_COACH_IFRAME_ENABLED) {
+    const voiceCoachOpener = ev.target.closest('#openVoiceCoach');
+    if (voiceCoachOpener) {
+      if (canUseVoiceCoachIframe()) {
         ev.preventDefault();
         ev.stopPropagation();
         openVoiceCoachSession();
       } else {
+        ev.preventDefault();
+        ev.stopPropagation();
         closeVoiceCoachSession(false);
+        voiceCoachOpener.setAttribute('aria-expanded', 'false');
+        openVoiceCoachSession();
       }
       return;
     }
