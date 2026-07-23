@@ -4467,7 +4467,7 @@ Please create:
         </aside>
       </div>
       <div class="voice-coach-panel" aria-labelledby="voiceCoachTitle">
-        <a class="voice-coach-button" id="openVoiceCoach" href="https://www.knowt.com/join/918462" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
+        <a class="voice-coach-button" id="openVoiceCoach" href="https://knowt.com/join/918462" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
           <img src="assets/talk-to-3e-coach-button.png" alt="Talk to a 3E Coach. Start a live AI conversation." loading="lazy">
         </a>
         <p class="voice-coach-disclaimer" id="voiceCoachTitle">In order to use this feature, you must be in a quiet space.</p>
@@ -4478,7 +4478,7 @@ Please create:
               <span>Use the End Voice Session button when you are finished so the voice chat stops.</span>
             </div>
             <div class="voice-coach-session-actions">
-              <a class="btn small" href="https://www.knowt.com/join/918462" target="_blank" rel="noopener noreferrer">Open in New Tab</a>
+              <a class="btn small" href="https://knowt.com/join/918462" target="_blank" rel="noopener noreferrer">Open in New Tab</a>
               <button type="button" class="btn primary" id="endVoiceCoach">End Voice Session</button>
             </div>
           </div>
@@ -4794,7 +4794,8 @@ const READINESS_SEALS = [
 const AI_COACH_JOIN_CODE = '5R2H-R523';
 const AI_COACH_SPACE_URL = 'https://student.schoolai.com/join?code=' + AI_COACH_JOIN_CODE;
 const PLAN_REVIEW_IFRAME_URL = AI_COACH_SPACE_URL;
-const VOICE_COACH_URL = 'https://www.knowt.com/join/918462';
+const VOICE_COACH_URL = 'https://knowt.com/join/918462';
+const VOICE_COACH_IFRAME_ALLOW = 'microphone https://knowt.com https://www.knowt.com; camera https://knowt.com https://www.knowt.com; autoplay https://knowt.com https://www.knowt.com; speaker-selection https://knowt.com https://www.knowt.com; clipboard-read https://knowt.com https://www.knowt.com; clipboard-write https://knowt.com https://www.knowt.com; fullscreen *';
 const VOICE_COACH_IFRAME_ENABLED = true;
 const HOME_VIDEO_URL = 'https://drive.google.com/file/d/1v4kfqybtZHrGXmlGEKJHhGggBW1M92EQ/preview';
 let homeVideoScrollTick = false;
@@ -4829,7 +4830,7 @@ function openVoiceCoachSession() {
   const wrap = $('voiceCoachFrameWrap');
   const opener = $('openVoiceCoach');
   if (!panel || !wrap) return;
-  wrap.innerHTML = `<iframe src="${VOICE_COACH_URL}" title="Talk to a 3E Coach voice session" allow="microphone; camera; clipboard-read; clipboard-write; fullscreen" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+  wrap.innerHTML = `<iframe src="${VOICE_COACH_URL}" title="Talk to a 3E Coach voice session" allow="${VOICE_COACH_IFRAME_ALLOW}" allowfullscreen loading="eager" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
   panel.classList.add('open');
   panel.setAttribute('aria-hidden', 'false');
   if (opener) opener.setAttribute('aria-expanded', 'true');
