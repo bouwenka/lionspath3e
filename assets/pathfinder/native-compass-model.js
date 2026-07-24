@@ -1,5 +1,5 @@
 ﻿// Native LionPath Career Compass model.
-// Generated from assets/pathfinder/lionspath-pathfinder.html so the native page keeps the proven scoring logic.
+// Native Career Compass scoring model retained from the reviewed legacy assessment.
 (function(){
 class LionPathCompassModel {
   constructor(props = {}) {
