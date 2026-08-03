@@ -4184,6 +4184,7 @@ input,select,textarea{
 }
 }
 </style>
+<link rel="stylesheet" href="assets/lionpath-training.css">
 </head>
 <body>
 
@@ -4223,6 +4224,7 @@ input,select,textarea{
       <button type="button" data-page="coach">AI Coach</button>
       <button type="button" data-page="evidence">Evidence</button>
       <button type="button" data-page="plan">My Plan</button>
+      <button type="button" data-page="training">Help</button>
     </nav>
     <a class="topbar-logo-link" href="https://www.lcpscte.org/" target="_blank" rel="noopener noreferrer" aria-label="Open the Louisa County CTE website">
       <img class="topbar-logo" src="assets/cte-logo.png" alt="Louisa County CTE">
@@ -4622,6 +4624,132 @@ Please create:
         </div>
       </div>
     </section>
+
+    <!-- HELP -->
+    <section id="page-training" class="page" aria-labelledby="trainingTitle">
+      <div class="training-flow-hero">
+        <div class="training-flow-hero-copy">
+          <span class="eyebrow">LionPath guided help</span>
+          <h1 id="trainingTitle">One goal. <span>One step at a time.</span></h1>
+          <p>Tell LionPath what you need today. You will get a short route through the right tools, with clear instructions and a saved place to return to.</p>
+          <div class="training-flow-hero-actions">
+            <button type="button" class="btn primary" data-scroll="trainingGoalChooser">Start my guide</button>
+            <button type="button" class="btn" id="trainingOpenPageGuides">Help with one page</button>
+          </div>
+          <p class="training-flow-safety">LionPath supports exploration and planning. Confirm course, college, career, and military requirements with a counselor or the appropriate official source.</p>
+        </div>
+        <div class="training-flow-hero-visual" aria-label="How guided help works">
+          <div class="training-flow-path">
+            <div><span>1</span><strong>Choose</strong><small>Tell us what you need</small></div>
+            <div><span>2</span><strong>Try it</strong><small>Complete one clear task</small></div>
+            <div><span>3</span><strong>Plan</strong><small>Leave with a next step</small></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="training-flow-section" id="trainingGoalChooser" aria-labelledby="trainingGoalTitle">
+        <div class="training-flow-panel">
+          <div class="training-flow-panel-head">
+            <span class="eyebrow">Start here</span>
+            <h2 id="trainingGoalTitle">What do you want help with?</h2>
+            <p>Choose one goal. You can change it at any time.</p>
+          </div>
+
+          <div class="training-flow-goals" role="group" aria-label="Choose what you want help with">
+            <button type="button" class="training-flow-goal" data-training-goal="unsure">
+              <span class="training-flow-goal-icon" aria-hidden="true">?</span>
+              <span><strong>I do not know where to start</strong><small>Discover interests and possible directions.</small></span>
+              <b aria-hidden="true">&gt;</b>
+            </button>
+            <button type="button" class="training-flow-goal" data-training-goal="courses">
+              <span class="training-flow-goal-icon" aria-hidden="true">C</span>
+              <span><strong>I need to choose classes</strong><small>Find courses and build a short list.</small></span>
+              <b aria-hidden="true">&gt;</b>
+            </button>
+            <button type="button" class="training-flow-goal" data-training-goal-group="pathway" aria-expanded="false" aria-controls="trainingPathwayChoices">
+              <span class="training-flow-goal-icon" aria-hidden="true">3E</span>
+              <span><strong>I want to explore a pathway</strong><small>Compare education, careers, or military service.</small></span>
+              <b aria-hidden="true">&gt;</b>
+            </button>
+            <button type="button" class="training-flow-goal" data-training-goal="meeting">
+              <span class="training-flow-goal-icon" aria-hidden="true">M</span>
+              <span><strong>I am preparing for a meeting</strong><small>Organize options and questions to discuss.</small></span>
+              <b aria-hidden="true">&gt;</b>
+            </button>
+          </div>
+
+          <div class="training-flow-pathway-choices" id="trainingPathwayChoices" hidden>
+            <p><strong>Which direction do you want to explore?</strong></p>
+            <div role="group" aria-label="Choose a pathway direction">
+              <button type="button" class="btn" data-training-goal="college">Enrollment <span>College and training</span></button>
+              <button type="button" class="btn" data-training-goal="career">Employment <span>Careers and work</span></button>
+              <button type="button" class="btn" data-training-goal="military">Enlistment <span>Military service</span></button>
+            </div>
+          </div>
+
+          <div class="training-flow-route" id="trainingRouteResult" aria-live="polite" hidden>
+            <div class="training-flow-route-head">
+              <div>
+                <span class="eyebrow">Your guide</span>
+                <h3 id="trainingRouteTitle" tabindex="-1">Your LionPath route</h3>
+                <p id="trainingRouteSummary"></p>
+              </div>
+              <div class="training-flow-route-settings">
+                <label for="trainingGrade">Grade <span>(optional)</span></label>
+                <select id="trainingGrade">
+                  <option value="">Skip</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <button type="button" class="training-flow-text-button" id="trainingChangeGoal">Change goal</button>
+              </div>
+            </div>
+            <div class="training-flow-progress" id="trainingRouteProgress" role="progressbar" aria-label="Guided route progress" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0">
+              <span id="trainingRouteProgressValue"></span>
+            </div>
+            <div class="training-flow-stepper" id="trainingRouteSteps" aria-label="Route steps"></div>
+            <div id="trainingRouteCurrent"></div>
+          </div>
+        </div>
+      </section>
+
+      <details class="training-flow-reference" id="trainingPages">
+        <summary>
+          <span><strong>Need help with one LionPath page?</strong><small>Open a visual walkthrough for the page you are using.</small></span>
+          <b aria-hidden="true">+</b>
+        </summary>
+        <div class="training-flow-page-guides">
+          <button type="button" data-page-guide="home"><span>H</span><strong>Home</strong><small>Find a starting point - 4 steps</small></button>
+          <button type="button" data-page-guide="compass"><span>CC</span><strong>Career Compass</strong><small>Complete, save, and share - 9 steps</small></button>
+          <button type="button" data-page-guide="enrollment"><span>EN</span><strong>Enrollment</strong><small>College and training - 9 steps</small></button>
+          <button type="button" data-page-guide="employment"><span>EM</span><strong>Employment</strong><small>Careers and CTE - 8 steps</small></button>
+          <button type="button" data-page-guide="enlistment"><span>ES</span><strong>Enlistment</strong><small>Military pathways - 10 steps</small></button>
+          <button type="button" data-page-guide="courses"><span>C</span><strong>Courses</strong><small>Search and compare - 5 steps</small></button>
+          <button type="button" data-page-guide="coach"><span>AI</span><strong>AI Coach</strong><small>Ask better questions - 6 steps</small></button>
+          <button type="button" data-page-guide="evidence"><span>EV</span><strong>Evidence</strong><small>Build a snapshot - 6 steps</small></button>
+          <button type="button" data-page-guide="plan"><span>P</span><strong>My Plan</strong><small>Review and share - 7 steps</small></button>
+        </div>
+      </details>
+
+      <details class="training-flow-reference training-flow-help" id="trainingTips">
+        <summary>
+          <span><strong>Helpful information</strong><small>Privacy, verification, and common questions.</small></span>
+          <b aria-hidden="true">+</b>
+        </summary>
+        <div class="training-flow-rules">
+          <article><span aria-hidden="true">1</span><div><h3>Protect your privacy</h3><p>Use a first name or initial only. Never enter IDs, passwords, addresses, medical information, or private records.</p></div></article>
+          <article><span aria-hidden="true">2</span><div><h3>Verify important details</h3><p>LionPath helps you explore. Counselors, teachers, employers, colleges, and official military sources confirm final requirements.</p></div></article>
+          <article><span aria-hidden="true">3</span><div><h3>Leave with one next step</h3><p>Save a course, question, or realistic action in My Plan and take it to a trusted adult.</p></div></article>
+        </div>
+        <div class="training-flow-faq">
+          <details><summary>Where is my work saved?</summary><p>My Plan and Evidence entries stay in this browser on this device. They are not an official school record. Download or print anything you need to keep.</p></details>
+          <details><summary>Does Career Compass choose my pathway?</summary><p>No. It suggests possibilities based on your answers. You can change direction, combine pathways, add results to My Plan, and share the report with a counselor or trusted adult.</p></details>
+          <details><summary>Can AI Coach make decisions for me?</summary><p>No. It can help you compare options and prepare questions. You make the decisions and verify official information.</p></details>
+        </div>
+      </details>
+    </section>
   </main>
 </div>
 
@@ -4630,9 +4758,24 @@ Please create:
 </div>
 <section id="printPlanDocument" class="print-plan-document" aria-hidden="true"></section>
 <dialog id="courseModal"><div id="courseModalContent"></div></dialog>
+<dialog id="trainingGuideDialog" class="training-guide-dialog" aria-labelledby="trainingGuideDialogTitle">
+  <div class="training-guide-dialog-shell">
+    <div class="training-guide-dialog-head">
+      <div>
+        <span>Show me how</span>
+        <h2 id="trainingGuideDialogTitle">LionPath page guide</h2>
+      </div>
+      <button type="button" class="training-guide-dialog-close" id="trainingGuideDialogClose" aria-label="Close page guide">&times;</button>
+    </div>
+    <div class="training-guide-dialog-body">
+      <div class="training-tour" id="trainingOverlayTour" data-training-tour="home"></div>
+    </div>
+  </div>
+</dialog>
 
 <script src="assets/pathfinder/native-compass-model.js"></script>
 <script src="assets/lionpath-app.js"></script>
+<script src="assets/lionpath-training.js"></script>
 </body>
 </html>
 

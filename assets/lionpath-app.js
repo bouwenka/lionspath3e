@@ -634,6 +634,7 @@ async function copyPromptText(text, button=null) {
 function clearSavedData() {
   if (!confirm('Clear saved LionPath data from this browser? This removes local plan and evidence notes on this device.')) return;
   localStorage.removeItem(STORAGE_KEY);
+  window.LionPathTraining?.clear?.();
   planData = {}; evidenceData = {};
   ['planName','planExperiences','planSkills','planOptions','planNextStep','planQuestions'].forEach(id => { const el=$(id); if (el) el.value=''; });
   const grade=$('planGrade'); if (grade) grade.value='9';
@@ -1206,18 +1207,22 @@ function getIcon(e) { return e==='employment'?'🛠️':e==='enlistment'?'🧭':
 
 // ── PAGE SYSTEM ───────────────────────────────────────────────────────────────
 function setPage(page, updateHash=false) {
+  const target = $('page-' + page);
+  if (!target) return;
+  if (page !== 'training' && !$('trainingGuideDialog')?.open) window.LionPathTraining?.pause?.();
   if (page !== 'coach') closeVoiceCoachSession(false);
   if (page !== 'home') stopHomeVideo();
   document.querySelectorAll('.iframe-expandable.iframe-expanded').forEach(shell => setIframeExpanded(shell, false));
   state.activePage = page;
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  const target = $('page-' + page);
-  if (target) target.classList.add('active');
+  target.classList.add('active');
   document.querySelectorAll('[data-page]').forEach(btn => {
     const active = btn.dataset.page === page;
     btn.classList.toggle('active', active);
-    if (active) btn.setAttribute('aria-current', 'page');
-    else btn.removeAttribute('aria-current');
+    if (btn.closest('#mainNav')) {
+      if (active) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    }
   });
   // Hash routing disabled for Wix embed stability.
   // if (updateHash) history.replaceState(null,'','#'+page);

@@ -41,7 +41,7 @@ After deployment, verify the public endpoint with SSL Labs and SecurityHeaders.c
 
 ## Data handling
 
-LionPath has no application login or backend student database. Plan and readiness information is stored in the current browser's local storage and is only sent elsewhere when a user deliberately copies or enters it into an external service. The application validates locally stored records, limits free-text lengths, expires saved data after 180 days without an update, removes unused third-party scripts, and provides a visible clear-all-data control.
+LionPath has no application login or backend student database. Plan and readiness information is stored in the current browser's local storage and is only sent elsewhere when a user deliberately copies or enters it into an external service. The Help page also stores the selected guide and completed step numbers locally so students can return to their place; the existing clear-all-data control removes that guide progress as well. The application validates locally stored records, limits free-text lengths, expires saved plan data after 180 days without an update, removes unused third-party scripts, and provides a visible clear-all-data control.
 
 ## District privacy review
 
