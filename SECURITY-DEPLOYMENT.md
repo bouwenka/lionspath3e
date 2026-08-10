@@ -37,17 +37,17 @@ curl -I https://lionspath.lcps.k12.va.us/
 
 The HTTP request should return a permanent redirect to HTTPS. The HTTPS response should include HSTS, CSP, Referrer-Policy, Permissions-Policy, X-Content-Type-Options, and X-Frame-Options.
 
-After deployment, verify the public endpoint with SSL Labs and SecurityHeaders.com. Test the Google Drive video, shared AI Coach, voice coach, clipboard actions, and fullscreen controls from a district-managed device before broad release.
+After deployment, verify the public endpoint with SSL Labs and SecurityHeaders.com. Test the Google Drive video, shared AI Coach, voice coach, GoatCounter visit reporting, clipboard actions, and fullscreen controls from a district-managed device before broad release.
 
 ## Data handling
 
-LionPath has no application login or backend student database. Plan and readiness information is stored in the current browser's local storage and is only sent elsewhere when a user deliberately copies or enters it into an external service. The Help page also stores the selected guide and completed step numbers locally so students can return to their place; the existing clear-all-data control removes that guide progress as well. The application validates locally stored records, limits free-text lengths, expires saved plan data after 180 days without an update, removes unused third-party scripts, and provides a visible clear-all-data control.
+LionPath has no application login or backend student database. Plan and readiness information is stored in the current browser's local storage and is only sent elsewhere when a user deliberately copies or enters it into an external service. The Help page also stores the selected guide and completed step numbers locally so students can return to their place; the existing clear-all-data control removes that guide progress as well. GoatCounter is configured only to count anonymous site visits; LionPath does not send assessment answers, plan contents, readiness entries, AI conversations, or voice conversations to analytics. The application validates locally stored records, limits free-text lengths, expires saved plan data after 180 days without an update, removes unused third-party scripts, and provides a visible clear-all-data control.
 
 ## District privacy review
 
 Technical hardening does not by itself establish FERPA, COPPA, or state-law compliance. Before student release, the district privacy or legal owner should document:
 
-1. Approval of SchoolAI, Knowt, and Google Drive for the intended student use.
+1. Approval of SchoolAI, Knowt, Google Drive, and GoatCounter for the intended student use.
 2. What each provider collects, including prompts, account identifiers, device information, and voice recordings.
 3. Whether information is used for advertising, profiling, model training, or any purpose outside the district-authorized educational service.
 4. Provider retention periods and the district's ability to access, correct, export, and delete student information.
