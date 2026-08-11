@@ -349,6 +349,38 @@ function initSharedAiCoach() {
   requestSharedAiCoachSync();
 }
 
+function initProgramAccordions() {
+  if (window.__lionPathProgramAccordionsReady) return;
+  window.__lionPathProgramAccordionsReady = true;
+
+  const syncCoachAfterLayout = () => {
+    requestSharedAiCoachSync();
+    window.requestAnimationFrame(requestSharedAiCoachSync);
+    window.setTimeout(requestSharedAiCoachSync, 80);
+    window.setTimeout(requestSharedAiCoachSync, 240);
+  };
+
+  document.addEventListener('toggle', event => {
+    const card = event.target;
+    if (!(card instanceof HTMLDetailsElement) || !card.classList.contains('program-card')) return;
+
+    const grid = card.closest('.program-grid');
+    if (card.open && grid) {
+      Array.from(grid.children).forEach(other => {
+        if (other !== card && other.matches?.('.program-card[open]')) other.open = false;
+      });
+    }
+
+    syncCoachAfterLayout();
+  }, true);
+
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(syncCoachAfterLayout);
+    document.querySelectorAll('.program-grid').forEach(grid => observer.observe(grid));
+    window.__lionPathProgramGridObserver = observer;
+  }
+}
+
 function getIframeShell(frame) {
   if (!frame) return null;
   let shell = frame.closest('.video-frame,.schoolai-embed-wrap,.voice-coach-frame-wrap,.compass-pathfinder-shell');
@@ -3330,6 +3362,7 @@ function init() {
   // Render pages and tools. Each step is isolated so a course/card issue does not disable all buttons.
   safeRun('home cards', renderHomeCards);
   safeRun('E pages', () => ['enrollment','employment','enlistment'].forEach(renderEPage));
+  safeRun('program accordions', initProgramAccordions);
   safeRun('shared AI coach', initSharedAiCoach);
   safeRun('course filters', renderCourseFilters);
   safeRun('course grid', renderCourses);
