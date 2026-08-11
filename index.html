@@ -4124,6 +4124,104 @@ input,select,textarea{
 }
 
 @media screen{
+/* Employment-page work permit guide. */
+.work-permit-section{
+  display:grid;
+  gap:18px;
+  padding:clamp(22px,3vw,34px);
+  border:1px solid rgba(255,221,23,.28);
+  border-radius:20px;
+  background:
+    linear-gradient(135deg,rgba(255,221,23,.09),transparent 42%),
+    linear-gradient(145deg,rgba(0,0,0,.36),rgba(0,63,32,.22));
+  box-shadow:0 22px 52px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.work-permit-heading{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(300px,.72fr);
+  gap:24px;
+  align-items:center;
+}
+.work-permit-kicker{
+  display:inline-block;
+  margin-bottom:8px;
+  color:var(--gold);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.work-permit-heading h2{
+  margin:0 0 10px;
+  color:#fff8b8;
+  font-size:clamp(30px,4vw,46px);
+  line-height:1.04;
+}
+.work-permit-heading p,
+.work-permit-step p,
+.work-permit-actions span{
+  color:#e3f0e6;
+  line-height:1.58;
+}
+.work-permit-heading p{margin:0;font-size:16px;}
+.work-permit-age-note{
+  padding:18px;
+  border-left:4px solid var(--gold);
+  border-radius:8px;
+  background:rgba(0,0,0,.28);
+}
+.work-permit-age-note strong{display:block;margin-bottom:6px;color:var(--gold-2);font-size:18px;}
+.work-permit-age-note p{font-size:14px;}
+.work-permit-steps{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.work-permit-step{
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr);
+  gap:14px;
+  align-items:start;
+  min-height:156px;
+  padding:18px;
+  border:1px solid rgba(255,221,23,.19);
+  border-radius:12px;
+  background:rgba(0,18,11,.58);
+}
+.work-permit-step > span{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:var(--gold);
+  color:#092514;
+  font-weight:1000;
+}
+.work-permit-step h3{margin:2px 0 7px;color:#fff8b8;font-size:18px;line-height:1.2;}
+.work-permit-step p{margin:0;font-size:14px;}
+.work-permit-actions{
+  display:grid;
+  grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr);
+  gap:20px;
+  align-items:center;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.work-permit-actions strong{display:block;margin-bottom:5px;color:#fff;font-size:18px;}
+.work-permit-actions span{display:block;font-size:14px;}
+.work-permit-actions .hero-actions{margin:0;justify-content:flex-end;}
+.work-permit-section > .source-note{margin:0;}
+@media(max-width:900px){
+  .work-permit-heading,
+  .work-permit-actions{grid-template-columns:1fr;}
+  .work-permit-actions .hero-actions{justify-content:flex-start;}
+}
+@media(max-width:680px){
+  .work-permit-steps{grid-template-columns:1fr;}
+  .work-permit-step{min-height:0;}
+  .work-permit-actions .btn{width:100%;text-align:center;}
+}
+
 /* Final dark-theme polish for repeated content boxes. */
 .course-card,
 .program-card,
@@ -4181,6 +4279,107 @@ input,select,textarea{
 .prompt-card span,
 .plan-summary-item span{
   color:#e3f0e6;
+}
+
+/* LCHS Counseling connections. */
+.counseling-callout{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:24px;
+  align-items:center;
+  margin:26px 0 0;
+  padding:clamp(22px,3vw,32px);
+  overflow:hidden;
+  border:1px solid rgba(255,221,23,.42);
+  border-radius:14px;
+  background:
+    linear-gradient(110deg,rgba(0,24,15,.98),rgba(0,66,39,.88) 62%,rgba(7,30,20,.98)),
+    #001b11;
+  box-shadow:0 20px 46px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.counseling-callout::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.counseling-callout-copy{max-width:820px;}
+.counseling-kicker{
+  display:block;
+  margin-bottom:7px;
+  color:var(--gold);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.counseling-callout h2{
+  margin:0 0 8px;
+  color:#fff8b8;
+  font-size:clamp(24px,3vw,36px);
+  line-height:1.08;
+}
+.counseling-callout p{
+  margin:0;
+  color:#e3f0e6;
+  font-size:16px;
+  line-height:1.55;
+}
+.counseling-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+  max-width:520px;
+}
+.counseling-actions .btn{
+  min-height:44px;
+  text-align:center;
+}
+.counseling-callout-compact h2,
+.counseling-callout-pathway h2,
+.counseling-callout-plan h2{font-size:clamp(22px,2.3vw,30px);}
+.counseling-report-link{
+  border-color:rgba(255,221,23,.5);
+  color:#fff8b8;
+}
+.counseling-text-link{
+  color:#ffe761;
+  font-weight:800;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+.counseling-text-link:hover,
+.counseling-text-link:focus-visible{color:#fff8b8;}
+.site-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  width:min(1500px,calc(100% - 32px));
+  margin:34px auto 18px;
+  padding:20px clamp(18px,3vw,28px);
+  border-top:1px solid rgba(255,221,23,.3);
+  color:#dce9df;
+}
+.site-footer strong{display:block;margin-bottom:4px;color:#fff8b8;font-size:16px;}
+.site-footer span{display:block;font-size:13px;line-height:1.45;}
+.site-footer nav{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end;}
+.site-footer a{color:#ffe761;font-weight:800;text-decoration:none;}
+.site-footer a:hover,
+.site-footer a:focus-visible{text-decoration:underline;text-underline-offset:4px;}
+@media(max-width:900px){
+  .counseling-callout{grid-template-columns:1fr;}
+  .counseling-actions{justify-content:flex-start;max-width:none;}
+}
+@media(max-width:620px){
+  .counseling-callout{padding:20px 16px;border-radius:10px;}
+  .counseling-actions{display:grid;grid-template-columns:1fr;}
+  .counseling-actions .btn{width:100%;}
+  .site-footer{align-items:flex-start;flex-direction:column;width:calc(100% - 20px);}
+  .site-footer nav{justify-content:flex-start;}
 }
 }
 </style>
@@ -4303,6 +4502,17 @@ input,select,textarea{
           </ul>
         </div>
       </div>
+      <aside class="counseling-callout counseling-callout-home" aria-labelledby="homeCounselingTitle">
+        <div class="counseling-callout-copy">
+          <span class="counseling-kicker">LCHS School Counseling</span>
+          <h2 id="homeCounselingTitle">Ready to talk it through?</h2>
+          <p>Meet the LCHS counseling team, find your counselor by last-name group, and use the official counseling site to request an appointment.</p>
+        </div>
+        <div class="counseling-actions">
+          <a class="btn primary" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Visit LCHS Counseling</a>
+          <a class="btn" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/meet-your-counselor" target="_blank" rel="noopener noreferrer">Meet Your Counselor</a>
+        </div>
+      </aside>
     </section>
 
     <section id="page-compass" class="page">
@@ -4469,6 +4679,16 @@ Please create:
           </div>
         </aside>
       </div>
+      <aside class="counseling-callout counseling-callout-compact" aria-labelledby="coachCounselingTitle">
+        <div class="counseling-callout-copy">
+          <span class="counseling-kicker">Prepared your questions?</span>
+          <h2 id="coachCounselingTitle">Turn AI preparation into a counselor conversation</h2>
+          <p>Use the official LCHS Counseling site to find your counselor and request an appointment when you are ready to verify courses, deadlines, requirements, or next steps.</p>
+        </div>
+        <div class="counseling-actions">
+          <a class="btn primary" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Find My Counselor or Request an Appointment</a>
+        </div>
+      </aside>
       <div class="voice-coach-panel" aria-labelledby="voiceCoachTitle">
         <a class="voice-coach-button" id="openVoiceCoach" href="https://knowt.com/join/918462" target="_blank" rel="noopener noreferrer" aria-expanded="false" aria-controls="voiceCoachFramePanel">
           <img src="assets/talk-to-3e-coach-button.png" alt="Talk to a 3E Coach. Start a live AI conversation." loading="lazy">
@@ -4560,6 +4780,16 @@ Please create:
           <button type="button" class="btn" id="clearEvidenceSnapshot">Clear Snapshot</button>
         </div>
       </div>
+      <aside class="counseling-callout counseling-callout-compact" aria-labelledby="evidenceCounselingTitle">
+        <div class="counseling-callout-copy">
+          <span class="counseling-kicker">Official review</span>
+          <h2 id="evidenceCounselingTitle">Review this snapshot with LCHS Counseling</h2>
+          <p>A counselor can compare your snapshot with verified records and current diploma, course, testing, and graduation requirements.</p>
+        </div>
+        <div class="counseling-actions">
+          <a class="btn primary" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Find My Counselor or Request an Appointment</a>
+        </div>
+      </aside>
     </section>
 
     <!-- MY PLAN -->
@@ -4623,6 +4853,17 @@ Please create:
           </div>
         </div>
       </div>
+      <aside class="counseling-callout counseling-callout-plan" aria-labelledby="planCounselingTitle">
+        <div class="counseling-callout-copy">
+          <span class="counseling-kicker">Make the plan official</span>
+          <h2 id="planCounselingTitle">Bring your 3E plan to a counselor</h2>
+          <p>Your counselor can help verify course availability, graduation requirements, applications, deadlines, and the next steps that fit your goals.</p>
+        </div>
+        <div class="counseling-actions">
+          <a class="btn primary" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Meet the Team or Request an Appointment</a>
+          <a class="btn" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/contact-us" target="_blank" rel="noopener noreferrer">Counseling Contact Information</a>
+        </div>
+      </aside>
     </section>
 
     <!-- HELP -->
@@ -4747,10 +4988,21 @@ Please create:
           <details><summary>Where is my work saved?</summary><p>My Plan and Evidence entries stay in this browser on this device. They are not an official school record. Download or print anything you need to keep. LionPath counts anonymous site visits through GoatCounter, but assessment answers, plan contents, and AI conversations are not sent to analytics.</p></details>
           <details><summary>Does Career Compass choose my pathway?</summary><p>No. It suggests possibilities based on your answers. You can change direction, combine pathways, add results to My Plan, and share the report with a counselor or trusted adult.</p></details>
           <details><summary>Can AI Coach make decisions for me?</summary><p>No. It can help you compare options and prepare questions. You make the decisions and verify official information.</p></details>
+          <details><summary>When should I talk to my school counselor?</summary><p>Talk with a counselor when you need to verify course choices, graduation requirements, college or career steps, deadlines, official records, or a plan that still feels unclear. <a class="counseling-text-link" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Visit LCHS Counseling to find your counselor or request an appointment.</a></p></details>
         </div>
       </details>
     </section>
   </main>
+  <footer class="site-footer" aria-label="LionPath support links">
+    <div>
+      <strong>Need an official answer or a planning conversation?</strong>
+      <span>LCHS counselors can help verify requirements and turn LionPath questions into next steps.</span>
+    </div>
+    <nav aria-label="Counseling links">
+      <a href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">LCHS Counseling</a>
+      <a href="https://sites.google.com/lcps.k12.va.us/lchscounseling/contact-us" target="_blank" rel="noopener noreferrer">Contact Counseling</a>
+    </nav>
+  </footer>
 </div>
 
 <div id="sharedAiCoachSurface" class="shared-ai-coach-surface schoolai-embed-wrap" aria-hidden="true">
