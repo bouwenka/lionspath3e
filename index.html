@@ -1261,6 +1261,16 @@ select option{color:#07120d;}
 .evidence-chip.active{border-color:var(--gold);background:linear-gradient(180deg,rgba(255,221,23,.22),rgba(255,221,23,.105));color:#fff8c0;}
 .evidence-chip.active::before{background:var(--gold);border-color:var(--gold);box-shadow:inset 0 0 0 4px #0b3f2a;}
 .readiness-results{display:grid;gap:20px;}
+.readiness-meter-panel{position:relative;overflow:hidden;}
+.readiness-meter-panel::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:#8fd1b4;}
+.cumulative-grade-meters{border-color:rgba(255,221,23,.46);background:linear-gradient(145deg,rgba(255,221,23,.09),rgba(0,0,0,.22));}
+.cumulative-grade-meters::before{background:var(--gold);box-shadow:0 0 22px rgba(255,221,23,.36);}
+.meter-scope-label{display:inline-block;margin-bottom:5px;color:#8fd1b4;font-size:11px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;}
+.cumulative-grade-meters .meter-scope-label{color:var(--gold);}
+.current-grade-meters .readiness-meter-fill{background:linear-gradient(90deg,#4ea879,#9be0bd);}
+.cumulative-grade-meters .readiness-meter-fill{background:linear-gradient(90deg,var(--gold),#8fd1b4);}
+.evidence-reset-btn{flex:0 0 auto;border-color:rgba(255,221,23,.45);background:rgba(0,0,0,.22);color:#fff8ac;}
+.evidence-reset-btn:hover,.evidence-reset-btn:focus-visible{border-color:var(--gold);background:rgba(255,221,23,.14);}
 .readiness-meter-card{border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(0,0,0,.18);padding:15px;margin-bottom:12px;}
 .readiness-meter-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:10px;}
 .readiness-meter-top strong{color:#fff8ac;font-size:16px;}
@@ -4724,26 +4734,37 @@ Please create:
               <h3>Build your snapshot</h3>
               <p class="panel-sub">Pick your grade so the checklist matches your planning stage, then check what is true.</p>
             </div>
-            <span class="head-count" id="evidenceHeadCount"></span>
+            <button type="button" class="btn small evidence-reset-btn" id="clearEvidenceSnapshot">Reset / Clear All</button>
           </div>
           <label for="evidenceGrade">Grade level</label>
           <select id="evidenceGrade" class="readiness-select">
-            <option value="">Choose grade</option>
             <option value="9">Grade 9</option>
             <option value="10">Grade 10</option>
             <option value="11">Grade 11</option>
             <option value="12">Grade 12</option>
           </select>
-          <p class="source-note" id="evidenceGradeHint">Choose a grade level to load age-appropriate evidence questions.</p>
+          <p class="source-note" id="evidenceGradeHint">Grade 9 checklist: choose what is true now.</p>
           <div class="readiness-groups" id="evidenceGroups"></div>
         </aside>
 
         <div class="readiness-results">
-          <section class="panel">
+          <section class="panel readiness-meter-panel current-grade-meters">
             <div class="panel-head">
               <div>
-                <h3>3E readiness meters</h3>
-                <p class="panel-sub">These are not grades. They show whether your evidence is Exploring, Building, or Strong.</p>
+                <span class="meter-scope-label">This grade only</span>
+                <h3 id="currentGradeMeterTitle">Grade 9 readiness</h3>
+                <p class="panel-sub">Shows evidence selected only in the grade currently displayed.</p>
+              </div>
+            </div>
+            <div class="readiness-meters" id="evidenceCurrentMeters"></div>
+          </section>
+
+          <section class="panel readiness-meter-panel cumulative-grade-meters">
+            <div class="panel-head">
+              <div>
+                <span class="meter-scope-label">Full high school record</span>
+                <h3>Cumulative Grades 9–12 readiness</h3>
+                <p class="panel-sub" id="cumulativeMeterHint">Combines evidence saved across every grade. Only grade levels with recorded evidence are included in the meter.</p>
               </div>
             </div>
             <div class="readiness-meters" id="evidenceMeters"></div>
@@ -4777,7 +4798,6 @@ Please create:
         <div class="card-actions">
           <button type="button" class="btn primary" id="printEvidenceSnapshot">Print / Save Snapshot</button>
           <button type="button" class="btn" id="downloadEvidenceSnapshot">Download PDF</button>
-          <button type="button" class="btn" id="clearEvidenceSnapshot">Clear Snapshot</button>
         </div>
       </div>
       <aside class="counseling-callout counseling-callout-compact" aria-labelledby="evidenceCounselingTitle">

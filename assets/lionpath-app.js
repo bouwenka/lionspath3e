@@ -682,7 +682,7 @@ function clearSavedData() {
   const e=$('planE'); if (e) e.value='Still Exploring';
   renderSelectedCourses();
   updatePlanPromptPreview();
-  evidenceData = { grade:'', checked:{} };
+  evidenceData = { grade:'9', checkedByGrade:{} };
   renderEvidence();
   showToast('Saved data cleared');
 }
@@ -727,16 +727,34 @@ function normalizeStoredPlan(value) {
 function normalizeStoredEvidence(value) {
   const source = value && typeof value === 'object' && !Array.isArray(value) ? value : {};
   const allowedGrades = new Set(['9', '10', '11', '12']);
-  const allowedIds = new Set(READINESS_GROUPS.flatMap(group => group.items.map(item => item.id)));
-  const checked = {};
-  if (source.checked && typeof source.checked === 'object' && !Array.isArray(source.checked)) {
-    Object.entries(source.checked).forEach(([key, enabled]) => {
-      if (enabled && allowedIds.has(key)) checked[key] = true;
+  const itemMap = new Map(READINESS_GROUPS.flatMap(group => group.items).map(item => [item.id, item]));
+  const checkedByGrade = {};
+  const addChecked = (grade, id) => {
+    const cleanGrade = String(grade || '');
+    const item = itemMap.get(id);
+    if (!allowedGrades.has(cleanGrade) || !item || !readinessItemApplies(item, readinessGradeBand(cleanGrade))) return;
+    checkedByGrade[cleanGrade] = checkedByGrade[cleanGrade] || {};
+    checkedByGrade[cleanGrade][id] = true;
+  };
+  if (source.checkedByGrade && typeof source.checkedByGrade === 'object' && !Array.isArray(source.checkedByGrade)) {
+    Object.entries(source.checkedByGrade).forEach(([grade, selections]) => {
+      if (!selections || typeof selections !== 'object' || Array.isArray(selections)) return;
+      Object.entries(selections).forEach(([id, enabled]) => {
+        if (enabled) addChecked(grade, id);
+      });
+    });
+  } else if (source.checked && typeof source.checked === 'object' && !Array.isArray(source.checked)) {
+    Object.entries(source.checked).forEach(([id, enabled]) => {
+      if (!enabled) return;
+      const preferredGrade = source.checkedGrades?.[id] || source.grade;
+      const item = itemMap.get(id);
+      if (!item) return;
+      addChecked(evidenceGradeForItem(item, preferredGrade), id);
     });
   }
   return {
-    grade: allowedGrades.has(String(source.grade || '')) ? String(source.grade) : '',
-    checked
+    grade: allowedGrades.has(String(source.grade || '')) ? String(source.grade) : '9',
+    checkedByGrade
   };
 }
 
@@ -2298,20 +2316,14 @@ function openCourse(i) {
 // ── EVIDENCE ──────────────────────────────────────────────────────────────────
 function normalizeEvidenceState() {
   if (!evidenceData || typeof evidenceData !== 'object' || Array.isArray(evidenceData)) evidenceData = {};
-  if (!evidenceData.checked) {
-    const legacyChecked = {};
-    Object.entries(evidenceData).forEach(([key, value]) => {
-      if (value === true) legacyChecked[key] = true;
-    });
-    evidenceData = {
-      grade: evidenceData.grade || '',
-      checked: legacyChecked
-    };
-  }
-  evidenceData.checked = evidenceData.checked || {};
-  evidenceData.grade = evidenceData.grade || '';
-  if (!readinessGradeBand(evidenceData.grade)) evidenceData.grade = '';
+  if (!evidenceData.checkedByGrade) evidenceData = normalizeStoredEvidence(evidenceData);
+  evidenceData.checkedByGrade = evidenceData.checkedByGrade || {};
+  evidenceData.grade = evidenceData.grade || '9';
+  if (!readinessGradeBand(evidenceData.grade)) evidenceData.grade = '9';
   pruneEvidenceCheckedForGrade(evidenceData);
+  evidenceData.checked = evidenceData.grade
+    ? (evidenceData.checkedByGrade[evidenceData.grade] = evidenceData.checkedByGrade[evidenceData.grade] || {})
+    : {};
   return evidenceData;
 }
 
@@ -2350,17 +2362,47 @@ function readinessGroupsForGrade(grade) {
   })).filter(group => group.items.length);
 }
 
+function readinessHighSchoolItems() {
+  return READINESS_GROUPS.flatMap(group => group.items
+    .filter(item => READINESS_GRADE_BANDS.some(band => readinessItemApplies(item, band)))
+    .map(item => ({...item, group: group.label})));
+}
+
+function evidenceGradeForItem(item, preferredGrade = '') {
+  const candidates = [String(preferredGrade || ''), '9', '11'];
+  return candidates.find(grade => readinessItemApplies(item, readinessGradeBand(grade))) || '';
+}
+
 function pruneEvidenceCheckedForGrade(state) {
-  if (!state || !state.checked || !state.grade) return;
-  const allowed = new Set(readinessItems(state.grade).map(item => item.id));
-  Object.keys(state.checked).forEach(id => {
-    if (!allowed.has(id)) delete state.checked[id];
+  if (!state || !state.checkedByGrade) return;
+  const itemMap = new Map(readinessHighSchoolItems().map(item => [item.id, item]));
+  Object.entries(state.checkedByGrade).forEach(([grade, selections]) => {
+    const band = readinessGradeBand(grade);
+    if (!band || !selections || typeof selections !== 'object' || Array.isArray(selections)) {
+      delete state.checkedByGrade[grade];
+      return;
+    }
+    Object.keys(selections).forEach(id => {
+      const item = itemMap.get(id);
+      if (!selections[id] || !item || !readinessItemApplies(item, band)) delete selections[id];
+    });
+    if (!Object.keys(selections).length && grade !== state.grade) delete state.checkedByGrade[grade];
   });
+}
+
+function cumulativeEvidenceChecked(state = normalizeEvidenceState()) {
+  const checked = {};
+  Object.values(state.checkedByGrade || {}).forEach(selections => {
+    Object.keys(selections || {}).forEach(id => {
+      if (selections[id]) checked[id] = true;
+    });
+  });
+  return checked;
 }
 
 function readinessMaxScores() {
   const max = { enrollment:0, employment:0, enlistment:0 };
-  readinessItems().forEach(item => {
+  readinessHighSchoolItems().forEach(item => {
     Object.entries(item.pts || {}).forEach(([track, points]) => {
       if (max[track] !== undefined) max[track] += points;
     });
@@ -2370,14 +2412,45 @@ function readinessMaxScores() {
 
 function readinessScores() {
   const state = normalizeEvidenceState();
+  const checked = cumulativeEvidenceChecked(state);
   const scores = { enrollment:0, employment:0, enlistment:0 };
-  readinessItems().forEach(item => {
-    if (!state.checked[item.id]) return;
+  readinessHighSchoolItems().forEach(item => {
+    if (!checked[item.id]) return;
     Object.entries(item.pts || {}).forEach(([track, points]) => {
       if (scores[track] !== undefined) scores[track] += points;
     });
   });
   return scores;
+}
+
+function readinessMaxScoresForGrade(grade) {
+  const max = { enrollment:0, employment:0, enlistment:0 };
+  readinessItems(grade).forEach(item => {
+    Object.entries(item.pts || {}).forEach(([track, points]) => {
+      if (max[track] !== undefined) max[track] += points;
+    });
+  });
+  return max;
+}
+
+function readinessScoresForGrade(grade) {
+  const state = normalizeEvidenceState();
+  const scores = { enrollment:0, employment:0, enlistment:0 };
+  readinessItems(grade).forEach(item => {
+    if (!state.checkedByGrade[grade]?.[item.id]) return;
+    Object.entries(item.pts || {}).forEach(([track, points]) => {
+      if (scores[track] !== undefined) scores[track] += points;
+    });
+  });
+  return scores;
+}
+
+function readinessMeterCards(scores, max) {
+  return READINESS_TRACKS.map(track => {
+    const percent = max[track.id] ? Math.round((scores[track.id] / max[track.id]) * 100) : 0;
+    const label = readinessLevel(percent);
+    return `<article class="readiness-meter-card"><div class="readiness-meter-top"><strong>${escHtml(track.label)}</strong><span>${label}</span></div><div class="readiness-meter-track"><div class="readiness-meter-fill" style="width:${Math.min(100, percent)}%"></div></div><div class="readiness-meter-meta"><span>${escHtml(track.sub)}</span><span>${scores[track.id]} signal point${scores[track.id] === 1 ? '' : 's'}</span></div></article>`;
+  }).join('');
 }
 
 function readinessLevel(percent) {
@@ -2391,7 +2464,7 @@ function renderEvidence() {
   const band = readinessGradeBand(state.grade);
   const grade = $('evidenceGrade');
   if (grade) {
-    grade.value = state.grade || '';
+    grade.value = state.grade;
     grade.onchange = () => {
       const nextState = normalizeEvidenceState();
       nextState.grade = grade.value;
@@ -2403,17 +2476,12 @@ function renderEvidence() {
 
   const gradeHint = $('evidenceGradeHint');
   if (gradeHint) {
-    gradeHint.textContent = band ? `${band.label}: ${band.hint}` : 'Choose a grade level to load age-appropriate evidence questions.';
+    gradeHint.textContent = `${band.label}: ${band.hint}`;
   }
 
   const groupHost = $('evidenceGroups');
   if (groupHost) {
     const groups = readinessGroupsForGrade(state.grade);
-    if (!groups.length) {
-      groupHost.innerHTML = '<div class="empty-state">Choose a grade level first. LionPath will load a shorter checklist built for that planning stage.</div>';
-      updateEvidence();
-      return;
-    }
     groupHost.innerHTML = groups.map(group => {
       const count = group.items.filter(item => state.checked[item.id]).length;
       const chips = group.items.map(item => `<button type="button" class="evidence-chip ${state.checked[item.id] ? 'active' : ''}" data-evidence-id="${escAttr(item.id)}" aria-pressed="${state.checked[item.id] ? 'true' : 'false'}">${escHtml(item.text)}</button>`).join('');
@@ -2446,7 +2514,7 @@ function updateEvidenceLegacyUnused() {
 }
 
 function sealProgress(seal, checked) {
-  const activeIds = new Set(readinessItems().map(item => item.id));
+  const activeIds = new Set(readinessHighSchoolItems().map(item => item.id));
   const signals = seal.signals.filter(id => activeIds.has(id));
   const have = signals.filter(id => checked[id]).length;
   if (!signals.length) {
@@ -2488,27 +2556,40 @@ function suggestedReadinessMoves() {
 function updateEvidence() {
   const state = normalizeEvidenceState();
   const band = readinessGradeBand(state.grade);
-  const scores = readinessScores();
-  const max = readinessMaxScores();
-  const checkedCount = Object.keys(state.checked).length;
-  const head = $('evidenceHeadCount');
-  if (head) head.textContent = !band ? 'Choose grade' : (checkedCount ? `${checkedCount} checked` : band.label);
+  const cumulativeScores = readinessScores();
+  const cumulativeMax = readinessMaxScores();
+  const currentScores = readinessScoresForGrade(state.grade);
+  const currentMax = readinessMaxScoresForGrade(state.grade);
+  const checkedCount = Object.values(state.checkedByGrade || {}).reduce((total, selections) => total + Object.keys(selections || {}).length, 0);
+  const cumulativeChecked = cumulativeEvidenceChecked(state);
+
+  const currentTitle = $('currentGradeMeterTitle');
+  if (currentTitle) currentTitle.textContent = `Grade ${state.grade} readiness`;
+
+  const currentMeters = $('evidenceCurrentMeters');
+  if (currentMeters) currentMeters.innerHTML = readinessMeterCards(currentScores, currentMax);
+
+  const representedGrades = Object.entries(state.checkedByGrade || {})
+    .filter(([, selections]) => Object.keys(selections || {}).length)
+    .map(([grade]) => grade)
+    .sort((a, b) => Number(a) - Number(b));
+  const uniqueCheckedCount = Object.keys(cumulativeChecked).length;
+  const cumulativeHint = $('cumulativeMeterHint');
+  if (cumulativeHint) {
+    cumulativeHint.textContent = representedGrades.length
+      ? `Combines ${uniqueCheckedCount} unique readiness signal${uniqueCheckedCount === 1 ? '' : 's'} recorded in Grade${representedGrades.length === 1 ? '' : 's'} ${representedGrades.join(', ')}. A signal selected in more than one grade is counted once.`
+      : 'No cumulative evidence has been recorded yet. Selections from Grades 9–12 will build this meter over time.';
+  }
 
   const meters = $('evidenceMeters');
-  if (meters) {
-    meters.innerHTML = READINESS_TRACKS.map(track => {
-      const percent = max[track.id] ? Math.round((scores[track.id] / max[track.id]) * 100) : 0;
-      const label = readinessLevel(percent);
-      return `<article class="readiness-meter-card"><div class="readiness-meter-top"><strong>${escHtml(track.label)}</strong><span>${label}</span></div><div class="readiness-meter-track"><div class="readiness-meter-fill" style="width:${Math.min(100, percent)}%"></div></div><div class="readiness-meter-meta"><span>${escHtml(track.sub)}</span><span>${scores[track.id]} signal point${scores[track.id] === 1 ? '' : 's'}</span></div></article>`;
-    }).join('');
-  }
+  if (meters) meters.innerHTML = readinessMeterCards(cumulativeScores, cumulativeMax);
 
   const seals = $('evidenceSeals');
   let onTrack = 0;
   let within = 0;
   if (seals) {
     seals.innerHTML = READINESS_SEALS.map(seal => {
-      const progress = sealProgress(seal, state.checked);
+      const progress = sealProgress(seal, cumulativeChecked);
       if (progress.onTrack) onTrack++;
       if (progress.within) within++;
       const pct = Math.round(progress.fraction * 100);
@@ -2672,9 +2753,22 @@ function readinessSnapshotText() {
   const state = normalizeEvidenceState();
   const scores = readinessScores();
   const max = readinessMaxScores();
-  const checked = readinessItems().filter(item => state.checked[item.id]);
+  const itemMap = new Map(readinessHighSchoolItems().map(item => [item.id, item]));
+  const checked = Object.entries(state.checkedByGrade || {}).flatMap(([grade, selections]) => {
+    const band = readinessGradeBand(grade);
+    return Object.keys(selections || {}).filter(id => selections[id] && itemMap.has(id)).map(id => {
+      const item = itemMap.get(id);
+      return {...item, grade, text: readinessItemText(item, band)};
+    });
+  })
+    .sort((a, b) => Number(a.grade || 99) - Number(b.grade || 99) || a.group.localeCompare(b.group) || a.text.localeCompare(b.text));
+  const checkedByGrade = ['9','10','11','12'].map(grade => ({
+    grade,
+    items: checked.filter(item => item.grade === grade)
+  })).filter(group => group.items.length);
+  const representedGrades = checkedByGrade.map(group => group.grade);
   const sealLines = READINESS_SEALS.map(seal => {
-    const progress = sealProgress(seal, state.checked);
+    const progress = sealProgress(seal, cumulativeEvidenceChecked(state));
     return `${seal.name}: ${progress.status}`;
   });
   const moveLines = suggestedReadinessMoves().map((move, index) => `${index + 1}. ${move.title} - ${move.plan}`);
@@ -2683,8 +2777,10 @@ function readinessSnapshotText() {
     return `${track.label}: ${readinessLevel(percent)} (${scores[track.id]} signal points)`;
   });
   return {
-    grade: state.grade ? `Grade ${state.grade}` : 'Grade not selected',
+    grade: representedGrades.length ? `Cumulative Grades ${representedGrades.join(', ')}` : (state.grade ? `Grade ${state.grade}` : 'Grade not selected'),
+    activeGrade: state.grade ? `Current checklist: Grade ${state.grade}` : 'No current checklist selected',
     checked,
+    checkedByGrade,
     sealLines,
     moveLines,
     meterLines
@@ -2693,11 +2789,11 @@ function readinessSnapshotText() {
 
 function printReadinessSnapshot() {
   const snapshot = readinessSnapshotText();
-  const checkedRows = snapshot.checked.length ? snapshot.checked.map(item => `<li><strong>${escHtml(item.group)}:</strong> ${escHtml(item.text)}</li>`).join('') : '<li>No evidence checked yet.</li>';
+  const checkedSections = snapshot.checkedByGrade.length ? snapshot.checkedByGrade.map(group => `<h3>Evidence selected in Grade ${escHtml(group.grade)}</h3><ul>${group.items.map(item => `<li><strong>${escHtml(item.group)}:</strong> ${escHtml(item.text)}</li>`).join('')}</ul>`).join('') : '<p>No evidence checked yet.</p>';
   const sealRows = snapshot.sealLines.map(x => `<li>${escHtml(x)}</li>`).join('');
   const moveRows = snapshot.moveLines.length ? snapshot.moveLines.map(x => `<li>${escHtml(x)}</li>`).join('') : '<li>Review this snapshot with your counselor.</li>';
   const meterRows = snapshot.meterLines.map(x => `<li>${escHtml(x)}</li>`).join('');
-  const html = `<!doctype html><html><head><title>LionPath Readiness Snapshot</title><style>body{font-family:Arial,sans-serif;color:#17251b;margin:32px;line-height:1.45}h1{font-size:28px;margin:0 0 6px;color:#063f2a}h2{font-size:18px;margin:22px 0 8px;color:#063f2a;border-bottom:1px solid #d7decf;padding-bottom:5px}.meta{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tag{border:1px solid #cbd6c9;border-radius:999px;padding:6px 10px;font-weight:700;background:#f6f8f2}li{margin:6px 0}.note{margin-top:22px;padding:12px;border:1px solid #d7decf;background:#f7f4e8;font-size:13px}</style></head><body><h1>LionPath Readiness Snapshot</h1><p>Louisa County Public Schools</p><div class="meta"><span class="tag">${escHtml(snapshot.grade)}</span></div><h2>3E Readiness</h2><ul>${meterRows}</ul><h2>Evidence Checked</h2><ul>${checkedRows}</ul><h2>Virginia Diploma Seal Conversation Starters</h2><ul>${sealRows}</ul><h2>Your Next 3 Moves</h2><ol>${moveRows}</ol><p class="note"><strong>Reminder:</strong> This is a planning snapshot, not an official determination. Readiness and diploma seals depend on verified records, grades, scores, state rules, and counselor review.</p></body></html>`;
+  const html = `<!doctype html><html><head><title>LionPath Readiness Snapshot</title><style>body{font-family:Arial,sans-serif;color:#17251b;margin:32px;line-height:1.45}h1{font-size:28px;margin:0 0 6px;color:#063f2a}h2{font-size:18px;margin:22px 0 8px;color:#063f2a;border-bottom:1px solid #d7decf;padding-bottom:5px}h3{font-size:14px;margin:15px 0 5px;color:#2d513b}.meta{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tag{border:1px solid #cbd6c9;border-radius:999px;padding:6px 10px;font-weight:700;background:#f6f8f2}li{margin:6px 0}.note{margin-top:22px;padding:12px;border:1px solid #d7decf;background:#f7f4e8;font-size:13px}</style></head><body><h1>LionPath Readiness Snapshot</h1><p>Louisa County Public Schools</p><div class="meta"><span class="tag">${escHtml(snapshot.grade)}</span><span class="tag">${escHtml(snapshot.activeGrade)}</span></div><h2>Cumulative 3E Readiness</h2><ul>${meterRows}</ul><h2>Evidence Checked Across Grades</h2>${checkedSections}<h2>Virginia Diploma Seal Conversation Starters</h2><ul>${sealRows}</ul><h2>Your Next 3 Moves</h2><ol>${moveRows}</ol><p class="note"><strong>Reminder:</strong> This cumulative report includes evidence selected across grade levels. It is a planning snapshot, not an official determination. Readiness and diploma seals depend on verified records, grades, scores, state rules, and counselor review.</p></body></html>`;
   const win = window.open('', '_blank');
   if (!win) {
     showToast('Allow pop-ups to print the snapshot');
@@ -2712,25 +2808,32 @@ function printReadinessSnapshot() {
 
 function downloadReadinessSnapshotPdf() {
   const snapshot = readinessSnapshotText();
+  const checkedBlocks = snapshot.checkedByGrade.length
+    ? snapshot.checkedByGrade.flatMap(group => [
+        { type:'heading', text:`Evidence selected in Grade ${group.grade}`, size:12, gapBefore:6 },
+        ...group.items.map(item => ({ type:'line', text:`- ${item.group}: ${item.text}` }))
+      ])
+    : [{ type:'line', text:'No evidence checked yet.' }];
   const blocks = [
     { type:'line', text:snapshot.grade, bold:true },
-    { type:'heading', text:'3E Readiness' },
+    { type:'line', text:snapshot.activeGrade },
+    { type:'heading', text:'Cumulative 3E Readiness' },
     ...snapshot.meterLines.map(text => ({ type:'line', text:`- ${text}` })),
-    { type:'heading', text:'Evidence Checked' },
-    ...(snapshot.checked.length ? snapshot.checked.map(item => ({ type:'line', text:`- ${item.group}: ${item.text}` })) : [{ type:'line', text:'No evidence checked yet.' }]),
+    { type:'heading', text:'Evidence Checked Across Grades' },
+    ...checkedBlocks,
     { type:'heading', text:'Virginia Diploma Seal Conversation Starters' },
     ...snapshot.sealLines.map(text => ({ type:'line', text:`- ${text}` })),
     { type:'heading', text:'Your Next 3 Moves' },
     ...(snapshot.moveLines.length ? snapshot.moveLines.map(text => ({ type:'line', text })) : [{ type:'line', text:'Review this snapshot with your counselor.' }]),
     { type:'heading', text:'Reminder' },
-    { type:'line', text:'This is a planning snapshot, not an official determination. Readiness and diploma seals depend on verified records, grades, scores, state rules, and counselor review.' }
+    { type:'line', text:'This cumulative report includes evidence selected across grade levels. It is a planning snapshot, not an official determination. Readiness and diploma seals depend on verified records, grades, scores, state rules, and counselor review.' }
   ];
   downloadPdfDocument('lionpath-readiness-snapshot.pdf', 'LionPath Readiness Snapshot', blocks);
   showToast('Readiness Snapshot PDF downloaded');
 }
 
 function clearReadinessSnapshot() {
-  evidenceData = { grade:'', checked:{} };
+  evidenceData = { grade:'9', checkedByGrade:{} };
   renderEvidence();
   saveLocalData();
   showToast('Readiness Snapshot cleared');
