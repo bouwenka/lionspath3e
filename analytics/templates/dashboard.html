@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>LionsPath Analytics</title>
+  <link rel="icon" href="/admin/analytics/assets/dashboard-mark.png" type="image/png">
+  <link rel="stylesheet" href="/admin/analytics/assets/dashboard.css">
+</head>
+<body>
+  <a class="skip-link" href="#dashboard-main">Skip to dashboard</a>
+
+  <header class="app-header">
+    <div class="brand-lockup">
+      <img src="/admin/analytics/assets/dashboard-mark.png" width="48" height="48" alt="">
+      <div>
+        <p class="eyebrow">Louisa County Public Schools</p>
+        <h1>LionsPath Analytics</h1>
+        <div class="brand-badges" aria-label="Dashboard access and privacy status">
+          <span>Private dashboard</span>
+          <span>Aggregate data only</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <label class="export-field" for="export-dataset">
+        <span>Export</span>
+        <select id="export-dataset">
+          <option value="daily">Daily totals</option>
+          <option value="pages">Page usage</option>
+          <option value="features">Feature usage</option>
+          <option value="devices">Devices</option>
+          <option value="hourly">Hourly activity</option>
+        </select>
+      </label>
+      <button class="button button-secondary" id="download-export" type="button">Download CSV</button>
+      <button class="button button-primary" id="refresh-report" type="button">Refresh</button>
+    </div>
+  </header>
+
+  <section class="range-bar" aria-labelledby="range-heading">
+    <div class="range-heading-row">
+      <div>
+        <p class="eyebrow" id="range-heading">Reporting period</p>
+        <p class="range-summary" id="range-summary">Loading the latest available data</p>
+      </div>
+      <p class="status-line" id="report-status" role="status" aria-live="polite">Loading</p>
+    </div>
+
+    <div class="range-controls">
+      <div class="preset-group" aria-label="Date range presets">
+        <button type="button" data-range="today">Today</button>
+        <button type="button" data-range="yesterday">Yesterday</button>
+        <button type="button" data-range="7-days">7 days</button>
+        <button type="button" data-range="30-days">30 days</button>
+        <button type="button" data-range="month">This month</button>
+        <button type="button" data-range="year">This year</button>
+        <button type="button" data-range="all">All time</button>
+      </div>
+
+      <form class="custom-range" id="custom-range-form">
+        <label for="range-start">From</label>
+        <input id="range-start" name="start" type="date" required>
+        <label for="range-end">To</label>
+        <input id="range-end" name="end" type="date" required>
+        <button class="button button-secondary" type="submit">Apply</button>
+      </form>
+    </div>
+  </section>
+
+  <main id="dashboard-main">
+    <section class="dashboard-section overview-section" aria-labelledby="overview-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">At a glance</p>
+          <h2 id="overview-title">Overview</h2>
+        </div>
+        <p class="method-note">Estimated visitors use rotating privacy hashes.</p>
+      </div>
+
+      <div class="metric-grid">
+        <article class="metric-card metric-visitors">
+          <p>Estimated visitors</p>
+          <strong id="metric-visitors">--</strong>
+          <span id="change-visitors">Previous period</span>
+        </article>
+        <article class="metric-card metric-views">
+          <p>Page views</p>
+          <strong id="metric-page-views">--</strong>
+          <span id="change-page-views">Previous period</span>
+        </article>
+        <article class="metric-card metric-sessions">
+          <p>Sessions</p>
+          <strong id="metric-sessions">--</strong>
+          <span id="change-sessions">Previous period</span>
+        </article>
+        <article class="metric-card metric-depth">
+          <p>Pages per session</p>
+          <strong id="metric-pages-session">--</strong>
+          <span id="change-pages-session">Previous period</span>
+        </article>
+        <article class="metric-card metric-duration">
+          <p>Average session</p>
+          <strong id="metric-duration">--</strong>
+          <span id="change-duration">Previous period</span>
+        </article>
+        <article class="metric-card metric-requests">
+          <p>Total requests</p>
+          <strong id="metric-requests">--</strong>
+          <span id="change-requests">Previous period</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Audience activity">
+      <article class="surface surface-wide surface-trend" aria-labelledby="trend-title">
+        <div class="surface-heading">
+          <div>
+            <p class="eyebrow">Audience activity</p>
+            <h2 id="trend-title">Usage trend</h2>
+          </div>
+          <div class="chart-legend" aria-label="Chart legend">
+            <span><i class="legend-views"></i>Page views</span>
+            <span><i class="legend-visitors"></i>Estimated visitors</span>
+          </div>
+        </div>
+        <div class="chart-frame">
+          <svg id="trend-chart" viewBox="0 0 900 300" role="img" aria-label="Page views and estimated visitors over time"></svg>
+          <p class="empty-state" id="trend-empty" hidden>No activity is available for this period.</p>
+        </div>
+      </article>
+
+      <article class="surface surface-pages" aria-labelledby="pages-title">
+        <div class="surface-heading">
+          <div>
+            <p class="eyebrow">Content</p>
+            <h2 id="pages-title">Most visited pages</h2>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Page</th><th>Views</th><th>Share</th></tr>
+            </thead>
+            <tbody id="pages-table"></tbody>
+          </table>
+        </div>
+        <p class="empty-table" id="pages-empty" hidden>No page activity is available.</p>
+      </article>
+    </section>
+
+    <section class="dashboard-section pathway-section" aria-labelledby="pathway-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Pathway interest</p>
+          <h2 id="pathway-title">The three Es</h2>
+        </div>
+        <p class="method-note">Based on allowlisted page-section events.</p>
+      </div>
+      <div class="pathway-grid" id="pathway-grid"></div>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Feature and technology activity">
+      <article class="surface surface-features" aria-labelledby="features-title">
+        <div class="surface-heading">
+          <div>
+            <p class="eyebrow">Interactions</p>
+            <h2 id="features-title">Feature usage</h2>
+          </div>
+        </div>
+        <div class="table-wrap feature-table-wrap">
+          <table>
+            <thead>
+              <tr><th>Feature</th><th>Section</th><th>Uses</th><th>Visitors</th></tr>
+            </thead>
+            <tbody id="features-table"></tbody>
+          </table>
+        </div>
+        <p class="empty-table" id="features-empty" hidden>No feature events are available yet.</p>
+      </article>
+
+      <article class="surface surface-technology" aria-labelledby="technology-title">
+        <div class="surface-heading surface-heading-tabs">
+          <div>
+            <p class="eyebrow">Environment</p>
+            <h2 id="technology-title">Technology and sources</h2>
+          </div>
+          <div class="tab-list" role="tablist" aria-label="Technology breakdown">
+            <button type="button" role="tab" aria-selected="true" data-breakdown="devices">Devices</button>
+            <button type="button" role="tab" aria-selected="false" data-breakdown="browsers">Browsers</button>
+            <button type="button" role="tab" aria-selected="false" data-breakdown="operating_systems">OS</button>
+            <button type="button" role="tab" aria-selected="false" data-breakdown="referrers">Sources</button>
+          </div>
+        </div>
+        <div class="breakdown-list" id="breakdown-list" role="tabpanel"></div>
+        <p class="empty-table" id="breakdown-empty" hidden>No breakdown data is available.</p>
+      </article>
+    </section>
+
+    <section class="dashboard-grid" aria-label="Time patterns">
+      <article class="surface surface-hours" aria-labelledby="hours-title">
+        <div class="surface-heading">
+          <div>
+            <p class="eyebrow">Daily rhythm</p>
+            <h2 id="hours-title">Activity by hour</h2>
+          </div>
+        </div>
+        <div class="chart-frame chart-frame-compact">
+          <svg id="hour-chart" viewBox="0 0 900 250" role="img" aria-label="Page views by hour of day"></svg>
+          <p class="empty-state" id="hours-empty" hidden>No hourly activity is available.</p>
+        </div>
+      </article>
+
+      <article class="surface surface-weekday" aria-labelledby="weekday-title">
+        <div class="surface-heading">
+          <div>
+            <p class="eyebrow">Weekly rhythm</p>
+            <h2 id="weekday-title">Activity by weekday</h2>
+          </div>
+        </div>
+        <div class="breakdown-list" id="weekday-list"></div>
+        <p class="empty-table" id="weekday-empty" hidden>No weekday activity is available.</p>
+      </article>
+    </section>
+
+    <section class="dashboard-section heatmap-section" aria-labelledby="heatmap-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Timing</p>
+          <h2 id="heatmap-title">Weekly activity map</h2>
+        </div>
+        <div class="heat-legend" aria-label="Heatmap intensity"><span>Lower</span><i class="heat-1"></i><i class="heat-2"></i><i class="heat-3"></i><i class="heat-4"></i><i class="heat-5"></i><span>Higher</span></div>
+      </div>
+      <div class="heatmap-wrap">
+        <div class="heatmap" id="activity-heatmap" role="img" aria-label="Page views by weekday and hour"></div>
+      </div>
+    </section>
+
+    <details class="technical-panel">
+      <summary>
+        <span>
+          <small>Operations</small>
+          <strong>Technical health and importer details</strong>
+        </span>
+        <span class="health-badge" id="health-badge">Checking</span>
+      </summary>
+      <div class="technical-grid">
+        <section aria-labelledby="status-title">
+          <h2 id="status-title">Request status</h2>
+          <div class="status-chips" id="status-chips"></div>
+          <dl class="diagnostic-list">
+            <div><dt>Human requests</dt><dd id="human-requests">--</dd></div>
+            <div><dt>Bot requests</dt><dd id="bot-requests">--</dd></div>
+          </dl>
+        </section>
+        <section aria-labelledby="errors-title">
+          <h2 id="errors-title">Top errors</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Status</th><th>Path</th><th>Requests</th></tr></thead>
+              <tbody id="errors-table"></tbody>
+            </table>
+          </div>
+          <p class="empty-table" id="errors-empty" hidden>No errors were recorded in this period.</p>
+        </section>
+        <section aria-labelledby="importer-title">
+          <h2 id="importer-title">Data source</h2>
+          <dl class="diagnostic-list">
+            <div><dt>Newest record</dt><dd id="newest-record">--</dd></div>
+            <div><dt>Oldest record</dt><dd id="oldest-record">--</dd></div>
+            <div><dt>Stored requests</dt><dd id="stored-requests">--</dd></div>
+            <div><dt>Database size</dt><dd id="database-size">--</dd></div>
+            <div><dt>Last import</dt><dd id="last-import">--</dd></div>
+          </dl>
+        </section>
+      </div>
+    </details>
+  </main>
+
+  <footer class="app-footer">
+    <p>Private administrative analytics. Counts describe browser activity, not individual students.</p>
+    <p id="last-refreshed">Not yet refreshed</p>
+  </footer>
+
+  <div class="fatal-error" id="fatal-error" role="alert" hidden>
+    <strong>Analytics could not be loaded.</strong>
+    <span id="fatal-error-message">Please try again.</span>
+    <button class="button button-primary" id="retry-report" type="button">Try again</button>
+  </div>
+
+  <script src="/admin/analytics/assets/dashboard.js" defer></script>
+</body>
+</html>

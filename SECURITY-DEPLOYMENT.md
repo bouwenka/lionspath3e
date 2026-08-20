@@ -1,11 +1,15 @@
 # LionPath Security Deployment
 
-The application hardening is included in the site files. The HTTPS, TLS, response-header, file-access, and log-rotation controls require server installation by an administrator.
+The application hardening is included in the site files. The HTTPS, TLS,
+response-header, file-access, log-rotation, and private analytics controls
+require server installation by an administrator.
 
 ## Apache files
 
 - Virtual host: `deployment/apache/lionspath.conf`
 - Log rotation: `deployment/logrotate/lionspath`
+- Private analytics runtime: `deployment/analytics/`
+- Analytics systemd units: `deployment/systemd/`
 
 ## Before activation
 
@@ -15,18 +19,43 @@ The application hardening is included in the site files. The HTTPS, TLS, respons
 4. Make sure every site covered by the district certificate is already HTTPS-ready before adding `includeSubDomains` or `preload` to HSTS. Those options are intentionally not enabled in this configuration.
 5. Keep the public document root limited to `index.html` and `assets/`. Prefer checking out Git in a separate administration directory and syncing only those public files into `/var/www/lionspath`; do not place `.git`, backups, deployment files, certificates, or reports in the web root.
 
-## Installation
+## Activation status
+
+The Apache template now includes the private analytics proxy and authentication
+routes. Do not install it with the older static-only command sequence: Apache
+would reference a password file and Unix socket that do not exist yet. Phase 8
+will provide the exact ordered production procedure after the read-only
+preflight confirms the server's actual packages, users, paths, modules, and log
+permissions.
+
+The eventual Apache module set includes:
 
 ```bash
-sudo a2enmod ssl headers alias socache_shmcb
-sudo cp deployment/apache/lionspath.conf /etc/apache2/sites-available/lionspath.conf
-sudo cp deployment/logrotate/lionspath /etc/logrotate.d/lionspath
-sudo a2ensite lionspath.conf
-sudo apache2ctl configtest
-sudo systemctl reload apache2
+sudo a2enmod ssl headers alias socache_shmcb proxy proxy_http auth_basic authn_file authz_user
 ```
 
-`apache2ctl configtest` must report `Syntax OK` before Apache is reloaded.
+This is documentation only, not the complete Phase 8 deployment procedure.
+`apache2ctl configtest` must report `Syntax OK` before any Apache reload.
+
+## Analytics access controls
+
+The private dashboard uses multiple independent boundaries:
+
+1. Apache Basic Authentication protects `/admin/analytics` and all report and
+   export APIs using a password file outside the web root.
+2. Apache removes browser-supplied trust, forwarding, and authorization headers
+   before proxying through a `0660` Unix socket that has no public TCP listener.
+3. The WSGI application requires Apache's proxy marker on every request and the
+   administrator marker on every private route. A marker presented without the
+   trusted proxy marker is rejected.
+4. Dashboard responses are non-cacheable, non-indexable, same-origin resources
+   and cannot be framed. The dashboard loads no third-party scripts or fonts.
+5. The long-running service has no network access or Linux capabilities. Only
+   the short-lived importer receives read-only Apache-log access.
+
+Basic Authentication is safe here only because the route exists exclusively in
+the HTTPS virtual host. Phase 8 will create individual administrator credentials
+with strong password hashes and verify the entire boundary before activation.
 
 ## Verification
 
@@ -41,7 +70,26 @@ After deployment, verify the public endpoint with SSL Labs and SecurityHeaders.c
 
 ## Data handling
 
-LionPath has no application login or backend student database. Plan and readiness information is stored in the current browser's local storage and is only sent elsewhere when a user deliberately copies or enters it into an external service. The Help page also stores the selected guide and completed step numbers locally so students can return to their place; the existing clear-all-data control removes that guide progress as well. GoatCounter is configured only to count anonymous site visits; LionPath does not send assessment answers, plan contents, readiness entries, AI conversations, or voice conversations to analytics. The application validates locally stored records, limits free-text lengths, expires saved plan data after 180 days without an update, removes unused third-party scripts, and provides a visible clear-all-data control.
+LionPath has no student login or backend student-record database. Plan and
+readiness information is stored in the current browser's local storage and is
+only sent elsewhere when a user deliberately copies or enters it into an
+external service. The Help page also stores the selected guide and completed
+step numbers locally so students can return to their place; the existing
+clear-all-data control removes that guide progress as well.
+
+The private analytics backend stores classified web requests and fixed,
+allowlisted interaction events. It does not retain raw IP addresses, full user
+agents, assessment answers, plan contents, readiness entries, AI conversations,
+voice conversations, names, emails, or arbitrary text. Dashboard access is
+separate from the public site and requires server-managed credentials.
+GoatCounter remains enabled during production reconciliation and will be removed
+only after the private counts are verified.
+
+Analytics configuration, secret, password, and database files use the ownership
+and modes documented in `deployment/analytics/README.md`. The read-only
+preflight reports any installed file that is broader than the expected mode and
+verifies that the service account was not permanently added to the Apache log
+group.
 
 ## District privacy review
 
@@ -56,7 +104,10 @@ Technical hardening does not by itself establish FERPA, COPPA, or state-law comp
 7. A parent and student notice identifying the external services, the purpose of each service, what should not be entered, and the contact for privacy requests.
 8. A response procedure for suspected disclosure, lost devices, shared-browser data, or vendor incidents.
 
-The site intentionally does not record an application-level activity log because it has no backend and adding one would create a new store of student activity. Apache access and error logs provide operational audit records and are rotated by `deployment/logrotate/lionspath`.
+The analytics event endpoint intentionally accepts only a small fixed event
+allowlist and does not accept student-provided text. Apache access and error logs
+continue to provide operational audit records and are rotated by
+`deployment/logrotate/lionspath`.
 
 ## Intentional differences from the audit sample
 

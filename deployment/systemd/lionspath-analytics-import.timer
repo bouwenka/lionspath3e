@@ -1,0 +1,13 @@
+[Unit]
+Description=Refresh LionsPath private analytics every five minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+AccuracySec=15s
+RandomizedDelaySec=30s
+Persistent=true
+Unit=lionspath-analytics-import.service
+
+[Install]
+WantedBy=timers.target

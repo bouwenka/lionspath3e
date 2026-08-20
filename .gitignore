@@ -9,9 +9,16 @@ tmp/
 *.swp
 *.log
 *.sql
+!analytics/schema.sql
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
 *.pem
 *.key
 *.p12
 *.pfx
 *.crt
 *.csr
+__pycache__/
+*.py[cod]

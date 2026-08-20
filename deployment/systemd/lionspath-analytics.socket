@@ -1,0 +1,13 @@
+[Unit]
+Description=LionsPath analytics private WSGI socket
+
+[Socket]
+ListenStream=/run/lionspath-analytics.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+Backlog=128
+RemoveOnStop=true
+
+[Install]
+WantedBy=sockets.target
