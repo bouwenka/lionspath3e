@@ -1,0 +1,440 @@
+/* Optional light mode. The existing site remains the unchanged dark baseline. */
+.theme-toggle{
+  display:inline-grid;
+  place-items:center;
+  width:40px;
+  height:40px;
+  min-width:40px;
+  padding:0;
+  flex:0 0 auto;
+  border:1px solid rgba(255,221,23,.42);
+  border-radius:50%;
+  color:#fff7b4;
+  background:rgba(255,255,255,.08);
+  box-shadow:0 8px 18px rgba(0,0,0,.22);
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.theme-toggle:hover{
+  border-color:#ffdd17;
+  color:#092514;
+  background:#ffdd17;
+}
+.theme-toggle-icon{
+  display:block;
+  font-size:21px;
+  line-height:1;
+}
+
+html[data-theme="light"]{
+  color-scheme:light;
+  --ink:#163222;
+  --paper:#163222;
+  --soft:#dce8df;
+  --muted:#506758;
+  --glass:#ffffff;
+  --glass-2:#f4f7f4;
+  --line:#c4d1c7;
+  --line-strong:#78917f;
+  --shadow:0 12px 34px rgba(23,57,36,.13);
+}
+html[data-theme="light"] body{
+  color:#163222;
+  background:#eef3ef;
+}
+html[data-theme="light"] body::before{
+  background-image:
+    linear-gradient(rgba(0,63,32,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,63,32,.045) 1px,transparent 1px);
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.34),transparent 78%);
+}
+html[data-theme="light"] .orb{opacity:.045;}
+html[data-theme="light"] .orb.three{opacity:.025;}
+
+/* Keep the navigation and image-led headers dark so branding remains consistent. */
+html[data-theme="light"] .topbar{
+  border-color:rgba(255,221,23,.26);
+  background:linear-gradient(135deg,rgba(0,63,32,.98),rgba(4,18,10,.96));
+  box-shadow:0 12px 34px rgba(7,34,19,.24);
+}
+html[data-theme="light"] .brand-title strong{color:#ffffff;}
+html[data-theme="light"] .brand-title span{color:#ffdd17;}
+html[data-theme="light"] .topbar .nav button{color:#fbfff3;}
+html[data-theme="light"] .topbar .nav button.active{color:#092514;}
+html[data-theme="light"] .theme-toggle{
+  color:#092514;
+  background:#ffdd17;
+}
+html[data-theme="light"] .theme-toggle:hover{
+  color:#fff7b4;
+  background:rgba(255,255,255,.12);
+}
+
+/* Neutral page surfaces with a green undertone and clear card contrast. */
+html[data-theme="light"] :where(
+  .panel,
+  .video-card,
+  .pillar,
+  .pathway-option-card,
+  .roadmap-card,
+  .family-question-card,
+  .course-card,
+  .program-card,
+  .deep-card,
+  .resource-card,
+  .job-family,
+  .service-choice,
+  .entry-card,
+  .readiness-meter-card,
+  .move-card,
+  .seal-card,
+  .prompt-card,
+  .prompt-toolkit,
+  .schoolai-embed-card,
+  .plan-section,
+  .plan-summary-item,
+  .selected-course-card,
+  .quiz-question-card,
+  .quiz-result,
+  .native-compass-grade-card,
+  .compass-question-card,
+  .evidence-group,
+  .detail-box,
+  .enrollment-course-item,
+  .copy-helper-panel,
+  .validation-box,
+  .local-plan-card,
+  .privacy-banner
+){
+  border-color:#bccbc0;
+  color:#163222;
+  background:#ffffff;
+  background-image:none;
+  box-shadow:0 8px 24px rgba(23,57,36,.1);
+}
+html[data-theme="light"] :where(
+  .page > .program-grid,
+  .page > .schoolai-workspace,
+  .page > .resource-grid,
+  .page > .course-grid,
+  .page > .pillars,
+  .page > .deep-section,
+  .readiness-meter-panel,
+  .plan-builder
+){
+  border-color:#c3d1c7;
+  background:#dfe9e2;
+  background-image:none;
+  box-shadow:none;
+}
+html[data-theme="light"] :where(
+  .course-card,
+  .program-card,
+  .deep-card,
+  .resource-card,
+  .job-family,
+  .service-choice,
+  .entry-card,
+  .readiness-meter-card,
+  .move-card,
+  .seal-card,
+  .prompt-card,
+  .plan-section,
+  .plan-summary-item
+):hover{
+  border-color:#688772;
+  background:#f7faf7;
+  background-image:none;
+  box-shadow:0 12px 30px rgba(23,57,36,.15);
+}
+
+html[data-theme="light"] :where(
+  .panel h2,
+  .panel h3,
+  .video-card h3,
+  .pillar h3,
+  .pathway-option-card strong,
+  .roadmap-card strong,
+  .family-question-card h3,
+  .course-card h3,
+  .program-title h3,
+  .deep-card h3,
+  .resource-card h3,
+  .job-family strong,
+  .service-choice strong,
+  .entry-card h3,
+  .move-card h4,
+  .seal-card h4,
+  .prompt-card strong,
+  .prompt-toolkit h3,
+  .schoolai-embed-top h3,
+  .plan-section h3,
+  .plan-summary-item strong,
+  .detail-box strong,
+  .enrollment-course-item h5
+){
+  color:#12452d;
+}
+html[data-theme="light"] :where(
+  .panel p,
+  .panel li,
+  .video-card p,
+  .pillar p,
+  .pathway-option-card p,
+  .roadmap-card p,
+  .family-question-card li,
+  .course-card p,
+  .program-title p,
+  .deep-card p,
+  .deep-card li,
+  .resource-card p,
+  .job-family span,
+  .service-choice p,
+  .entry-card p,
+  .move-card p,
+  .seal-card p,
+  .prompt-card span,
+  .prompt-card em,
+  .prompt-toolkit .intro,
+  .schoolai-embed-top p,
+  .plan-summary-item span,
+  .detail-box p,
+  .detail-box li,
+  .enrollment-course-item p,
+  .source-note,
+  .small-note
+){
+  color:#506758;
+}
+
+/* Section dividers stay understated while giving long pages visible chapters. */
+html[data-theme="light"] .section-head{
+  padding:18px 20px;
+  border:1px solid #bfd0c3;
+  border-left:6px solid #1a6440;
+  border-bottom:2px solid #c5a62c;
+  color:#163222;
+  background:#e2ece5;
+  box-shadow:none;
+}
+html[data-theme="light"] .section-head::before{display:none;}
+html[data-theme="light"] .section-head h2{color:#103d28;}
+html[data-theme="light"] .section-head p{color:#4d6555;}
+html[data-theme="light"] .section-head h2::after{
+  background:#b8951c;
+}
+
+/* Controls and compact data labels. */
+html[data-theme="light"] :where(input,select,textarea){
+  border-color:#8fa493;
+  color:#163222;
+  background:#ffffff;
+  box-shadow:none;
+}
+html[data-theme="light"] :where(input,select,textarea)::placeholder{color:#708276;}
+html[data-theme="light"] label{color:#264b35;}
+html[data-theme="light"] .btn{
+  border-color:#78917f;
+  color:#17482f;
+  background:#ffffff;
+  box-shadow:none;
+}
+html[data-theme="light"] .btn:hover{
+  border-color:#1a6440;
+  color:#103d28;
+  background:#e5eee7;
+}
+html[data-theme="light"] :where(.btn.primary,.btn.gold){
+  border-color:#b9951e;
+  color:#102b1c;
+  background:#e3c84f;
+}
+html[data-theme="light"] :where(.chip,.course-meta span,.enrollment-meta span,.selected-course-meta span,.validation-badge,.quiz-progress-pill){
+  border-color:#aebfb2;
+  color:#214a33;
+  background:#e7efe9;
+  box-shadow:none;
+}
+html[data-theme="light"] :where(.chip.gold,.evidence-chip.active,.validation-badge.verified){
+  border-color:#b8951c;
+  color:#24301e;
+  background:#f0dc83;
+}
+html[data-theme="light"] :where(.checklist label,.timeline-step div,.prompt-step,.three-e-overview,.three-e-row,.meter,.prompt-preview,.plan-output,.plan-prompt-preview,.plan-summary-card,.quiz-intro-card,.quiz-benefit){
+  border-color:#c4d1c7;
+  color:#163222;
+  background:#f5f8f5;
+  box-shadow:none;
+}
+html[data-theme="light"] :where(.checklist label,.timeline-step div,.prompt-step,.three-e-row,.meter,.prompt-preview,.plan-output,.plan-prompt-preview,.plan-summary-card,.quiz-intro-card,.quiz-benefit) :where(p,span,li,em){
+  color:#506758;
+}
+html[data-theme="light"] :where(th,td){border-color:#c4d1c7;color:#163222;}
+html[data-theme="light"] th{background:#dfe9e2;}
+
+/* Interactive answer cards need an obvious but restrained selected state. */
+html[data-theme="light"] :where(.quiz-option,.quiz-answer-btn,.compass-choice-btn,.compass-rank-btn,.course-set-btn,.lean-choice,.evidence-check-row){
+  border-color:#afc0b3;
+  color:#163222;
+  background:#ffffff;
+  background-image:none;
+  box-shadow:none;
+}
+html[data-theme="light"] :where(.quiz-option,.quiz-answer-btn,.compass-choice-btn,.compass-rank-btn,.course-set-btn,.lean-choice,.evidence-check-row):hover{
+  border-color:#1a6440;
+  color:#103d28;
+  background:#e5eee7;
+}
+html[data-theme="light"] :where(.quiz-answer-btn.selected,.compass-choice-btn.selected,.compass-rank-btn.selected,.lean-choice.selected,.evidence-check-row.selected){
+  border-color:#b8951c;
+  color:#102b1c;
+  background:#f0dc83;
+}
+
+/* Career Compass and Evidence use their own component palettes. */
+html[data-theme="light"] :where(.compass-native-shell,.compass-assessment){
+  border-color:#b7c8bb;
+  color:#163222;
+  background:#e4ece6;
+  background-image:none;
+  box-shadow:0 10px 28px rgba(23,57,36,.11);
+}
+html[data-theme="light"] :where(.native-compass-grade-header,.native-compass-computing) h3{
+  color:#103d28;
+}
+html[data-theme="light"] :where(.native-compass-grade-header,.native-compass-computing) p,
+html[data-theme="light"] .compass-question-help{
+  color:#506758;
+}
+html[data-theme="light"] :where(.compass-panel,.compass-cluster-card,.compass-report-footer,.native-compass-sample-row,.compass-legacy-fallback){
+  border-color:#b7c8bb;
+  color:#163222;
+  background:#ffffff;
+  background-image:none;
+  box-shadow:0 7px 20px rgba(23,57,36,.09);
+}
+html[data-theme="light"] :where(.compass-panel,.compass-cluster-card) :where(h3,h4){
+  color:#12452d;
+}
+html[data-theme="light"] :where(.compass-panel,.compass-cluster-card,.native-compass-sample-row,.compass-report-footer) :where(p,li,span){
+  color:#506758;
+}
+html[data-theme="light"] .compass-meter-row{color:#284c36;}
+html[data-theme="light"] .compass-meter-bar{
+  border-color:#b7c8bb;
+  background:#dfe8e1;
+}
+html[data-theme="light"] .compass-report-note{
+  border-color:#c2a334;
+  color:#33402d;
+  background:#f5e9b8;
+  background-image:none;
+  box-shadow:none;
+}
+html[data-theme="light"] .quiz-result-card{
+  border-color:#b7c8bb;
+  color:#163222;
+  background:#ffffff;
+  background-image:none;
+  box-shadow:0 8px 24px rgba(23,57,36,.1);
+}
+html[data-theme="light"] .quiz-result-card :where(h3,h4,strong){color:#12452d;}
+html[data-theme="light"] .quiz-result-card :where(p,li,span){color:#506758;}
+html[data-theme="light"] .evidence-chip{
+  border-color:#aebfb2;
+  color:#214a33;
+  background:#eef4ef;
+  box-shadow:none;
+}
+html[data-theme="light"] .evidence-chip:hover{
+  border-color:#1a6440;
+  background:#e1ebe4;
+}
+html[data-theme="light"] .evidence-chip.active{
+  border-color:#b8951c;
+  color:#24301e;
+  background:#f0dc83;
+}
+
+/* Keep these branded and immersive areas dark in both modes. */
+html[data-theme="light"] :where(
+  .hero-card,
+  .pathway-hero,
+  .evidence-hero-image,
+  .courses-hero-image,
+  .coach-hero-image,
+  .plan-hero-image,
+  .compass-header-art,
+  .branch-shell,
+  .branch-stage,
+  .branch-card,
+  .work-permit-section,
+  .counseling-callout,
+  .phase-cta,
+  .voice-coach-panel,
+  .voice-coach-frame-panel
+){
+  color:#fbfff3;
+}
+html[data-theme="light"] :where(.hero-card,.pathway-hero) :where(.lead,p,.source-note){color:#d5e6da;}
+html[data-theme="light"] :where(.branch-card,.work-permit-section,.counseling-callout,.phase-cta,.voice-coach-panel,.voice-coach-frame-panel) :where(h2,h3,h4,strong){color:#fff8b8;}
+html[data-theme="light"] :where(.branch-card,.work-permit-section,.counseling-callout,.phase-cta,.voice-coach-panel,.voice-coach-frame-panel) :where(p,li,span){color:#e3f0e6;}
+html[data-theme="light"] .branch-card{
+  border-color:rgba(255,221,23,.3);
+  background:
+    linear-gradient(145deg,rgba(0,0,0,.48),rgba(0,63,32,.2)),
+    #062216;
+  box-shadow:0 12px 28px rgba(7,34,19,.22);
+}
+html[data-theme="light"] .branch-card:hover{
+  border-color:rgba(255,221,23,.62);
+  background:
+    linear-gradient(145deg,rgba(0,0,0,.4),rgba(0,82,48,.26)),
+    #062216;
+}
+html[data-theme="light"] .schoolai-embed-wrap,
+html[data-theme="light"] .video-frame,
+html[data-theme="light"] .compass-pathfinder-frame{
+  border-color:#78917f;
+  background:#111814;
+}
+html[data-theme="light"] .iframe-expanded{background:#eef3ef;}
+
+html[data-theme="light"] .home-team-lcps img{
+  filter:brightness(0) saturate(100%) invert(20%) sepia(24%) saturate(1157%) hue-rotate(99deg) brightness(86%) contrast(92%);
+}
+html[data-theme="light"] .site-footer{
+  padding:20px 24px;
+  border:1px solid rgba(255,221,23,.32);
+  color:#dce9df;
+  background:#07351f;
+}
+html[data-theme="light"] .site-footer strong{color:#fff8b8;}
+html[data-theme="light"] .site-footer span{color:#dce9df;}
+
+@media(max-width:900px){
+  .topbar{
+    grid-template-columns:minmax(0,1fr) auto auto auto;
+  }
+  .brand{grid-column:1;grid-row:1;}
+  .mobile-menu-toggle{grid-column:2;grid-row:1;}
+  .theme-toggle{grid-column:3;grid-row:1;}
+  .topbar-logo-link{grid-column:4;grid-row:1;}
+  .topbar .nav{grid-column:1 / -1;grid-row:2;}
+}
+@media(max-width:520px){
+  .topbar{
+    grid-template-columns:minmax(0,1fr) auto auto;
+  }
+  .theme-toggle{grid-column:2;}
+  .mobile-menu-toggle{grid-column:3;}
+  .topbar-logo-link{display:none;}
+  .topbar .nav{grid-column:1 / -1;grid-row:2;}
+}
+
+@media print{
+  .theme-toggle{display:none !important;}
+  html[data-theme="light"] body{
+    color:#000000 !important;
+    background:#ffffff !important;
+  }
+}

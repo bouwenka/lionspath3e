@@ -14,6 +14,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png">
 <link rel="manifest" href="assets/favicons/site.webmanifest">
 <meta name="theme-color" content="#003320">
+<script src="assets/lionpath-theme.js"></script>
 <style>
 :root {
   --green: #003f20;
@@ -4394,6 +4395,7 @@ input,select,textarea{
 }
 </style>
 <link rel="stylesheet" href="assets/lionpath-training.css">
+<link rel="stylesheet" href="assets/lionpath-theme.css">
 </head>
 <body>
 
@@ -4435,6 +4437,9 @@ input,select,textarea{
       <button type="button" data-page="plan">My Plan</button>
       <button type="button" data-page="training">Help</button>
     </nav>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode" title="Switch to light mode" aria-pressed="false">
+      <span class="theme-toggle-icon" data-theme-icon aria-hidden="true">&#9728;</span>
+    </button>
     <a class="topbar-logo-link" href="https://www.lcpscte.org/" target="_blank" rel="noopener noreferrer" aria-label="Open the Louisa County CTE website">
       <img class="topbar-logo" src="assets/cte-logo.png" alt="Louisa County CTE">
     </a>
