@@ -1,4 +1,4 @@
-/* LionPath Help page and visual walkthroughs */
+/* LionsPath Help page and visual walkthroughs */
 
 .training-tour{
   overflow:hidden;
@@ -764,7 +764,7 @@ body.training-route-bar-visible{padding-bottom:118px!important;}
   .training-flow-pathway-choices{animation:none!important;}
 }
 
-/* Final LionPath polish: clearer contrast, restrained typography, and tighter geometry. */
+/* Final LionsPath polish: clearer contrast, restrained typography, and tighter geometry. */
 .training-flow-hero{
   border-radius:20px;
   background:linear-gradient(110deg,rgba(0,70,37,.97),rgba(1,23,13,.99) 66%);

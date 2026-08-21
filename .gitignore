@@ -1,5 +1,6 @@
 *.zip
 .site-backups/
+.codex-temp/
 codex-lionspath-v2-phase1/
 tmp/
 .env

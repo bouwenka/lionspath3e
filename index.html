@@ -6,8 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; frame-src https://drive.google.com https://student.schoolai.com https://knowt.com https://www.knowt.com; connect-src 'self' https://lionspath.goatcounter.com; object-src 'none'; base-uri 'none'; form-action 'self'; manifest-src 'self'; media-src 'self' blob:; worker-src 'self' blob:; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="description" content="LionPath 3E is a career pathway planning tool for Louisa County Public Schools students. Planning information stays in the student's browser unless the student chooses to share it.">
-<title>LionPath 3E Future Navigator | Louisa County Public Schools</title>
+<meta name="description" content="LionsPath 3E is a career pathway planning tool for Louisa County Public Schools students. Planning information stays in the student's browser unless the student chooses to share it.">
+<title>LionsPath 3E Future Navigator | Louisa County Public Schools</title>
 <link rel="icon" href="assets/favicons/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
@@ -275,6 +275,63 @@ h1.hero-title,h2.hero-title{font-size:clamp(40px,6vw,88px);line-height:.9;margin
 .pathway-hero h2.hero-title{font-size:clamp(34px,4.1vw,60px);line-height:1.03;letter-spacing:-1.5px;max-width:760px;}
 .gradient-text{color:transparent;background:linear-gradient(135deg,#fff,#fff8aa 42%,var(--gold));background-clip:text;-webkit-background-clip:text;}
 .lead{color:#e0f0e5;font-size:17px;line-height:1.62;max-width:780px;}
+.home-guidance{max-width:780px;margin:14px 0 0;color:#c9dbcf;font-size:15.5px;line-height:1.62;}
+.home-people-first{max-width:780px;margin:18px 0 0;padding:12px 14px;border-left:3px solid var(--gold);background:rgba(0,0,0,.2);color:#fff8b8;font-size:16px;font-weight:850;line-height:1.45;}
+#page-home .home-welcome-hero{
+  min-height:590px;
+  background:
+    linear-gradient(90deg,rgba(2,20,12,.97) 0%,rgba(2,28,16,.91) 43%,rgba(2,28,16,.58) 68%,rgba(2,28,16,.28) 100%),
+    url("assets/home-welcome-graduation.jpg") 55% center / cover no-repeat !important;
+}
+#page-home .home-welcome-title{
+  max-width:none;
+  margin:20px 0 18px;
+  font-size:50px !important;
+  line-height:1.02;
+}
+#page-home .home-welcome-line{
+  display:block;
+  white-space:nowrap;
+  text-wrap:nowrap;
+}
+#page-home .home-future-line{
+  display:block;
+  margin-top:10px;
+  color:#fff;
+  font-size:.72em;
+  font-weight:800;
+}
+#page-home .home-welcome-hero .lead{
+  max-width:720px;
+  font-size:21px !important;
+  line-height:1.55;
+}
+#page-home .home-welcome-hero .home-guidance{
+  max-width:720px;
+  font-size:18px;
+  line-height:1.62;
+}
+@media(min-width:1181px) and (max-width:1420px){
+  #page-home .home-welcome-title{font-size:43px !important;}
+}
+@media(min-width:761px) and (max-width:1180px){
+  #page-home .home-welcome-title{font-size:54px !important;}
+}
+@media(max-width:760px){
+  #page-home .home-welcome-hero{
+    min-height:auto;
+    background:
+      linear-gradient(180deg,rgba(2,20,12,.92),rgba(2,20,12,.92)),
+      url("assets/home-welcome-graduation.jpg") 58% center / cover no-repeat !important;
+  }
+  #page-home .home-welcome-title{font-size:30px !important;line-height:1.08;}
+  #page-home .home-future-line{margin-top:8px;font-size:.78em;}
+  #page-home .home-welcome-hero .lead{font-size:19px !important;}
+  #page-home .home-welcome-hero .home-guidance{font-size:17px;}
+}
+@media(max-width:380px){
+  #page-home .home-welcome-title{font-size:27px !important;}
+}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px;}
 .stat{padding:16px;border-radius:18px;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.12);}
@@ -1853,7 +1910,7 @@ th{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.6px
 @media(max-width:1180px){.program-card[open] .program-body{grid-template-columns:1fr 1fr;}.program-card[open] .program-body>div:nth-child(3),.program-card[open] .program-body>.source-note{grid-column:1 / -1;}}
 @media(max-width:760px){.program-card[open] .program-body{grid-template-columns:1fr;padding:16px;}.program-card[open] .program-body>div:nth-child(3),.program-card[open] .program-body>.source-note{grid-column:auto;}}
 
-/* LIONPATH VISUAL REFRESH
+/* LIONSPATH VISUAL REFRESH
    This layer keeps the prototype's current structure and behavior, but gives it
    a calmer school-site feel: lighter surfaces, clearer hierarchy, and fewer effects. */
 :root{
@@ -2142,7 +2199,7 @@ th,td{border-bottom-color:#e2e9e3;}
   .schoolai-embed-wrap{min-height:480px;height:68vh;}
 }
 
-/* DARK LIONPATH BRAND THEME
+/* DARK LIONSPATH BRAND THEME
    Restores the original forest green/gold character while keeping the cleaner
    spacing and stronger structure from the refresh. */
 :root{
@@ -2675,7 +2732,7 @@ th,td{border-bottom-color:rgba(255,255,255,.12);}
 }
 
 /* PHASE 8 BRAND POLISH
-   Final visual layer for a more intentional LCPS LionPath feel. */
+   Final visual layer for a more intentional LCPS LionsPath feel. */
 .topbar{
   box-shadow:0 18px 55px rgba(0,0,0,.38),0 0 0 1px rgba(255,221,23,.08);
 }
@@ -3911,7 +3968,7 @@ input,select,textarea{
   display:none;
 }
 
-@media(max-width:900px){
+@media(max-width:1280px){
   html{
     scroll-padding-top:92px;
   }
@@ -4395,7 +4452,7 @@ input,select,textarea{
 }
 </style>
 <link rel="stylesheet" href="assets/lionpath-training.css">
-<link rel="stylesheet" href="assets/lionpath-theme.css">
+<link rel="stylesheet" href="assets/lionpath-theme.css?v=20260821-compass-spacing">
 </head>
 <body>
 
@@ -4421,7 +4478,7 @@ input,select,textarea{
   <header class="topbar">
     <div class="brand">
       <div class="mark">L</div>
-      <div class="brand-title"><strong>LionPath 3E Navigator</strong><span>Louisa County Public Schools</span></div>
+      <div class="brand-title"><strong>LionsPath</strong><span>Louisa County</span><span>Public Schools</span></div>
     </div>
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav" data-mobile-menu-toggle>
       <span>Menu</span>
@@ -4438,7 +4495,9 @@ input,select,textarea{
       <button type="button" data-page="training">Help</button>
     </nav>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode" title="Switch to light mode" aria-pressed="false">
-      <span class="theme-toggle-icon" data-theme-icon aria-hidden="true">&#9728;</span>
+      <span class="theme-toggle-symbol theme-toggle-sun" aria-hidden="true">&#9728;</span>
+      <span class="theme-toggle-symbol theme-toggle-moon" aria-hidden="true">&#9790;</span>
+      <span class="theme-toggle-thumb" aria-hidden="true"></span>
     </button>
     <a class="topbar-logo-link" href="https://www.lcpscte.org/" target="_blank" rel="noopener noreferrer" aria-label="Open the Louisa County CTE website">
       <img class="topbar-logo" src="assets/cte-logo.png" alt="Louisa County CTE">
@@ -4450,15 +4509,20 @@ input,select,textarea{
     <section id="page-home" class="page active">
       <div class="hero">
         <div class="home-hero-column">
-          <div class="hero-card card">
-            <span class="eyebrow">Future-ready 3E pathway navigator</span>
-            <h1 class="hero-title"><span class="gradient-text">Welcome to LionPath.</span><br>Build your future.</h1>
-            <p class="lead">Explore Enrollment, Employment, and Enlistment options, connect Louisa County courses to your goals, and build a plan you can review with your counselor, family, or teacher.</p>
+          <div class="hero-card card home-welcome-hero">
+            <span class="eyebrow">A starting place for your 3E journey</span>
+            <h1 class="hero-title home-welcome-title">
+              <span class="gradient-text home-welcome-line">Welcome to LionsPath</span>
+              <span class="home-future-line">Build your future.</span>
+            </h1>
+            <p class="lead">Explore your options. Plan your next steps. Talk them through with your <a class="counseling-text-link" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">school counselor</a>.</p>
+            <p class="home-guidance">Learn what Enrollment, Employment, and Enlistment can look like, connect those pathways to LCHS courses and resources, and prepare better questions for conversations with counselors, families, teachers, and other trusted adults.</p>
+            <p class="home-people-first">AI can help you get started. People help you move forward.</p>
             <p class="source-note" style="margin-top:16px">Your plan notes are saved on this device only. Do not enter private personal information.</p>
             <div class="stat-grid">
               <div class="stat"><strong id="statCourses">82</strong><span>LCHS course and program entries</span></div>
               <div class="stat"><strong>3E</strong><span>Enrollment, Employment, and Enlistment pathways</span></div>
-              <div class="stat"><strong>AI</strong><span>Live AI Coaches for real student questions</span></div>
+              <div class="stat"><strong>Talk</strong><span>Bring your questions and plan to a counselor or trusted adult</span></div>
             </div>
           </div>
           <div class="home-team-lcps" aria-label="Team LCPS">
@@ -4487,7 +4551,7 @@ input,select,textarea{
           </div>
         </div>
       </div>
-      <div class="section-head" id="homePathCardsHead"><div><h2>Explore. Compare. Plan.</h2><p>Use LionPath to learn what each E means, research trusted resources, connect interests to LCHS courses, and prepare better questions for counselors, teachers, families, college advisors, employers, or military contacts.</p></div></div>
+      <div class="section-head" id="homePathCardsHead"><div><h2>Explore. Compare. Plan.</h2><p>Use LionsPath to learn what each E means, research trusted resources, connect interests to LCHS courses, and prepare better questions for counselors, teachers, families, college advisors, employers, or military contacts.</p></div></div>
       <div class="path-grid" id="homePathCards"></div>
       <div class="section-head"><div><h2>Family conversation roadmap</h2><p>Use these checkpoints to guide conversations without pressuring students into a final answer too early.</p></div></div>
       <div class="family-roadmap">
@@ -4546,7 +4610,7 @@ input,select,textarea{
         <div class="panel compass-assessment compass-native-shell">
           <div id="nativeCompass" class="native-compass" aria-live="polite"></div>
           <div id="compassLegacyFallback" class="compass-legacy-fallback" hidden>
-            <p class="source-note">The Career Compass could not start. Refresh this page to try again. Any LionPath plan information already saved in this browser remains available.</p>
+            <p class="source-note">The Career Compass could not start. Refresh this page to try again. Any LionsPath plan information already saved in this browser remains available.</p>
           </div>
         </div>
       </div>
@@ -4563,11 +4627,11 @@ input,select,textarea{
       </div>
       <div class="panel">
         <div class="filters">
-          <input id="courseSearch" maxlength="200" autocomplete="off" placeholder="Search courses, careers, credentials, AP, DE, English, Algebra, Biology, Spanish, art, welding, nursing…">
-          <select id="coursePathway"><option value="">All pathways</option></select>
-          <select id="courseE"><option value="">All 3E connections</option><option value="enrollment">Enrollment</option><option value="employment">Employment</option><option value="enlistment">Enlistment</option></select>
-          <select id="courseGrade"><option value="">All grades</option><option value="9">Grade 9</option><option value="10">Grade 10</option><option value="11">Grade 11</option><option value="12">Grade 12</option></select>
-          <select id="courseFeature"><option value="">All course features</option><option value="credential">Credential or license</option><option value="dual-enrollment">Dual Enrollment</option><option value="ap">AP</option><option value="wbl">Work-based learning</option><option value="cte">CTE</option><option value="hands-on">Hands-on</option><option value="college-prep">College prep</option><option value="leadership">Leadership or service</option></select>
+          <input id="courseSearch" maxlength="200" autocomplete="off" aria-label="Search courses" placeholder="Search by course, subject, career, or credential...">
+          <select id="coursePathway" aria-label="Filter by program or subject"><option value="">All pathways</option></select>
+          <select id="courseE" aria-label="Filter by 3E connection"><option value="">All 3E connections</option><option value="enrollment">Enrollment</option><option value="employment">Employment</option><option value="enlistment">Enlistment</option></select>
+          <select id="courseGrade" aria-label="Filter by grade"><option value="">All grades</option><option value="9">Grade 9</option><option value="10">Grade 10</option><option value="11">Grade 11</option><option value="12">Grade 12</option></select>
+          <select id="courseFeature" aria-label="Filter by course feature"><option value="">All course features</option><option value="credential">Credential or license</option><option value="dual-enrollment">Dual Enrollment</option><option value="ap">AP</option><option value="honors">Honors or weighted</option><option value="brvgs">BRVGS / Governor's School</option><option value="core-college-prep">Core college prep</option><option value="portfolio-leadership">Portfolio or communication</option><option value="wbl">Work-based learning</option><option value="cte">CTE</option><option value="hands-on">Hands-on</option><option value="college-prep">All college prep</option><option value="leadership">Leadership or service</option></select>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap">
           <div class="source-note"><span id="courseCount"></span> • Includes CTE pathways plus LCHS Program of Studies academic/elective courses. Click a course card for a deeper view.</div>
@@ -4591,7 +4655,7 @@ input,select,textarea{
             </div>
           </div>
           <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="Live 3E AI Coach">
-            <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionPath pages.</span></div>
+            <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionsPath pages.</span></div>
           </div>
         </div>
         <aside class="prompt-toolkit panel">
@@ -4820,7 +4884,8 @@ Please create:
     <!-- MY PLAN -->
     <section id="page-plan" class="page">
       <div class="plan-hero-image">
-        <img src="assets/my-plan-page-header.png" alt="My 3E Pathway Plan. Collect courses from LionPath, add your experiences and questions, then copy one strong prompt into the AI Coach plan review coach." loading="lazy">
+        <img src="assets/my-plan-page-header-lionspath.png" alt="My 3E Pathway Plan" loading="lazy">
+        <p class="plan-hero-copy">Collect courses from <strong>LionsPath</strong>, add your experiences and questions,<br>then copy one strong prompt into the <b>AI Coach</b> plan review coach.</p>
       </div>
       <div class="plan-grid">
         <div class="panel plan-builder">
@@ -4895,14 +4960,14 @@ Please create:
     <section id="page-training" class="page" aria-labelledby="trainingTitle">
       <div class="training-flow-hero">
         <div class="training-flow-hero-copy">
-          <span class="eyebrow">LionPath guided help</span>
+          <span class="eyebrow">LionsPath guided help</span>
           <h1 id="trainingTitle">One goal. <span>One step at a time.</span></h1>
-          <p>Tell LionPath what you need today. You will get a short route through the right tools, with clear instructions and a saved place to return to.</p>
+          <p>Tell LionsPath what you need today. You will get a short route through the right tools, with clear instructions and a saved place to return to.</p>
           <div class="training-flow-hero-actions">
             <button type="button" class="btn primary" data-scroll="trainingGoalChooser">Start my guide</button>
             <button type="button" class="btn" id="trainingOpenPageGuides">Help with one page</button>
           </div>
-          <p class="training-flow-safety">LionPath supports exploration and planning. Confirm course, college, career, and military requirements with a counselor or the appropriate official source.</p>
+          <p class="training-flow-safety">LionsPath supports exploration and planning. Confirm course, college, career, and military requirements with a counselor or the appropriate official source.</p>
         </div>
         <div class="training-flow-hero-visual" aria-label="How guided help works">
           <div class="training-flow-path">
@@ -4957,7 +5022,7 @@ Please create:
             <div class="training-flow-route-head">
               <div>
                 <span class="eyebrow">Your guide</span>
-                <h3 id="trainingRouteTitle" tabindex="-1">Your LionPath route</h3>
+                <h3 id="trainingRouteTitle" tabindex="-1">Your LionsPath route</h3>
                 <p id="trainingRouteSummary"></p>
               </div>
               <div class="training-flow-route-settings">
@@ -4983,7 +5048,7 @@ Please create:
 
       <details class="training-flow-reference" id="trainingPages">
         <summary>
-          <span><strong>Need help with one LionPath page?</strong><small>Open a visual walkthrough for the page you are using.</small></span>
+          <span><strong>Need help with one LionsPath page?</strong><small>Open a visual walkthrough for the page you are using.</small></span>
           <b aria-hidden="true">+</b>
         </summary>
         <div class="training-flow-page-guides">
@@ -4991,7 +5056,7 @@ Please create:
           <button type="button" data-page-guide="compass"><span>CC</span><strong>Career Compass</strong><small>Complete, save, and share - 9 steps</small></button>
           <button type="button" data-page-guide="enrollment"><span>EN</span><strong>Enrollment</strong><small>College and training - 9 steps</small></button>
           <button type="button" data-page-guide="employment"><span>EM</span><strong>Employment</strong><small>Careers and CTE - 8 steps</small></button>
-          <button type="button" data-page-guide="enlistment"><span>ES</span><strong>Enlistment</strong><small>Military pathways - 10 steps</small></button>
+          <button type="button" data-page-guide="enlistment"><span>ES</span><strong>Enlistment</strong><small>Military pathways - 9 steps</small></button>
           <button type="button" data-page-guide="courses"><span>C</span><strong>Courses</strong><small>Search and compare - 5 steps</small></button>
           <button type="button" data-page-guide="coach"><span>AI</span><strong>AI Coach</strong><small>Ask better questions - 6 steps</small></button>
           <button type="button" data-page-guide="evidence"><span>EV</span><strong>Evidence</strong><small>Build a snapshot - 6 steps</small></button>
@@ -5006,11 +5071,11 @@ Please create:
         </summary>
         <div class="training-flow-rules">
           <article><span aria-hidden="true">1</span><div><h3>Protect your privacy</h3><p>Use a first name or initial only. Never enter IDs, passwords, addresses, medical information, or private records.</p></div></article>
-          <article><span aria-hidden="true">2</span><div><h3>Verify important details</h3><p>LionPath helps you explore. Counselors, teachers, employers, colleges, and official military sources confirm final requirements.</p></div></article>
+          <article><span aria-hidden="true">2</span><div><h3>Verify important details</h3><p>LionsPath helps you explore. Counselors, teachers, employers, colleges, and official military sources confirm final requirements.</p></div></article>
           <article><span aria-hidden="true">3</span><div><h3>Leave with one next step</h3><p>Save a course, question, or realistic action in My Plan and take it to a trusted adult.</p></div></article>
         </div>
         <div class="training-flow-faq">
-          <details><summary>Where is my work saved?</summary><p>My Plan and Evidence entries stay in this browser on this device. They are not an official school record. Download or print anything you need to keep. LionPath counts anonymous site visits through GoatCounter, but assessment answers, plan contents, and AI conversations are not sent to analytics.</p></details>
+          <details><summary>Where is my work saved?</summary><p>My Plan and Evidence entries stay in this browser on this device. They are not an official school record. Download or print anything you need to keep. LionsPath counts anonymous site visits through GoatCounter, but assessment answers, plan contents, and AI conversations are not sent to analytics.</p></details>
           <details><summary>Does Career Compass choose my pathway?</summary><p>No. It suggests possibilities based on your answers. You can change direction, combine pathways, add results to My Plan, and share the report with a counselor or trusted adult.</p></details>
           <details><summary>Can AI Coach make decisions for me?</summary><p>No. It can help you compare options and prepare questions. You make the decisions and verify official information.</p></details>
           <details><summary>When should I talk to my school counselor?</summary><p>Talk with a counselor when you need to verify course choices, graduation requirements, college or career steps, deadlines, official records, or a plan that still feels unclear. <a class="counseling-text-link" href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">Visit LCHS Counseling to find your counselor or request an appointment.</a></p></details>
@@ -5018,10 +5083,10 @@ Please create:
       </details>
     </section>
   </main>
-  <footer class="site-footer" aria-label="LionPath support links">
+  <footer class="site-footer" aria-label="LionsPath support links">
     <div>
       <strong>Need an official answer or a planning conversation?</strong>
-      <span>LCHS counselors can help verify requirements and turn LionPath questions into next steps.</span>
+      <span>LCHS counselors can help verify requirements and turn LionsPath questions into next steps.</span>
     </div>
     <nav aria-label="Counseling links">
       <a href="https://sites.google.com/lcps.k12.va.us/lchscounseling/home" target="_blank" rel="noopener noreferrer">LCHS Counseling</a>
@@ -5040,7 +5105,7 @@ Please create:
     <div class="training-guide-dialog-head">
       <div>
         <span>Show me how</span>
-        <h2 id="trainingGuideDialogTitle">LionPath page guide</h2>
+        <h2 id="trainingGuideDialogTitle">LionsPath page guide</h2>
       </div>
       <button type="button" class="training-guide-dialog-close" id="trainingGuideDialogClose" aria-label="Close page guide">&times;</button>
     </div>
@@ -5051,8 +5116,8 @@ Please create:
 </dialog>
 
 <script src="assets/pathfinder/native-compass-model.js"></script>
-<script src="assets/lionpath-app.js"></script>
-<script src="assets/lionpath-training.js"></script>
+<script src="assets/lionpath-app.js?v=20260821-release-sweep-2"></script>
+<script src="assets/lionpath-training.js?v=20260821-release-sweep"></script>
 <script data-goatcounter="https://lionspath.goatcounter.com/count" async src="https://gc.zgo.at/count.v5.js" crossorigin="anonymous" integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
 </body>
 </html>

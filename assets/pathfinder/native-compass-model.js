@@ -379,7 +379,7 @@ class LionPathCompassModel {
           { key: 'structure', label: 'Clear structure', cat: { C: 1, planning: 1, enlist: 1 } }
         ] },
         { id: 'G9_V10', sec: 'values', type: 'likert', cat: { leadership: 1, service: 1, impact: 1 }, text: 'I respect people who take responsibility and help their group succeed.' },
-        { id: 'G9_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which LionPath page would you probably open first?', options: [
+        { id: 'G9_P5', sec: 'paths', type: 'scenario', cat: {}, text: 'Which LionsPath page would you probably open first?', options: [
           { key: 'enroll', label: 'Enrollment: college, AP, dual enrollment, or training programs', cat: { enroll: 2, learning: 1 } },
           { key: 'employ', label: 'Employment: CTE, job skills, credentials, or careers', cat: { employ: 2, handsOn: 1 } },
           { key: 'enlist', label: 'Enlistment: military, JROTC, public safety, or service', cat: { enlist: 2, service: 1 } },

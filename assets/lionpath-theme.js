@@ -27,11 +27,10 @@
     if (!toggle) return;
     const nextTheme = theme === DARK ? LIGHT : DARK;
     const nextLabel = nextTheme === LIGHT ? 'Switch to light mode' : 'Switch to dark mode';
-    const icon = toggle.querySelector('[data-theme-icon]');
     toggle.setAttribute('aria-label', nextLabel);
     toggle.setAttribute('title', nextLabel);
     toggle.setAttribute('aria-pressed', String(theme === LIGHT));
-    if (icon) icon.textContent = nextTheme === LIGHT ? '\u2600' : '\u263E';
+    toggle.dataset.currentTheme = theme;
   }
 
   function applyTheme(theme, persist) {
@@ -44,15 +43,21 @@
     if (persist) saveTheme(selected);
   }
 
+  function toggleTheme() {
+    const current = document.documentElement.dataset.theme === LIGHT ? LIGHT : DARK;
+    applyTheme(current === DARK ? LIGHT : DARK, true);
+  }
+
   applyTheme(readTheme(), false);
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const toggle = document.getElementById('themeToggle');
-    updateToggle(document.documentElement.dataset.theme || DARK);
+  document.addEventListener('click', function (event) {
+    const toggle = event.target.closest('#themeToggle');
     if (!toggle) return;
-    toggle.addEventListener('click', function () {
-      const current = document.documentElement.dataset.theme === LIGHT ? LIGHT : DARK;
-      applyTheme(current === DARK ? LIGHT : DARK, true);
-    });
+    event.preventDefault();
+    toggleTheme();
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    updateToggle(document.documentElement.dataset.theme || DARK);
   });
 })();

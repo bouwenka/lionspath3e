@@ -445,7 +445,7 @@ class AnalyticsApplication:
         if event_name not in ALLOWED_EVENTS:
             return self._json(start_response, 422, {"error": "Unknown analytics event"})
         if section is not None and section not in ALLOWED_SECTIONS:
-            return self._json(start_response, 422, {"error": "Unknown LionPath section"})
+            return self._json(start_response, 422, {"error": "Unknown LionsPath section"})
         if source_page is not None and source_page not in ALLOWED_SECTIONS:
             return self._json(start_response, 422, {"error": "Unknown source page"})
         if event_name == "section_view" and section is None:
