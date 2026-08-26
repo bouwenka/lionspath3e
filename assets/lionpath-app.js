@@ -1346,7 +1346,7 @@ function renderHomeCards() {
     ['enrollment','Enrollment','College, credentials, and a path forward.','assets/home-enrollment-button-2026.jpg'],
     ['employment','Employment','Trades, credentials, and careers that lead to work.','assets/home-employment-button-2026.jpg'],
     ['enlistment','Enlistment','Military pathways, service, and leadership.','assets/home-enlistment-button-2026.jpg'],
-    ['compass','Help Me Choose','Explore your interests and find your direction.','assets/home-help-me-button.png']
+    ['compass','Help Me Choose','Explore your interests and find your direction.','assets/home-help-me-button-2026.png']
   ];
   $('homePathCards').innerHTML = items.map(([page,title,text,img]) => {
     const attr = `data-page="${page}"`;
@@ -2063,38 +2063,6 @@ function renderPhase2Guidance(e) {
     ${actionPanel}`;
 }
 
-function renderPathwayCounseling(e) {
-  const details = {
-    enrollment:{
-      title:'Plan college, Dual Enrollment, and course decisions with LCHS Counseling',
-      text:'Use the official counseling site to find your counselor, request an appointment, and review college, transcript, registration, financial aid, and Dual Enrollment information.',
-      linkLabel:'Explore Enrollment Counseling Resources'
-    },
-    employment:{
-      title:'Connect your career plan with LCHS Counseling',
-      text:'Bring your CTE sequence, credential, work-based learning, and employment questions to a counselor who can help verify scheduling and graduation requirements.',
-      linkLabel:'Explore Workforce Counseling Resources'
-    },
-    enlistment:{
-      title:'Compare military options with LCHS Counseling',
-      text:'Use the counseling site to identify your counselor, prepare for a meeting, and review LCHS military and ASVAB information alongside your other pathways.',
-      linkLabel:'Explore Military Counseling Resources'
-    }
-  }[e];
-  if (!details) return '';
-  return `<aside class="counseling-callout counseling-callout-pathway" aria-label="LCHS Counseling support for ${escAttr(PAGE_COPY[e].label)} planning">
-    <div class="counseling-callout-copy">
-      <span class="counseling-kicker">Official LCHS support</span>
-      <h2>${escHtml(details.title)}</h2>
-      <p>${escHtml(details.text)}</p>
-    </div>
-    <div class="counseling-actions">
-      <a class="btn primary" href="${LCHS_COUNSELING.home}" target="_blank" rel="noopener noreferrer">Find My Counselor or Request an Appointment</a>
-      <a class="btn" href="${LCHS_COUNSELING[e]}" target="_blank" rel="noopener noreferrer">${escHtml(details.linkLabel)}</a>
-    </div>
-  </aside>`;
-}
-
 function renderEPage(e) {
   const copy = PAGE_COPY[e];
   const pathwayImage = PATHWAY_IMAGES[e] || 'assets/lionpath-hero.png';
@@ -2162,18 +2130,7 @@ function renderEPage(e) {
     <div class="section-head"><div><h2>External launchpad</h2><p>Student-safe resources for deeper research. Verify information with a counselor before making decisions.</p></div></div>
     <div class="resource-grid">${resourceCards(e)}</div>
     <div class="section-head"><div><h2>Questions to bring to your counselor</h2></div></div>
-    <div class="panel"><div class="checklist">${questions}</div></div>
-    ${renderPathwayCounseling(e)}
-    <div class="phase-cta">
-      <div>
-        <h2>Ready to take the next step?</h2>
-        <p>Add courses, questions, and experiences to My Plan so this ${copy.label} page becomes part of a real conversation.</p>
-      </div>
-      <div class="hero-actions">
-        <button type="button" class="btn primary" data-page="plan">Open My Plan</button>
-        <button type="button" class="btn" data-page="explorer">Find Courses</button>
-      </div>
-    </div>`;
+    <div class="panel"><div class="checklist">${questions}</div></div>`;
 
   // Init chat
 }

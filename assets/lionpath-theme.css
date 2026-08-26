@@ -441,8 +441,6 @@ html[data-theme="light"] :where(
   .branch-stage,
   .branch-card,
   .work-permit-section,
-  .counseling-callout,
-  .phase-cta,
   .voice-coach-panel,
   .voice-coach-frame-panel
 ){
@@ -451,8 +449,8 @@ html[data-theme="light"] :where(
 html[data-theme="light"] :where(.hero-card,.pathway-hero) :where(.lead,p,.source-note){color:#d5e6da;}
 html[data-theme="light"] .hero-card .home-guidance{color:#d5e6da;}
 html[data-theme="light"] .hero-card .home-people-first{color:#fff8b8;}
-html[data-theme="light"] :where(.branch-card,.work-permit-section,.counseling-callout,.phase-cta,.voice-coach-panel,.voice-coach-frame-panel) :where(h2,h3,h4,strong){color:#fff8b8;}
-html[data-theme="light"] :where(.branch-card,.work-permit-section,.counseling-callout,.phase-cta,.voice-coach-panel,.voice-coach-frame-panel) :where(p,li,span){color:#e3f0e6;}
+html[data-theme="light"] :where(.branch-card,.work-permit-section,.voice-coach-panel,.voice-coach-frame-panel) :where(h2,h3,h4,strong){color:#fff8b8;}
+html[data-theme="light"] :where(.branch-card,.work-permit-section,.voice-coach-panel,.voice-coach-frame-panel) :where(p,li,span){color:#e3f0e6;}
 html[data-theme="light"] .branch-card{
   border-color:rgba(255,221,23,.3);
   background:
@@ -478,13 +476,17 @@ html[data-theme="light"] .home-team-lcps img{
   filter:brightness(0) saturate(100%) invert(20%) sepia(24%) saturate(1157%) hue-rotate(99deg) brightness(86%) contrast(92%);
 }
 html[data-theme="light"] .site-footer{
-  padding:20px 24px;
+  padding:clamp(24px,3vw,34px);
   border:1px solid rgba(255,221,23,.32);
   color:#dce9df;
-  background:#07351f;
+  background:linear-gradient(110deg,#052d1c,#0b4a2c 62%,#082619);
 }
 html[data-theme="light"] .site-footer strong{color:#fff8b8;}
 html[data-theme="light"] .site-footer span{color:#dce9df;}
+
+@media(max-width:620px){
+  html[data-theme="light"] .site-footer{padding:22px 16px;}
+}
 
 /* Desktop navigation stays on one line; narrower screens use the compact menu. */
 @media(min-width:1281px){
