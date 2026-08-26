@@ -190,6 +190,7 @@ function schoolAiEmbedBlock(title='Live AI Coach') {
         <h3>${escHtml(title)}</h3>
         <p>This AI Coach is provided for student pathway planning. Do not enter student IDs, passwords, home addresses, medical details, or other sensitive information. Review next steps with a trusted adult.</p>
       </div>
+      <a class="btn" href="${AI_COACH_SPACE_URL}" target="_blank" rel="noopener noreferrer">Open SchoolAI in a new tab</a>
     </div>
     <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="${escAttr(title)}">
       <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionsPath pages.</span></div>
