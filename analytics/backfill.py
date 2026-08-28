@@ -39,6 +39,7 @@ def run_backfill(
     validate_file: Path | None = None,
     expected_total: int | None = None,
     expected_home_gets: int | None = None,
+    expected_malformed_lines: int | None = None,
 ) -> BackfillResult:
     paths = discover_log_files(config.log_pattern)
     if not paths:
@@ -62,6 +63,7 @@ def run_backfill(
                 config.database_path,
                 expected_total,
                 expected_home_gets,
+                expected_malformed_lines,
             )
 
     return BackfillResult(
@@ -85,6 +87,11 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--validate-file", type=Path, help="Reconcile this log after import")
     parser.add_argument("--expected-total", type=int, help="Expected raw lines in validation log")
     parser.add_argument("--expected-home", type=int, help="Expected exact GET / requests")
+    parser.add_argument(
+        "--expected-malformed",
+        type=int,
+        help="Expected non-request lines in the validation log",
+    )
     return parser
 
 
@@ -98,6 +105,7 @@ def main(argv: list[str] | None = None) -> int:
             validate_file=args.validate_file,
             expected_total=args.expected_total,
             expected_home_gets=args.expected_home,
+            expected_malformed_lines=args.expected_malformed,
         )
         payload = asdict(result)
         if args.json:

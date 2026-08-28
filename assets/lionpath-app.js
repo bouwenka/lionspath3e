@@ -838,6 +838,45 @@ function autosavePlan() {
 const $ = id => document.getElementById(id);
 const state = { activePage: 'home' };
 
+const ANALYTICS_SECTIONS = new Set([
+  'home', 'compass', 'enrollment', 'employment', 'enlistment', 'explorer',
+  'coach', 'evidence', 'plan', 'training'
+]);
+const analyticsSessionEvents = new Set();
+let lastTrackedSection = '';
+
+function sendAnalyticsEvent(event, fields={}) {
+  const payload = {event};
+  if (ANALYTICS_SECTIONS.has(fields.section)) payload.section = fields.section;
+  if (ANALYTICS_SECTIONS.has(fields.source_page)) payload.source_page = fields.source_page;
+  fetch('/api/analytics/event', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(payload),
+    credentials: 'same-origin',
+    keepalive: true
+  }).catch(() => {});
+}
+
+function sendAnalyticsEventOnce(key, event, fields={}) {
+  if (analyticsSessionEvents.has(key)) return;
+  analyticsSessionEvents.add(key);
+  sendAnalyticsEvent(event, fields);
+}
+
+function trackSectionView(page, sourcePage='') {
+  if (!ANALYTICS_SECTIONS.has(page) || lastTrackedSection === page) return;
+  lastTrackedSection = page;
+  sendAnalyticsEvent('section_view', {section:page, source_page:sourcePage});
+  const featureEvent = {
+    explorer:'course_explorer_open',
+    coach:'ai_coach_open',
+    evidence:'evidence_open',
+    plan:'plan_open'
+  }[page];
+  if (featureEvent) sendAnalyticsEvent(featureEvent, {source_page:sourcePage});
+}
+
 let nativeCompassModel = null;
 
 function showCompassLegacyFallback(message='The Career Compass could not start. Refresh this page to try again.') {
@@ -1053,6 +1092,7 @@ function compassMeterHtml(rows) {
 }
 
 function renderNativeCompassReport(mount, model) {
+  sendAnalyticsEventOnce('career-assessment-complete', 'career_assessment_complete', {source_page:'compass'});
   const r = model.state.results;
   if (!r) {
     model.setState({ screen:'grade' });
@@ -1274,11 +1314,13 @@ function getIcon(e) { return e==='employment'?'🛠️':e==='enlistment'?'🧭':
 function setPage(page, updateHash=true) {
   const target = $('page-' + page);
   if (!target) return;
+  const previousPage = state.activePage;
   if (page !== 'training' && !$('trainingGuideDialog')?.open) window.LionPathTraining?.pause?.();
   if (page !== 'coach') closeVoiceCoachSession(false);
   if (page !== 'home') stopHomeVideo();
   document.querySelectorAll('.iframe-expandable.iframe-expanded').forEach(shell => setIframeExpanded(shell, false));
   state.activePage = page;
+  trackSectionView(page, previousPage === page ? '' : previousPage);
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   target.classList.add('active');
   document.querySelectorAll('[data-page]').forEach(btn => {
@@ -3315,8 +3357,19 @@ function applyEnrollmentFilter(categoryId){
 function attachDelegates() {
   document.body.addEventListener('click', ev => {
     stopHomeVideoForPageAction(ev.target);
+    const analyticsTarget = ev.target.closest('a,button');
+    if (analyticsTarget?.matches('[data-compass-grade], #quizStart')) {
+      sendAnalyticsEventOnce('career-assessment-start', 'career_assessment_start', {source_page:state.activePage});
+    }
+    if (analyticsTarget?.matches('a[href*="student.schoolai.com"]')) {
+      sendAnalyticsEvent('schoolai_launch', {source_page:state.activePage});
+    }
+    if (analyticsTarget?.matches('a[href*="sites.google.com/lcps.k12.va.us/lchscounseling"]')) {
+      sendAnalyticsEvent('counseling_link_open', {source_page:state.activePage});
+    }
     const voiceCoachOpener = ev.target.closest('#openVoiceCoach');
     if (voiceCoachOpener) {
+      sendAnalyticsEvent('voice_coach_launch', {source_page:state.activePage});
       if (canUseVoiceCoachIframe()) {
         ev.preventDefault();
         ev.stopPropagation();
@@ -3369,12 +3422,14 @@ function attachDelegates() {
     if (ev.target.closest('#printPlan')) {
       ev.preventDefault();
       ev.stopPropagation();
+      sendAnalyticsEvent('plan_print', {source_page:'plan'});
       printPlan();
       return;
     }
     if (ev.target.closest('#downloadPlanPdf')) {
       ev.preventDefault();
       ev.stopPropagation();
+      sendAnalyticsEvent('plan_pdf_download', {source_page:'plan'});
       downloadPlanPdf();
       return;
     }
@@ -3387,6 +3442,7 @@ function attachDelegates() {
     if (ev.target.closest('#downloadEvidenceSnapshot')) {
       ev.preventDefault();
       ev.stopPropagation();
+      sendAnalyticsEvent('evidence_pdf_download', {source_page:'evidence'});
       downloadReadinessSnapshotPdf();
       return;
     }
@@ -3578,6 +3634,7 @@ function init() {
   safeRun('hash route', () => {
     const hash = location.hash.replace('#','');
     if (hash && $('page-'+hash)) setPage(hash, false);
+    else trackSectionView(state.activePage);
   });
 }
 

@@ -311,12 +311,37 @@ class PhaseFourTests(unittest.TestCase):
         self.assertEqual(headers["Content-Type"], "application/json; charset=utf-8")
         self.assertEqual(report["summary"]["period"]["days"], 1)
         self.assertEqual(report["summary"]["current"]["server_pageviews"], 3)
+        self.assertEqual(report["summary"]["current"]["site_loads"], 3)
+        self.assertEqual(report["summary"]["current"]["page_views"], 3)
         self.assertEqual(report["summary"]["current"]["section_views"], 2)
+        self.assertEqual(sum(item["site_loads"] for item in report["trend"]["points"]), 3)
+        self.assertEqual(report["event_coverage"]["selected_three_e_views"], 2)
         self.assertEqual(report["trend"]["granularity"], "hour")
         self.assertEqual(sum(item["views"] for item in report["three_e"]), 2)
         self.assertTrue(any(item["path"] == "/employment" for item in report["pages"]))
         self.assertTrue(any(item["event"] == "career_assessment_start" for item in report["features"]))
         self.assertTrue(any(item["label"] == "4xx" for item in report["technical_health"]["statuses"]))
+
+        friday = next(item for item in report["time_patterns"]["weekday"] if item["label"] == "Friday")
+        sunday = next(item for item in report["time_patterns"]["weekday"] if item["label"] == "Sunday")
+        self.assertEqual(friday["views"], 3)
+        self.assertEqual(friday["estimated_visitors"], 2)
+        self.assertEqual(friday["calendar_days"], 1)
+        self.assertEqual(sunday["views"], 0)
+
+    def test_daily_trend_includes_zero_activity_dates(self) -> None:
+        status, _headers, body = wsgi_request(
+            self.application,
+            "GET",
+            "/admin/analytics/api/report",
+            query="start=2026-08-14&end=2026-08-16&granularity=day",
+            headers={"X-LionsPath-Admin": "1"},
+        )
+        points = json.loads(body)["trend"]["points"]
+
+        self.assertEqual(status, 200)
+        self.assertEqual([point["period"] for point in points], ["2026-08-14", "2026-08-15", "2026-08-16"])
+        self.assertEqual([point["site_loads"] for point in points], [3, 0, 0])
 
     def test_report_rejects_invalid_dates_and_granularity(self) -> None:
         reversed_dates = wsgi_request(

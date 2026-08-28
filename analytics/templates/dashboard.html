@@ -78,17 +78,17 @@
           <p class="eyebrow">At a glance</p>
           <h2 id="overview-title">Overview</h2>
         </div>
-        <p class="method-note">Estimated visitors use rotating privacy hashes.</p>
+        <p class="method-note">Visitor estimates may undercount shared school networks. Site loads exclude known bots and assets.</p>
       </div>
 
       <div class="metric-grid">
         <article class="metric-card metric-visitors">
-          <p>Estimated visitors</p>
+          <p>Estimated visitors*</p>
           <strong id="metric-visitors">--</strong>
           <span id="change-visitors">Previous period</span>
         </article>
         <article class="metric-card metric-views">
-          <p>Page views</p>
+          <p>Site loads</p>
           <strong id="metric-page-views">--</strong>
           <span id="change-page-views">Previous period</span>
         </article>
@@ -98,7 +98,7 @@
           <span id="change-sessions">Previous period</span>
         </article>
         <article class="metric-card metric-depth">
-          <p>Pages per session</p>
+          <p>Tracked views per session</p>
           <strong id="metric-pages-session">--</strong>
           <span id="change-pages-session">Previous period</span>
         </article>
@@ -108,11 +108,19 @@
           <span id="change-duration">Previous period</span>
         </article>
         <article class="metric-card metric-requests">
-          <p>Total requests</p>
+          <p>All HTTP requests</p>
           <strong id="metric-requests">--</strong>
           <span id="change-requests">Previous period</span>
         </article>
       </div>
+    </section>
+
+    <section class="data-quality" id="data-quality" aria-labelledby="data-quality-title" hidden>
+      <div>
+        <p class="eyebrow">Data review</p>
+        <h2 id="data-quality-title">Counts that need context</h2>
+      </div>
+      <ul id="data-quality-list"></ul>
     </section>
 
     <section class="dashboard-grid" aria-label="Audience activity">
@@ -123,12 +131,13 @@
             <h2 id="trend-title">Usage trend</h2>
           </div>
           <div class="chart-legend" aria-label="Chart legend">
-            <span><i class="legend-views"></i>Page views</span>
+            <span><i class="legend-views"></i>Site loads</span>
             <span><i class="legend-visitors"></i>Estimated visitors</span>
           </div>
         </div>
         <div class="chart-frame">
-          <svg id="trend-chart" viewBox="0 0 900 300" role="img" aria-label="Page views and estimated visitors over time"></svg>
+          <svg id="trend-chart" viewBox="0 0 900 300" role="img" aria-label="Site loads and estimated visitors over time"></svg>
+          <div class="chart-tooltip" id="trend-tooltip" role="status" hidden></div>
           <p class="empty-state" id="trend-empty" hidden>No activity is available for this period.</p>
         </div>
       </article>
@@ -137,7 +146,7 @@
         <div class="surface-heading">
           <div>
             <p class="eyebrow">Content</p>
-            <h2 id="pages-title">Most visited pages</h2>
+            <h2 id="pages-title">Most viewed content</h2>
           </div>
         </div>
         <div class="table-wrap">
@@ -158,8 +167,9 @@
           <p class="eyebrow">Pathway interest</p>
           <h2 id="pathway-title">The three Es</h2>
         </div>
-        <p class="method-note">Based on allowlisted page-section events.</p>
+        <p class="method-note">Prospective browser events only; Apache history cannot identify hash-fragment tabs.</p>
       </div>
+      <p class="coverage-note" id="pathway-coverage" role="status"></p>
       <div class="pathway-grid" id="pathway-grid"></div>
     </section>
 
@@ -205,11 +215,12 @@
         <div class="surface-heading">
           <div>
             <p class="eyebrow">Daily rhythm</p>
-            <h2 id="hours-title">Activity by hour</h2>
+            <h2 id="hours-title">Site loads by hour</h2>
           </div>
         </div>
         <div class="chart-frame chart-frame-compact">
-          <svg id="hour-chart" viewBox="0 0 900 250" role="img" aria-label="Page views by hour of day"></svg>
+          <svg id="hour-chart" viewBox="0 0 900 250" role="img" aria-label="Site loads by hour of day"></svg>
+          <div class="chart-tooltip" id="hour-tooltip" role="status" hidden></div>
           <p class="empty-state" id="hours-empty" hidden>No hourly activity is available.</p>
         </div>
       </article>
@@ -218,7 +229,7 @@
         <div class="surface-heading">
           <div>
             <p class="eyebrow">Weekly rhythm</p>
-            <h2 id="weekday-title">Activity by weekday</h2>
+            <h2 id="weekday-title">Site loads by weekday</h2>
           </div>
         </div>
         <div class="breakdown-list" id="weekday-list"></div>

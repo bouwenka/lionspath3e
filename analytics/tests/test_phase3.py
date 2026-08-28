@@ -170,6 +170,27 @@ class PhaseThreeTests(unittest.TestCase):
         self.assertFalse(result.database_complete)
         self.assertFalse(result.passed)
 
+    def test_validation_accepts_an_explicit_malformed_line_baseline(self) -> None:
+        path = self.root / "lionspath_ssl_access.log.3.gz"
+        self.write_gzip(
+            path,
+            [line("192.0.2.1", "14/Aug/2026:14:00:00 +0000"), "malformed"],
+        )
+        LogImporter(self.database, SECRET).import_paths([path])
+
+        unexpected = validate_log_import(path, self.database, expected_total=2)
+        expected = validate_log_import(
+            path,
+            self.database,
+            expected_total=2,
+            expected_home_gets=1,
+            expected_malformed_lines=1,
+        )
+
+        self.assertFalse(unexpected.passed)
+        self.assertTrue(expected.malformed_matches_expected)
+        self.assertTrue(expected.passed)
+
     def test_backfill_discovers_all_logs_imports_and_builds_rollups(self) -> None:
         first = self.root / "lionspath_ssl_access.log.2.gz"
         second = self.root / "lionspath_ssl_access.log.1"

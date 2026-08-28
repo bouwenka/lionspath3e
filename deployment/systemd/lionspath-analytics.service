@@ -12,7 +12,7 @@ EnvironmentFile=/etc/lionspath/analytics.env
 Environment=PYTHONUNBUFFERED=1
 Environment=PYTHONDONTWRITEBYTECODE=1
 Sockets=lionspath-analytics.socket
-ExecStart=/opt/lionspath-analytics/venv/bin/gunicorn --bind fd://3 --worker-class gthread --workers 2 --threads 4 --timeout 30 --graceful-timeout 30 --keep-alive 5 --max-requests 2000 --max-requests-jitter 200 --error-logfile - --capture-output analytics.app:application
+ExecStart=/opt/lionspath-analytics/venv/bin/gunicorn --no-control-socket --worker-class gthread --workers 2 --threads 4 --timeout 30 --graceful-timeout 30 --keep-alive 5 --max-requests 2000 --max-requests-jitter 200 --error-logfile - --capture-output analytics.app:application
 ExecReload=/bin/kill -s HUP $MAINPID
 Restart=on-failure
 RestartSec=3s

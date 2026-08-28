@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import os
 import sqlite3
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -127,10 +127,12 @@ def _activity_rows(
     return connection.execute(
         """
         SELECT visitor_day_hash AS visitor, occurred_at_utc AS occurred_at
+             , 1 AS is_content_view
         FROM requests
         WHERE local_date BETWEEN ? AND ? AND is_pageview = 1
         UNION ALL
-        SELECT visitor_day_hash AS visitor, occurred_at_utc AS occurred_at
+        SELECT visitor_day_hash AS visitor, occurred_at_utc AS occurred_at,
+               CASE WHEN event_name = 'section_view' THEN 1 ELSE 0 END AS is_content_view
         FROM events
         WHERE local_date BETWEEN ? AND ?
         ORDER BY visitor, occurred_at
@@ -142,6 +144,7 @@ def _activity_rows(
 def _session_stats(rows: Iterable[sqlite3.Row]) -> dict[str, Any]:
     session_count = 0
     activity_count = 0
+    content_view_count = 0
     duration_total = 0
     current_visitor: str | None = None
     session_start = 0
@@ -159,6 +162,7 @@ def _session_stats(rows: Iterable[sqlite3.Row]) -> dict[str, Any]:
         visitor = str(row["visitor"])
         occurred_at = int(row["occurred_at"])
         activity_count += 1
+        content_view_count += int(row["is_content_view"])
         if visitor != current_visitor or (current_events and occurred_at - previous_time > 1800):
             close_session()
             current_visitor = visitor
@@ -170,7 +174,8 @@ def _session_stats(rows: Iterable[sqlite3.Row]) -> dict[str, Any]:
     return {
         "sessions": session_count,
         "activity_count": activity_count,
-        "pages_per_session": round(activity_count / session_count, 1) if session_count else 0.0,
+        "content_view_count": content_view_count,
+        "pages_per_session": round(content_view_count / session_count, 1) if session_count else 0.0,
         "average_session_duration_seconds": round(duration_total / session_count) if session_count else 0,
     }
 
@@ -202,7 +207,8 @@ def summary_for_period(connection: sqlite3.Connection, period: DateRange) -> dic
     sessions = _session_stats(_activity_rows(connection, period))
     return {
         "estimated_visitors": _visitor_estimate(connection, period),
-        "page_views": int(request_row["server_pageviews"]) + section_views,
+        "page_views": int(request_row["server_pageviews"]),
+        "site_loads": int(request_row["server_pageviews"]),
         "server_pageviews": int(request_row["server_pageviews"]),
         "section_views": section_views,
         "sessions": sessions["sessions"],
@@ -280,12 +286,8 @@ def usage_trend(
         SELECT local_date, local_hour, visitor_day_hash, visitor_month_hash
         FROM requests
         WHERE local_date BETWEEN ? AND ? AND is_pageview = 1
-        UNION ALL
-        SELECT local_date, local_hour, visitor_day_hash, visitor_month_hash
-        FROM events
-        WHERE local_date BETWEEN ? AND ? AND event_name = 'section_view'
         """,
-        (period.start, period.end, period.start, period.end),
+        (period.start, period.end),
     ).fetchall()
     grouped: dict[str, dict[str, Any]] = defaultdict(
         lambda: {"page_views": 0, "visitors": set()}
@@ -295,9 +297,16 @@ def usage_trend(
         key = _bucket(str(row["local_date"]), int(row["local_hour"]), granularity)
         grouped[key]["page_views"] += 1
         grouped[key]["visitors"].add(str(row[visitor_field]))
+    if granularity != "hour":
+        cursor = date.fromisoformat(period.start)
+        end_date = date.fromisoformat(period.end)
+        while cursor <= end_date:
+            grouped[_bucket(cursor.isoformat(), 0, granularity)]
+            cursor += timedelta(days=1)
     points = [
         {
             "period": key,
+            "site_loads": grouped[key]["page_views"],
             "page_views": grouped[key]["page_views"],
             "estimated_visitors": len(grouped[key]["visitors"]),
         }
@@ -381,6 +390,12 @@ def event_usage(connection: sqlite3.Connection, period: DateRange) -> dict[str, 
         if item["event"] == "section_view" and item["section"] in three_e_counts:
             three_e_counts[item["section"]] += item["uses"]
     three_e_total = sum(three_e_counts.values())
+    coverage_row = connection.execute(
+        """
+        SELECT MIN(local_date) AS first_date, MAX(local_date) AS last_date, COUNT(*) AS events
+        FROM events
+        """
+    ).fetchone()
     three_e = [
         {
             "section": key,
@@ -390,7 +405,17 @@ def event_usage(connection: sqlite3.Connection, period: DateRange) -> dict[str, 
         }
         for key, value in three_e_counts.items()
     ]
-    return {"features": features, "three_e": three_e}
+    return {
+        "features": features,
+        "three_e": three_e,
+        "coverage": {
+            "first_event_date": coverage_row["first_date"],
+            "last_event_date": coverage_row["last_date"],
+            "all_time_events": int(coverage_row["events"] or 0),
+            "selected_events": sum(item["uses"] for item in features),
+            "selected_three_e_views": three_e_total,
+        },
+    }
 
 
 def request_breakdown(
@@ -442,7 +467,8 @@ def time_patterns(connection: sqlite3.Connection, period: DateRange) -> dict[str
     ).fetchall()
     weekday_rows = connection.execute(
         """
-        SELECT local_weekday, COUNT(*) AS views, COUNT(DISTINCT local_date) AS active_days
+        SELECT local_weekday, COUNT(*) AS views,
+               COUNT(DISTINCT substr(local_date, 1, 7) || ':' || visitor_month_hash) AS visitors
         FROM requests
         WHERE local_date BETWEEN ? AND ? AND is_pageview = 1
         GROUP BY local_weekday ORDER BY local_weekday
@@ -460,16 +486,29 @@ def time_patterns(connection: sqlite3.Connection, period: DateRange) -> dict[str
         (period.start, period.end),
     ).fetchall()
     weekday_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    calendar_days = Counter()
+    cursor = date.fromisoformat(period.start)
+    end_date = date.fromisoformat(period.end)
+    while cursor <= end_date:
+        calendar_days[cursor.weekday()] += 1
+        cursor += timedelta(days=1)
+    weekday_lookup = {int(row["local_weekday"]): row for row in weekday_rows}
     return {
         "hourly": [{"hour": int(row["local_hour"]), "views": int(row["views"])} for row in hourly_rows],
         "weekday": [
             {
-                "weekday": int(row["local_weekday"]),
-                "label": weekday_names[int(row["local_weekday"])],
-                "views": int(row["views"]),
-                "average_views": round(int(row["views"]) / int(row["active_days"]), 1),
+                "weekday": weekday,
+                "label": weekday_names[weekday],
+                "views": int(weekday_lookup[weekday]["views"]) if weekday in weekday_lookup else 0,
+                "estimated_visitors": int(weekday_lookup[weekday]["visitors"]) if weekday in weekday_lookup else 0,
+                "calendar_days": calendar_days[weekday],
+                "average_views": round(
+                    (int(weekday_lookup[weekday]["views"]) if weekday in weekday_lookup else 0)
+                    / calendar_days[weekday],
+                    1,
+                ) if calendar_days[weekday] else 0.0,
             }
-            for row in weekday_rows
+            for weekday in range(7)
         ],
         "heatmap": [
             {
@@ -555,6 +594,7 @@ def build_report(
         "pages": top_pages(connection, period),
         "features": events["features"],
         "three_e": events["three_e"],
+        "event_coverage": events["coverage"],
         "devices": request_breakdown(connection, period, "device"),
         "browsers": request_breakdown(connection, period, "browser"),
         "operating_systems": request_breakdown(connection, period, "os"),

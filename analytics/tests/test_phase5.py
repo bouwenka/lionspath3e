@@ -129,12 +129,17 @@ class PhaseFiveTests(unittest.TestCase):
         required_ids = {
             "custom-range-form",
             "metric-visitors",
+            "data-quality",
+            "data-quality-list",
             "trend-chart",
+            "trend-tooltip",
             "pages-table",
             "pathway-grid",
+            "pathway-coverage",
             "features-table",
             "breakdown-list",
             "hour-chart",
+            "hour-tooltip",
             "weekday-list",
             "activity-heatmap",
             "errors-table",
@@ -179,6 +184,11 @@ class PhaseFiveTests(unittest.TestCase):
         self.assertIn('const API_ROOT = "/admin/analytics/api"', javascript)
         self.assertIn("/report?", javascript)
         self.assertIn("/export", javascript)
+        self.assertIn("function showChartTooltip", javascript)
+        self.assertIn("site loads", javascript)
+        self.assertIn("values are unavailable, not zero", javascript)
+        self.assertIn(".chart-tooltip", css)
+        self.assertIn(".data-quality", css)
         self.assertNotIn("innerHTML", javascript)
         self.assertNotIn("https://", javascript)
 

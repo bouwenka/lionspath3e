@@ -135,7 +135,8 @@ class DeploymentConfigurationTests(unittest.TestCase):
 
         self.assertIn("User=lionspath-analytics", service)
         self.assertIn("Group=lionspath-analytics", service)
-        self.assertIn("--bind fd://3", service)
+        self.assertNotIn("--bind", service)
+        self.assertIn("--no-control-socket", service)
         self.assertNotIn("--bind 0.0.0.0", service)
         self.assertNotIn("--bind 127.0.0.1", service)
         self.assertIn("NoNewPrivileges=true", service)

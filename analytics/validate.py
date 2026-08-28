@@ -49,8 +49,10 @@ class ValidationResult:
     missing_requests: int
     expected_total: int | None
     expected_home_gets: int | None
+    expected_malformed_lines: int | None
     total_matches_expected: bool | None
     home_matches_expected: bool | None
+    malformed_matches_expected: bool | None
     database_complete: bool
     passed: bool
 
@@ -103,6 +105,7 @@ def validate_log_import(
     database_path: Path,
     expected_total: int | None = None,
     expected_home_gets: int | None = None,
+    expected_malformed_lines: int | None = None,
 ) -> ValidationResult:
     scan = scan_log_file(path)
     database_path = Path(database_path)
@@ -125,10 +128,19 @@ def validate_log_import(
     home_match = (
         None if expected_home_gets is None else scan.direct_home_gets == expected_home_gets
     )
+    malformed_match = (
+        None
+        if expected_malformed_lines is None
+        else scan.malformed_lines == expected_malformed_lines
+    )
     database_complete = missing == 0
     passed = (
         database_complete
-        and scan.malformed_lines == 0
+        and (
+            scan.malformed_lines == 0
+            if expected_malformed_lines is None
+            else malformed_match is True
+        )
         and total_match is not False
         and home_match is not False
     )
@@ -142,8 +154,10 @@ def validate_log_import(
         missing_requests=missing,
         expected_total=expected_total,
         expected_home_gets=expected_home_gets,
+        expected_malformed_lines=expected_malformed_lines,
         total_matches_expected=total_match,
         home_matches_expected=home_match,
+        malformed_matches_expected=malformed_match,
         database_complete=database_complete,
         passed=passed,
     )
@@ -162,6 +176,11 @@ def build_argument_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--expected-total", type=int, help="Expected raw request lines")
     parser.add_argument("--expected-home", type=int, help="Expected exact GET / requests")
+    parser.add_argument(
+        "--expected-malformed",
+        type=int,
+        help="Expected non-request lines, such as Apache 408 entries with a '-' request",
+    )
     parser.add_argument("--json", action="store_true", help="Print machine-readable output")
     return parser
 
@@ -174,6 +193,7 @@ def main(argv: list[str] | None = None) -> int:
             args.db,
             args.expected_total,
             args.expected_home,
+            args.expected_malformed,
         )
         payload = asdict(result)
         if args.json:

@@ -72,10 +72,15 @@ The August 14 reconciliation command will be:
 ```bash
 python3 -m analytics.validate \
   --db /var/lib/lionspath/analytics.db \
-  --file /var/log/apache2/lionspath_ssl_access.log.3.gz \
+  --file /var/log/apache2/lionspath_ssl_access.log.14.gz \
   --expected-total 27519 \
-  --expected-home 1342
+  --expected-home 1342 \
+  --expected-malformed 2160
 ```
+
+The 2,160 expected malformed lines are Apache 408 entries whose request field is
+`"-"`; they represent incomplete connections rather than HTTP requests. Any
+different malformed-line count still fails reconciliation.
 
 Do not run these commands until the service account, secret, database directory,
 and read-only log permissions are installed in Phase 6. The production

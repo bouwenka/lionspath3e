@@ -148,13 +148,14 @@
     renderSummary(report.summary);
     renderTrend(report.trend);
     renderPages(report.pages);
-    renderPathways(report.three_e);
+    renderPathways(report.three_e, report.event_coverage);
     renderFeatures(report.features);
     renderBreakdown(report[state.activeBreakdown]);
     renderHours(report.time_patterns.hourly);
     renderWeekdays(report.time_patterns.weekday);
     renderHeatmap(report.time_patterns.heatmap);
     renderTechnical(report.technical_health, report.diagnostics);
+    renderDataQuality(report);
   }
 
   function renderSummary(summary) {
@@ -162,7 +163,7 @@
     const changes = summary.change_percent;
     const metrics = [
       ["visitors", "metric-visitors", "change-visitors", "estimated_visitors", formatInteger],
-      ["views", "metric-page-views", "change-page-views", "page_views", formatInteger],
+      ["views", "metric-page-views", "change-page-views", "site_loads", formatInteger],
       ["sessions", "metric-sessions", "change-sessions", "sessions", formatInteger],
       ["depth", "metric-pages-session", "change-pages-session", "pages_per_session", decimalFormat.format.bind(decimalFormat)],
       ["duration", "metric-duration", "change-duration", "average_session_duration_seconds", formatDuration],
@@ -193,10 +194,41 @@
     svg.appendChild(text);
   }
 
+  function showChartTooltip(tooltip, x, y, width, height, title, rows) {
+    clearNode(tooltip);
+    tooltip.appendChild(textElement("strong", title));
+    rows.forEach((row) => tooltip.appendChild(textElement("span", row)));
+    tooltip.style.left = `${Math.max(12, Math.min(88, (x / width) * 100))}%`;
+    tooltip.style.top = `${Math.max(10, Math.min(86, (y / height) * 100))}%`;
+    tooltip.hidden = false;
+  }
+
+  function hideChartTooltip(tooltip) {
+    tooltip.hidden = true;
+  }
+
+  function bindChartTarget(target, tooltip, details) {
+    const show = () => showChartTooltip(
+      tooltip,
+      details.x,
+      details.y,
+      details.width,
+      details.height,
+      details.title,
+      details.rows
+    );
+    target.addEventListener("pointerenter", show);
+    target.addEventListener("focus", show);
+    target.addEventListener("pointerleave", () => hideChartTooltip(tooltip));
+    target.addEventListener("blur", () => hideChartTooltip(tooltip));
+  }
+
   function renderTrend(trend) {
     const svg = byId("trend-chart");
     const empty = byId("trend-empty");
+    const tooltip = byId("trend-tooltip");
     clearNode(svg);
+    hideChartTooltip(tooltip);
     const points = trend.points || [];
     empty.hidden = points.length > 0;
     svg.hidden = points.length === 0;
@@ -207,7 +239,7 @@
     const margin = { left: 52, right: 24, top: 18, bottom: 46 };
     const plotWidth = width - margin.left - margin.right;
     const plotHeight = height - margin.top - margin.bottom;
-    const maxValue = Math.max(1, ...points.flatMap((point) => [point.page_views, point.estimated_visitors]));
+    const maxValue = Math.max(1, ...points.flatMap((point) => [point.site_loads, point.estimated_visitors]));
     const x = (index) => margin.left + (points.length === 1 ? plotWidth / 2 : (index / (points.length - 1)) * plotWidth);
     const y = (value) => margin.top + plotHeight - (Number(value) / maxValue) * plotHeight;
 
@@ -222,12 +254,12 @@
     }
 
     const series = [
-      { key: "page_views", color: "#f0c742" },
+      { key: "site_loads", color: "#f0c742" },
       { key: "estimated_visitors", color: "#4fd1b2" }
     ];
     series.forEach((item) => {
       const pathData = points.map((point, index) => `${index ? "L" : "M"}${x(index)},${y(point[item.key])}`).join(" ");
-      if (item.key === "page_views") {
+      if (item.key === "site_loads") {
         const areaData = `${pathData} L${x(points.length - 1)},${margin.top + plotHeight} L${x(0)},${margin.top + plotHeight} Z`;
         svg.appendChild(svgElement("path", {
           d: areaData, fill: "rgba(240,199,66,.09)", stroke: "none"
@@ -242,6 +274,28 @@
           cx: x(index), cy: y(point[item.key]), r: 3.5, fill: item.color, stroke: "#061c13", "stroke-width": 2
         }));
       });
+    });
+
+    points.forEach((point, index) => {
+      const targetY = Math.min(y(point.site_loads), y(point.estimated_visitors));
+      const target = svgElement("circle", {
+        cx: x(index), cy: y(point.site_loads), r: 10, fill: "transparent",
+        stroke: "transparent", tabindex: 0, class: "chart-hit-target",
+        role: "img",
+        "aria-label": `${formatTrendPeriod(point.period, trend.granularity)}: ${formatInteger(point.site_loads)} site loads and ${formatInteger(point.estimated_visitors)} estimated visitors`
+      });
+      const nativeTitle = svgElement("title");
+      nativeTitle.textContent = target.getAttribute("aria-label");
+      target.appendChild(nativeTitle);
+      bindChartTarget(target, tooltip, {
+        x: x(index), y: targetY, width, height,
+        title: formatTrendPeriod(point.period, trend.granularity),
+        rows: [
+          `${formatInteger(point.site_loads)} site loads`,
+          `${formatInteger(point.estimated_visitors)} estimated visitors`
+        ]
+      });
+      svg.appendChild(target);
     });
 
     const labelEvery = Math.max(1, Math.ceil(points.length / 6));
@@ -299,9 +353,18 @@
     });
   }
 
-  function renderPathways(pathways) {
+  function renderPathways(pathways, coverage) {
     const container = byId("pathway-grid");
+    const coverageNote = byId("pathway-coverage");
     clearNode(container);
+    const trackedViews = Number(coverage && coverage.selected_three_e_views || 0);
+    coverageNote.classList.toggle("has-data", trackedViews > 0);
+    if (trackedViews > 0) {
+      const firstDate = coverage.first_event_date ? longDateFormat.format(localDate(coverage.first_event_date)) : "the tracking launch";
+      coverageNote.textContent = `${formatInteger(trackedViews)} tracked 3E section views in this range. Browser event coverage begins ${firstDate}; earlier Apache logs cannot identify SPA tabs.`;
+    } else {
+      coverageNote.textContent = "No 3E section events were received in this range. This is missing tracking coverage, not evidence of zero pathway interest; historical Apache logs cannot recover SPA tab choices.";
+    }
     pathways.forEach((pathway) => {
       const card = document.createElement("article");
       card.className = "pathway-card";
@@ -311,10 +374,10 @@
       const progress = document.createElement("progress");
       progress.max = 100;
       progress.value = pathway.percent;
-      progress.setAttribute("aria-label", `${pathway.title}: ${pathway.percent}% of 3E page views`);
+      progress.setAttribute("aria-label", trackedViews ? `${pathway.title}: ${pathway.percent}% of tracked 3E section views` : `${pathway.title}: tracking unavailable`);
       details.appendChild(progress);
-      const value = textElement("div", `${decimalFormat.format(pathway.percent)}%`, "pathway-value");
-      value.appendChild(textElement("span", `${formatInteger(pathway.views)} views`));
+      const value = textElement("div", trackedViews ? `${decimalFormat.format(pathway.percent)}%` : "--", "pathway-value");
+      value.appendChild(textElement("span", trackedViews ? `${formatInteger(pathway.views)} tracked views` : "Not measured"));
       card.append(details, value);
       container.appendChild(card);
     });
@@ -360,7 +423,9 @@
   function renderHours(hourly) {
     const svg = byId("hour-chart");
     const empty = byId("hours-empty");
+    const tooltip = byId("hour-tooltip");
     clearNode(svg);
+    hideChartTooltip(tooltip);
     empty.hidden = hourly.length > 0;
     svg.hidden = hourly.length === 0;
     if (!hourly.length) return;
@@ -384,11 +449,18 @@
       const y = margin.top + plotHeight - barHeight;
       const bar = svgElement("rect", {
         x, y, width: barWidth, height: Math.max(barHeight, value ? 2 : 0),
-        rx: 2, fill: hour >= 8 && hour <= 16 ? "#f0c742" : "#4fd1b2"
+        rx: 2, fill: hour >= 8 && hour <= 16 ? "#f0c742" : "#4fd1b2",
+        tabindex: 0, class: "chart-hit-target", role: "img",
+        "aria-label": `${hourLabel(hour)}: ${formatInteger(value)} site loads`
       });
       const title = svgElement("title");
-      title.textContent = `${hourLabel(hour)}: ${formatInteger(value)} views`;
+      title.textContent = bar.getAttribute("aria-label");
       bar.appendChild(title);
+      bindChartTarget(bar, tooltip, {
+        x: x + barWidth / 2, y, width, height,
+        title: hourLabel(hour),
+        rows: [`${formatInteger(value)} site loads`]
+      });
       svg.appendChild(bar);
       if (hour % 3 === 0) addSvgText(svg, x + barWidth / 2, height - 12, hourLabel(hour), "middle");
     });
@@ -411,9 +483,13 @@
       const progress = document.createElement("progress");
       progress.max = maxViews;
       progress.value = item.views;
-      progress.setAttribute("aria-label", `${item.label}: ${item.views} views`);
+      progress.setAttribute("aria-label", `${item.label}: ${item.views} site loads across ${item.calendar_days} selected ${item.label}s, averaging ${item.average_views}`);
       row.appendChild(progress);
-      row.appendChild(textElement("span", `${formatInteger(item.views)} / avg ${decimalFormat.format(item.average_views)}`));
+      row.appendChild(textElement(
+        "span",
+        `${formatInteger(item.views)} loads / ${formatInteger(item.estimated_visitors)} est. visitors / ${decimalFormat.format(item.average_views)} avg`,
+        "weekday-values"
+      ));
       container.appendChild(row);
     });
   }
@@ -435,11 +511,38 @@
         const level = views ? Math.max(1, Math.ceil((views / maxValue) * 5)) : 0;
         const cell = document.createElement("span");
         cell.className = `heatmap-cell${level ? ` heat-${level}` : ""}`;
-        cell.title = `${day}, ${hourLabel(hour)}: ${formatInteger(views)} views`;
+        cell.title = `${day}, ${hourLabel(hour)}: ${formatInteger(views)} site loads`;
         cell.setAttribute("aria-label", cell.title);
         container.appendChild(cell);
       }
     });
+  }
+
+  function renderDataQuality(report) {
+    const section = byId("data-quality");
+    const list = byId("data-quality-list");
+    clearNode(list);
+    const notices = [];
+    const coverage = report.event_coverage || {};
+    if (!Number(coverage.selected_three_e_views || 0)) {
+      notices.push("The 3E comparison has no browser section events for this period. Those values are unavailable, not zero.");
+    }
+
+    const trend = report.trend || { points: [], granularity: "day" };
+    const reviewPoints = (trend.points || []).filter((point) => Number(point.site_loads || 0) >= 250);
+    reviewPoints.forEach((point) => {
+      const loads = Number(point.site_loads || 0);
+      const visitors = Number(point.estimated_visitors || 0);
+      const repeated = visitors === 0 || loads / Math.max(1, visitors) >= 15;
+      if (!repeated && loads < 1000) return;
+      const context = visitors
+        ? `${formatInteger(visitors)} estimated visitor signatures`
+        : "no visitor estimate";
+      notices.push(`${formatTrendPeriod(point.period, trend.granularity)} recorded ${formatInteger(loads)} site loads and ${context}. This is repeat browser activity, not a count of people; shared networks, kiosks, refreshes, or automation can concentrate the total.`);
+    });
+
+    notices.slice(0, 4).forEach((notice) => list.appendChild(textElement("li", notice)));
+    section.hidden = notices.length === 0;
   }
 
   function renderTechnical(health, diagnostics) {

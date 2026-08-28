@@ -348,6 +348,30 @@ main {
   margin-bottom: 30px;
 }
 
+.data-quality {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.3fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin: -12px 0 30px;
+  padding: 17px 20px;
+  background: #221b0d;
+  border-block: 1px solid rgba(240, 199, 66, 0.38);
+}
+
+.data-quality h2 {
+  font-size: 1rem;
+}
+
+.data-quality ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--cream);
+  font-size: 0.82rem;
+}
+
 .section-heading {
   margin-bottom: 14px;
   align-items: flex-end;
@@ -491,6 +515,42 @@ main {
   overflow: visible;
 }
 
+.chart-hit-target {
+  cursor: crosshair;
+  outline: none;
+}
+
+.chart-hit-target:focus {
+  filter: drop-shadow(0 0 5px var(--gold-bright));
+}
+
+.chart-tooltip {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  gap: 2px;
+  min-width: 150px;
+  padding: 9px 11px;
+  color: var(--text);
+  background: #020b07;
+  border: 1px solid rgba(240, 199, 66, 0.65);
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.48);
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+}
+
+.chart-tooltip strong {
+  color: var(--cream);
+  font-size: 0.8rem;
+}
+
+.chart-tooltip span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
 .empty-state {
   position: absolute;
   inset: 0;
@@ -592,6 +652,20 @@ td small {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.coverage-note {
+  margin: -3px 0 14px;
+  padding: 10px 12px;
+  color: #ffe8a3;
+  background: rgba(0, 0, 0, 0.22);
+  border-left: 3px solid var(--orange);
+  font-size: 0.8rem;
+}
+
+.coverage-note.has-data {
+  color: var(--muted);
+  border-left-color: var(--teal);
 }
 
 .pathway-card {
@@ -706,6 +780,10 @@ progress::-moz-progress-bar { background: var(--gold); }
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
   text-align: right;
+}
+
+.breakdown-row .weekday-values {
+  min-width: 250px;
 }
 
 .breakdown-row progress::-webkit-progress-value { background: var(--teal); }
@@ -976,6 +1054,8 @@ progress::-moz-progress-bar { background: var(--gold); }
   .technical-grid { grid-template-columns: 1fr; }
   .technical-grid section:last-child { grid-column: auto; }
   .method-note { max-width: none; }
+  .data-quality { grid-template-columns: 1fr; gap: 10px; margin-top: -8px; }
+  .breakdown-row .weekday-values { min-width: 0; }
 }
 
 @media (max-width: 430px) {
