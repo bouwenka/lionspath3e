@@ -2067,7 +2067,7 @@ function fuzzyMatch(hay, query){
 }
 
 const PATHWAY_IMAGES = {
-  enrollment: 'assets/enrollment.png',
+  enrollment: 'assets/enrollment-educators-rising-group.jpg',
   employment: 'assets/employment-hero-turf-lcps.jpg',
   enlistment: 'assets/enlistment-hero-lcps.jpg'
 };
@@ -2117,7 +2117,9 @@ function renderEPage(e) {
     ? 'background-position:center,30% top;background-size:auto,auto 94%;background-color:#03180e;'
     : e === 'employment'
       ? 'background-position:center,15% top;background-size:auto,auto 82%;background-color:#03180e;'
-      : '';
+      : e === 'enrollment'
+        ? 'background-position:center,center top;background-size:auto,100% auto;background-color:#03180e;'
+        : '';
   const courseCount = e === 'employment' ? DATA.courses.filter(c => CTE_PROGRAM_PATHWAYS.includes(c.pathway)).length : (e === 'enrollment' ? getEnrollmentProgramCourses().length : DATA.courses.filter(c => c.primaryE === e).length);
   const topCourses = (e === 'employment' || e === 'enrollment') ? [] : DATA.courses.filter(c => c.primaryE === e).slice(0, 9);
   const prompts = copy.starterPrompts.map((p,i) => renderPromptCard(p, i + 1, e)).join('');
