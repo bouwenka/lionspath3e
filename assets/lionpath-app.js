@@ -188,9 +188,8 @@ function schoolAiEmbedBlock(title='Live AI Coach') {
     <div class="schoolai-embed-top">
       <div>
         <h3>${escHtml(title)}</h3>
-        <p>This AI Coach is provided for student pathway planning. Google and other account sign-ins cannot complete inside the embedded window; use the sign-in button to open SchoolAI directly. Do not enter sensitive information, and review next steps with a trusted adult.</p>
+        <p>This AI Coach is provided for student pathway planning. Do not enter sensitive information, and review next steps with a trusted adult.</p>
       </div>
-      <a class="btn primary" href="${AI_COACH_SPACE_URL}" target="_blank" rel="noopener noreferrer">Sign in to SchoolAI in a new tab</a>
     </div>
     <div class="schoolai-embed-wrap shared-ai-coach-slot" data-shared-ai-slot data-shared-ai-title="${escAttr(title)}">
       <div class="shared-ai-slot-message">Shared AI Coach workspace<span>Your conversation stays active as you move between LionsPath pages.</span></div>
@@ -1918,7 +1917,7 @@ function renderEnlistmentDeep() {
       <div class="section-head"><div><h2>Military entry pathways</h2><p>Students do not have just one military option. Compare routes before talking to a recruiter or making any commitment.</p></div></div>
       <div class="deep-grid">${entry}</div>
     </div>
-    <div class="deep-section">
+    <div class="deep-section branch-snapshot-section">
       <div class="section-head"><div><h2>Branch snapshot</h2><p>Each branch has many roles. Use this as a starting point, not the final word.</p></div></div>
       <div class="branch-snapshot-panel">
         <div class="branch-strip">${branches}</div>
@@ -2391,6 +2390,7 @@ function renderCourses() {
 
 function openCourse(i) {
   const c = DATA.courses[i]; if (!c) return;
+  const alreadyInPlan = getSelectedCourses().some(course => course.key === coursePlanKey(c));
   const careerSource = c.careerSource || 'https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm';
   const careerRows = (c.careers||[]).map(x=>`<tr>
     <td data-label="Career"><div><strong>${escHtml(x.job||'')}</strong><span class="career-soc">SOC ${escHtml(x.soc||'')}</span></div></td>
@@ -2413,7 +2413,7 @@ function openCourse(i) {
         <section class="detail-box course-prerequisites"><h3>Prerequisites and eligibility</h3><p>${escHtml(c.prerequisites||'Confirm current requirements with LCHS Counseling.')}</p></section>
         <section class="detail-box course-sequence"><h3>Suggested sequence</h3>${sequence}</section>
         <section class="detail-box course-evidence"><h3>Evidence and credentials</h3><div class="chip-row">${evidence.length ? evidence.map(x=>`<span class="chip gold">${escHtml(x)}</span>`).join('') : '<span class="course-no-evidence">No credential is listed for this course.</span>'}</div></section>
-        <section class="detail-box course-next-step"><div><h3>Plan the next step</h3><p>${escHtml(c.counselorAction||'Ask your counselor how this course fits your LionsPath plan.')}</p><a class="counseling-text-link" href="${LCHS_COUNSELING.home}" target="_blank" rel="noopener noreferrer">Verify the course and prerequisite with LCHS Counseling</a></div><div class="card-actions"><button type="button" class="btn primary" data-modal-add-plan="${i}">Add to My Plan</button><button type="button" class="btn" data-copy-prompt="${escAttr(courseCoachPrompt(c))}">Ask AI Coach</button></div></section>
+        <section class="detail-box course-next-step"><div><h3>Plan the next step</h3><p>${escHtml(c.counselorAction||'Ask your counselor how this course fits your LionsPath plan.')}</p><a class="counseling-text-link" href="${LCHS_COUNSELING.home}" target="_blank" rel="noopener noreferrer">Verify the course and prerequisite with LCHS Counseling</a></div><div class="card-actions"><button type="button" class="btn primary course-plan-add" data-modal-add-plan="${i}">Add to My Plan</button><span id="coursePlanStatus" class="course-plan-status" role="status">${alreadyInPlan ? 'Already in My Plan.' : ''}</span></div></section>
         <section class="detail-box course-careers"><div class="course-career-heading"><div><p class="course-career-eyebrow">Career connections</p><h3>In-demand careers to explore</h3></div><p>These are starting points connected to this course, not guaranteed outcomes.</p></div>${careers}<p class="course-career-source">Source: <a href="${escAttr(careerSource)}" target="_blank" rel="noopener noreferrer">U.S. Bureau of Labor Statistics occupational projections</a>. Pay is the 2024 national median, not an average or local starting wage. Annual openings include growth and replacement needs.</p></section>
       </div>
       <p class="source-note course-guide-source">Course information is aligned to the current LCHS Program of Studies and 2026-2027 CTE guide. Requirements can change, so students should verify availability, prerequisites, credentials, and scheduling with LCHS staff.</p>
@@ -3536,9 +3536,8 @@ function attachDelegates() {
     if (modalAddPlanBtn) {
       ev.preventDefault();
       ev.stopPropagation();
-      addCourseToPlan(Number(modalAddPlanBtn.dataset.modalAddPlan));
-      $('courseModal')?.close();
-      setPage('plan');
+      const added = addCourseToPlan(Number(modalAddPlanBtn.dataset.modalAddPlan));
+      $('coursePlanStatus').textContent = added ? 'Added to My Plan.' : 'Already in My Plan.';
       return;
     }
     const courseNameBtn = ev.target.closest('[data-course-name]');

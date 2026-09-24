@@ -38,7 +38,7 @@
     document.documentElement.dataset.theme = selected;
     document.documentElement.style.colorScheme = selected;
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute('content', selected === LIGHT ? '#f1f5f2' : '#003320');
+    if (themeColor) themeColor.setAttribute('content', selected === LIGHT ? '#f5f7f8' : '#003320');
     updateToggle(selected);
     if (persist) saveTheme(selected);
   }
